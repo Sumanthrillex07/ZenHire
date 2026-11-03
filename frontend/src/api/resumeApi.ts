@@ -4,6 +4,7 @@ import { ApiResponse, Resume } from '../types';
 export const resumeApi = {
   async uploadResume(file: File): Promise<Resume> {
     const formData = new FormData();
+    formData.append('resume', file);
     formData.append('file', file);
 
     const response = await apiClient.post<ApiResponse<Resume>>('/resumes', formData, {

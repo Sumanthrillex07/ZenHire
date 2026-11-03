@@ -1,5 +1,6 @@
 package com.zenhire.resume.controller;
 
+import com.zenhire.common.exception.FileProcessingException;
 import com.zenhire.common.dto.ApiResponse;
 import com.zenhire.resume.dto.ParsedResumeDto;
 import com.zenhire.resume.dto.ResumeUploadResponseDto;
@@ -34,8 +35,13 @@ public class ResumeController {
     @Operation(summary = "Upload and parse candidate resume (PDF format, max 5MB)")
     public ResponseEntity<ApiResponse<ResumeUploadResponseDto>> uploadResume(
             @AuthenticationPrincipal UserPrincipal principal,
-            @RequestParam("resume") MultipartFile file
+            @RequestParam(value = "resume", required = false) MultipartFile resumePart,
+            @RequestParam(value = "file", required = false) MultipartFile filePart
     ) {
+        MultipartFile file = resumePart != null ? resumePart : filePart;
+        if (file == null || file.isEmpty()) {
+            throw new FileProcessingException("Uploaded file is empty or missing (expected 'resume' or 'file' multipart field)");
+        }
         ResumeUploadResponseDto response = resumeService.uploadResume(principal, file);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Resume uploaded and parsed successfully", response));

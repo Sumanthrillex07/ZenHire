@@ -90,6 +90,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error("File size limit exceeded", apiError));
     }
 
+    @ExceptionHandler({
+            org.springframework.web.multipart.support.MissingServletRequestPartException.class,
+            org.springframework.web.multipart.MultipartException.class
+    })
+    public ResponseEntity<ApiResponse<Void>> handleMultipartException(Exception ex) {
+        ApiError apiError = new ApiError("FILE_UPLOAD_ERROR", ex.getMessage(), null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error("File upload error: " + ex.getMessage(), apiError));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleCatchAllException(Exception ex) {
         log.error("Unhandled unexpected server error:", ex);
