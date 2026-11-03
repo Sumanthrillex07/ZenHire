@@ -18,8 +18,8 @@
 | **Phase 4** | **Spring Security 6 & JWT Authentication** | **COMPLETED** | **100%** | JJWT 0.12.5, BCrypt, FilterChain, UserPrincipal, AuthController, 9 tests passing |
 | **Phase 5** | **Candidate & Recruiter Profile Management** | **COMPLETED** | **100%** | Profile DTOs, Candidate/Recruiter services and controllers, 18 total tests passing |
 | **Phase 6** | **Job Requisition Management** | **COMPLETED** | **100%** | Job entity, RoleCategory, JobStatus, search/filtering, recruiter ownership, 25 tests passing |
-| **Phase 7** | Resume Intelligence & PDF Parsing | READY | 0% | Apache PDFBox & Gemini client design specified |
-| **Phase 8** | Hybrid AI Candidate-Job Matching | PENDING | 0% | 60/40 algorithm specified in `docs/AI_ARCHITECTURE.md` |
+| **Phase 7** | **Resume Intelligence & PDF Parsing** | **COMPLETED** | **100%** | Apache PDFBox, GeminiApiClient, heuristic fallback, magic byte validator, 32 tests passing |
+| **Phase 8** | Hybrid AI Candidate-Job Matching | READY | 0% | 60/40 algorithm specified in `docs/AI_ARCHITECTURE.md` |
 | **Phase 9** | Assessment Engine & Application Gating | PENDING | 0% | Question bank, answer masking, and gating flow specified |
 | **Phase 10** | React 18 Frontend Development | PENDING | 0% | UI components, pages, and route guards specified |
 | **Phase 11** | AI Career Advisor Chat Assistant | PENDING | 0% | Prompt templates and context injection specified |
