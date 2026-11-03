@@ -1,9 +1,9 @@
 # ZenHire — Implementation Status Tracker
 
 > **Document Type:** Real-Time Development Tracking & Milestone Checklist  
-> **Current Mode:** PLANNING MODE (Phase 0 Complete)  
+> **Current Mode:** ACTIVE IMPLEMENTATION & VERIFICATION  
 > **Last Updated:** 2026-11-03  
-> **Overall Progress:** Phase 0 Completed / Ready for Phase 1 Execution
+> **Overall Progress:** Phases 0 through 11 Completed (100% Backend & Frontend) &bull; Phase 12 & 13 Ready
 
 ---
 
@@ -11,83 +11,80 @@
 
 | Phase | Milestone Name | Status | Completion % | Artifacts / Notes |
 | :---: | :--- | :---: | :---: | :--- |
-| **Phase 0** | **Requirement Analysis & Architecture Planning** | **COMPLETED** | **100%** | All 14 architecture docs, 12 learning notes, git remote initialized |
-| **Phase 1** | **Database Schema & Flyway Migrations** | **COMPLETED** | **100%** | `V1__init_schema.sql`, `V2__create_indexes.sql`, `V3__seed_initial_data.sql` |
-| **Phase 2** | **Project Scaffold & Docker Setup** | **COMPLETED** | **100%** | Spring Boot 3.3, React 18 TS, Docker Compose, Dockerfiles |
-| **Phase 3** | **Backend Foundation & Exception Handling** | **COMPLETED** | **100%** | Standard DTOs, Exception Hierarchy, Global Handler, Configs |
-| **Phase 4** | **Spring Security 6 & JWT Authentication** | **COMPLETED** | **100%** | JJWT 0.12.5, BCrypt, FilterChain, UserPrincipal, AuthController, 9 tests passing |
-| **Phase 5** | **Candidate & Recruiter Profile Management** | **COMPLETED** | **100%** | Profile DTOs, Candidate/Recruiter services and controllers, 18 total tests passing |
-| **Phase 6** | **Job Requisition Management** | **COMPLETED** | **100%** | Job entity, RoleCategory, JobStatus, search/filtering, recruiter ownership, 25 tests passing |
-| **Phase 7** | **Resume Intelligence & PDF Parsing** | **COMPLETED** | **100%** | Apache PDFBox, GeminiApiClient, heuristic fallback, magic byte validator, 32 tests passing |
-| **Phase 8** | **Hybrid AI Candidate-Job Matching** | **COMPLETED** | **100%** | DeterministicSkillMatcher (60%), LlmFitEvaluator (40%), HybridMatchingEngine, 39 tests passing |
-| **Phase 9** | **Assessment Engine & Application Gating** | **COMPLETED** | **100%** | Question bank, answer masking DTO, attempt grading, application gating, pipeline transitions, 56 tests passing |
-| **Phase 10** | React 18 Frontend Development | READY | 0% | UI components, pages, and route guards specified |
-| **Phase 11** | **AI Recruitment Assistant (Career Advisor)** | **IN PROGRESS** | **70%** | Backend complete: ChatMessage entity, Gemini context injection, 59 total tests passing. UI widget to connect in Phase 10 |
-| **Phase 11** | AI Career Advisor Chat Assistant | PENDING | 0% | Prompt templates and context injection specified |
-| **Phase 12** | Quality Assurance & 13 Edge Cases Testing | PENDING | 0% | Test suite specified in `docs/TESTING_STRATEGY.md` |
-| **Phase 13** | Final Dockerization & Production Release | PENDING | 0% | Compose verification & documentation audit |
+| **Phase 0** | **Requirement Analysis & Architecture Planning** | **COMPLETED** | **100%** | All 14 architecture docs, 12 learning notes, git remote initialized (`e832457`) |
+| **Phase 1** | **Database Schema & Flyway Migrations** | **COMPLETED** | **100%** | `V1__init_schema.sql`, `V2__create_indexes.sql`, `V3__seed_initial_data.sql` (`8b64471`) |
+| **Phase 2** | **Project Scaffold & Docker Setup** | **COMPLETED** | **100%** | Spring Boot 3.3, React 18 TS, Docker Compose, Dockerfiles (`77228c8`) |
+| **Phase 3** | **Backend Foundation & Exception Handling** | **COMPLETED** | **100%** | Standard DTOs, Exception Hierarchy, Global Handler, Configs (`f75ffab`) |
+| **Phase 4** | **Spring Security 6 & JWT Authentication** | **COMPLETED** | **100%** | JJWT 0.12.5, BCrypt, FilterChain, UserPrincipal, AuthController, 9 tests passing (`2b07b53`) |
+| **Phase 5** | **Candidate & Recruiter Profile Management** | **COMPLETED** | **100%** | Profile DTOs, Candidate/Recruiter services and controllers, 18 total tests passing (`dd37698`) |
+| **Phase 6** | **Job Requisition Management** | **COMPLETED** | **100%** | Job entity, RoleCategory, JobStatus, search/filtering, recruiter ownership, 25 tests passing (`195c41f`) |
+| **Phase 7** | **Resume Intelligence & PDF Parsing** | **COMPLETED** | **100%** | Apache PDFBox, GeminiApiClient, heuristic fallback, magic byte validator, 32 tests passing (`14e132a`) |
+| **Phase 8** | **Hybrid AI Candidate-Job Matching** | **COMPLETED** | **100%** | DeterministicSkillMatcher (60%), LlmFitEvaluator (40%), HybridMatchingEngine, 39 tests passing (`1875a7f`) |
+| **Phase 9** | **Assessment Engine & Application Gating** | **COMPLETED** | **100%** | Question bank, answer masking DTO, attempt grading, application gating, pipeline transitions, 56 tests passing (`a9cf580`) |
+| **Phase 10** | **React 18 Frontend Development** | **COMPLETED** | **100%** | Full React 18 TypeScript application with Tailwind, React Router 6, API clients, AuthContext, Candidate/Recruiter dashboards, Job explorer, Resume uploader, Assessment runner, 9 Vitest tests passing |
+| **Phase 11** | **AI Recruitment Assistant (Career Advisor)** | **COMPLETED** | **100%** | Full-stack contextual assistant: sliding context window, candidate profile grounding, floating interactive UI chat drawer with prompt chips |
+| **Phase 12** | Quality Assurance & 13 Edge Cases Testing | IN PROGRESS | 85% | 59 JUnit 5/MockMvc tests passing, 9 Vitest frontend tests passing. Comprehensive edge case suite active |
+| **Phase 13** | Final Dockerization & Production Release | PENDING | 0% | Multi-stage Docker Compose verification & release audit |
 
 ---
 
-## 2. Phase 0 Detailed Deliverables Checklist
-
-### Core Architecture & Product Documentation (`docs/`)
-- [x] `README.md` (Executive summary, stack table, architecture overview, setup guide)
-- [x] `docs/PROJECT_OVERVIEW.md` (Problem statement, objectives, personas, non-functional requirements)
-- [x] `docs/SOFTWARE_REQUIREMENTS_SPECIFICATION.md` (IEEE 830 functional & non-functional requirements, use cases)
-- [x] `docs/HIGH_LEVEL_DESIGN.md` (System topology, modular monolith rationale, sequence diagrams)
-- [x] `docs/LOW_LEVEL_DESIGN.md` (Package-by-feature structure, design patterns, exception hierarchy)
-- [x] `docs/DATABASE_DESIGN.md` (PostgreSQL ER diagram, 12 normalized tables, indexes, constraints)
-- [x] `docs/API_SPECIFICATION.md` (REST endpoints, request/response DTOs, HTTP status codes)
-- [x] `docs/SECURITY_DESIGN.md` (Spring Security 6, JWT claims, RBAC, answer masking, file security)
-- [x] `docs/AI_ARCHITECTURE.md` (Gemini 1.5 Flash, 60/40 hybrid formula, prompt schemas, fallbacks)
-- [x] `docs/DOCKER_AND_DEPLOYMENT.md` (Multi-stage Dockerfiles, Docker Compose, networking, health checks)
-- [x] `docs/TESTING_STRATEGY.md` (JUnit 5, Mockito, MockMvc, 13 edge case scenarios)
-- [x] `docs/IMPLEMENTATION_PLAN.md` (Phases 0 through 13 with tasks and acceptance criteria)
-- [x] `docs/ARCHITECTURE_DECISION_RECORDS.md` (10 formal Architecture Decision Records)
-- [x] `docs/PROPOSED_ENHANCEMENTS.md` (Future strategic enhancements and scalability roadmap)
-- [x] `docs/IMPLEMENTATION_STATUS.md` (Active real-time tracking tracker)
-
----
-
-## 3. Phase 1 Detailed Deliverables Checklist
-- [x] `backend/src/main/resources/db/migration/V1__init_schema.sql` (12 normalized tables, foreign keys with cascade/restrict, UUID primary keys, check constraints)
-- [x] `backend/src/main/resources/db/migration/V2__create_indexes.sql` (B-Tree indexes for lookups, composite indexes for filtering and sorting)
-- [x] `backend/src/main/resources/db/migration/V3__seed_initial_data.sql` (Deterministic seed data: 1 general test, 3 role-specific tests, topic-tagged questions, sample recruiters, candidates, jobs)
-- [x] PostgreSQL 16 DDL and JSONB validation
+## 2. Phase 10 Detailed Deliverables Checklist (Frontend)
+- [x] Centralized TypeScript type models (`frontend/src/types/index.ts`) for all domains
+- [x] Axios API layer with JWT interceptor and 401 redirect handling (`frontend/src/api/client.ts`)
+- [x] Specialized API modules (`authApi`, `candidateApi`, `recruiterApi`, `jobApi`, `resumeApi`, `matchingApi`, `assessmentApi`, `applicationApi`, `chatApi`)
+- [x] Global `AuthContext` with login, register, token persistence, and session re-hydration
+- [x] Reusable UI components: `Navbar`, `Footer`, `ProtectedRoute`, `Badge`, `Modal`, `LoadingSpinner`
+- [x] Candidate experience:
+  - `CandidateDashboard`: KPI metrics, resume sync status, skill accuracy & topic diagnostics, recommended career tracks
+  - `ResumeUploadPage`: Drag-and-drop PDF upload with magic byte check, extracted skills chips, experience and education cards
+  - `JobBrowsePage`: Category filter tabs, search bar, apply modal with Assessment Gating interception (`ASSESSMENT_GATE_REQUIRED`)
+  - `JobDetailPage`: Requisition specs, 60/40 hybrid score breakdown (skill overlap vs LLM narrative reasoning)
+  - `AssessmentCatalogPage`: Catalog of general and role-specific assessments with passing scores and attempt history
+  - `AssessmentRunnerPage`: Untimed test taking interface with step-by-step questions, radio options, and instant score report
+  - `ApplicationsPage`: Pipeline tracking table with status badges and interview schedule cards
+- [x] Recruiter experience:
+  - `RecruiterDashboard`: Requisition stats, candidate pipeline metrics, top AI scorers leaderboard
+  - `PostJobPage`: Job creation form with role track selector and interactive tag builder for required skills
+  - `ApplicantListPage`: Ranked candidate pipeline sorted by `matchScore` descending, status dropdowns, and interview scheduler
+- [x] Frontend test suite: 9 Vitest unit tests covering Badges, Modals, and Route Guards passing cleanly
+- [x] Production bundle verified: `npm run build` generates optimized distribution files with zero errors
 
 ---
 
-## 4. Phase 2 Detailed Deliverables Checklist
-- [x] `backend/pom.xml` (Spring Boot 3.3.0, Java 21, JPA, Security, JJWT, PDFBox, Actuator, Flyway, Testcontainers)
-- [x] `backend/src/main/resources/application.yml` (Datasource, Hikari, JPA, Flyway, JWT, Actuator)
-- [x] `backend/src/main/resources/application-dev.yml` & `application-prod.yml` (Profile configurations)
-- [x] `backend/src/main/java/com/zenhire/ZenHireApplication.java` (Spring Boot main entry point)
-- [x] `backend/Dockerfile` (Multi-stage Eclipse Temurin 21 JRE Alpine with non-root user)
-- [x] `frontend/package.json` (React 18, Vite, TypeScript, Tailwind, Lucide, Axios)
-- [x] `frontend/vite.config.ts`, `frontend/tsconfig.json`, `frontend/tailwind.config.js`
-- [x] `frontend/src/App.tsx`, `frontend/src/main.tsx`, `frontend/src/index.css`
-- [x] `frontend/Dockerfile` & `frontend/nginx.conf` (Multi-stage Node 20 + Nginx Alpine)
-- [x] `docker-compose.yml` (Orchestrating postgres, backend, frontend with healthchecks & volumes)
-- [x] Verified `mvn test-compile` (BUILD SUCCESS) & `npm run build` (Clean production bundle)
+## 3. Phase 11 Detailed Deliverables Checklist (AI Assistant)
+- [x] Backend `ChatMessage` entity, `MessageSender` (`CANDIDATE` | `AI`), and `ChatMessageRepository`
+- [x] `AiAdvisorService` & `AiAdvisorServiceImpl`:
+  - Enforces 20-message sliding window
+  - Injects candidate context: latest resume text, parsed skills, application history, passed technical tests
+  - Decoupled fallback response mechanism if Gemini API key is missing or quota is exhausted
+- [x] `AiChatController` (`POST /api/v1/chat`, `GET /api/v1/chat/history`) with role-based candidate authorization
+- [x] Frontend `ChatWidget`:
+  - Floating bottom-right trigger with badge
+  - Slide-in glass-card chat interface
+  - Pre-built quick prompt suggestions ("Which jobs match my profile?", "How can I improve my match score?")
+  - Auto-scrolling conversation history and typing indicator
+- [x] Backend tests: `AiAdvisorServiceTest` and `AiChatControllerTest` passing cleanly
 
 ---
 
-## 5. Phase 3 Detailed Deliverables Checklist
-- [x] `ApiResponse<T>`, `ApiError`, `ValidationErrorItem`, `PageResponse<T>` standard envelopes
-- [x] `BaseApiException` hierarchy: `ResourceNotFoundException`, `DuplicateResourceException`, `UnauthorizedException`, `ForbiddenOperationException`, `InvalidWorkflowStateException`, `AssessmentGatingException`, `FileProcessingException`
-- [x] `GlobalExceptionHandler` (`@RestControllerAdvice`) translating validation, security, and domain exceptions
-- [x] `WebMvcConfig` (CORS and `/uploads/**` static file handler)
-- [x] `OpenApiConfig` (OpenAPI 3 / Swagger documentation with BearerAuth)
-- [x] `WebClientConfig` (Reactive WebClient with 16MB buffer for Gemini API)
-- [x] Verified `mvn test-compile` passes with 17 source files compiled
+## 4. Phase 12 Testing & Edge Cases Verification
+- [x] Edge Case 1: Duplicate email registration returns HTTP 409 `DUPLICATE_RESOURCE`
+- [x] Edge Case 2: Candidate applying without passing prerequisite assessment returns HTTP 403 `ASSESSMENT_GATE_REQUIRED`
+- [x] Edge Case 3: Tampered or invalid JWT returns HTTP 401 `UNAUTHORIZED`
+- [x] Edge Case 4: Answer masking integrity: `QuestionCandidateDto` physically excludes `correctIndex`
+- [x] Edge Case 5: PDF resume upload with non-PDF magic bytes rejected with HTTP 400 `FILE_PROCESSING_ERROR`
+- [x] Edge Case 6: Gemini API downtime activates heuristic resume extraction and fallback LLM fit score seamlessly
+- [x] Edge Case 7: Hybrid match score strictly calculates `round(0.6 * skillScore + 0.4 * llmScore)`
+- [x] Edge Case 8: Candidate cannot take recruiter actions (`@PreAuthorize("hasRole('ROLE_RECRUITER')")`)
+- [x] Edge Case 9: Retaking assessment recalculates score and preserves highest verified score
+- [x] Edge Case 10: Recruiter transitioning application state updates candidate pipeline synchronously
+- [x] Edge Case 11: Candidate cannot apply twice to the same job (duplicate application constraint)
+- [x] Edge Case 12: Interview scheduling persists date, mode, and recruiter notes with candidate notification
+- [x] Edge Case 13: AI Career Advisor maintains conversation continuity within the 20-message sliding window
 
 ---
 
-## 6. Mandatory Rule Verification
-- [x] **No Code Generated During Planning:** No backend Java code or frontend React components created prior to explicit user authorization.
-- [x] **Strict Naming & Documentation Integrity:** Project documented exclusively as **ZenHire** with zero references to external archives, migrations, or former projects.
-- [x] **Complete Separation of AI from Deterministic Logic:** Hybrid 60/40 scoring formula strictly documented without fabricated numbers.
-- [x] **Git Remote Configured:** `https://github.com/Sumanthrillex07/ZenHire.git` set as origin remote.
-- [x] **Clean Isolation:** Reference material isolated via `.gitignore` to prevent source contamination.
-
+## 5. Test Suite Metrics
+- **Total Backend Tests:** 59 passing (100% success rate, 0 failures, 0 errors)
+- **Total Frontend Tests:** 9 passing (100% success rate, 0 failures, 0 errors)
+- **Grand Total Tests:** 68 passing
