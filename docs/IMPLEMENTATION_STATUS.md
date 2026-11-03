@@ -16,8 +16,8 @@
 | **Phase 2** | **Project Scaffold & Docker Setup** | **COMPLETED** | **100%** | Spring Boot 3.3, React 18 TS, Docker Compose, Dockerfiles |
 | **Phase 3** | **Backend Foundation & Exception Handling** | **COMPLETED** | **100%** | Standard DTOs, Exception Hierarchy, Global Handler, Configs |
 | **Phase 4** | **Spring Security 6 & JWT Authentication** | **COMPLETED** | **100%** | JJWT 0.12.5, BCrypt, FilterChain, UserPrincipal, AuthController, 9 tests passing |
-| **Phase 5** | Candidate & Recruiter Profile Management | READY | 0% | APIs specified in `docs/API_SPECIFICATION.md` |
-| **Phase 6** | Job Requisition Management | PENDING | 0% | Job CRUD & category filtering specified |
+| **Phase 5** | **Candidate & Recruiter Profile Management** | **COMPLETED** | **100%** | Profile DTOs, Candidate/Recruiter services and controllers, 18 total tests passing |
+| **Phase 6** | Job Requisition Management | READY | 0% | Job CRUD & category filtering specified |
 | **Phase 7** | Resume Intelligence & PDF Parsing | PENDING | 0% | Apache PDFBox & Gemini client design specified |
 | **Phase 8** | Hybrid AI Candidate-Job Matching | PENDING | 0% | 60/40 algorithm specified in `docs/AI_ARCHITECTURE.md` |
 | **Phase 9** | Assessment Engine & Application Gating | PENDING | 0% | Question bank, answer masking, and gating flow specified |
