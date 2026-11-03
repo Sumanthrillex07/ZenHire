@@ -20,11 +20,13 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '', showLa
     >
       <div className="relative w-4 h-4 flex items-center justify-center overflow-hidden">
         <Sun
+          style={{ transitionDelay: '250ms' }}
           className={`w-4 h-4 text-amber-400 absolute transition-all duration-300 ease-in-out ${
             isDark ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0 pointer-events-none'
           }`}
         />
         <Moon
+          style={{ transitionDelay: '250ms' }}
           className={`w-4 h-4 text-indigo-600 dark:text-indigo-400 absolute transition-all duration-300 ease-in-out ${
             isDark ? '-rotate-90 scale-0 opacity-0 pointer-events-none' : 'rotate-0 scale-100 opacity-100'
           }`}

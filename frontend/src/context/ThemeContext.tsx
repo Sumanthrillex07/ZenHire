@@ -78,20 +78,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
 
       root.classList.add('theme-transitioning');
+      updateDOM();
 
-      // Use View Transitions API if supported (Chrome 111+, Safari 18+, Edge)
-      if (typeof document !== 'undefined' && 'startViewTransition' in document) {
-        (document as any).startViewTransition(() => {
-          updateDOM();
-        });
-      } else {
-        updateDOM();
-      }
-
+      // Keep transition class active for 250ms transition-delay + 350ms duration + buffer
       transitionTimerRef.current = window.setTimeout(() => {
         root.classList.remove('theme-transitioning');
         transitionTimerRef.current = null;
-      }, 350);
+      }, 700);
     };
 
     applyTheme(theme);
