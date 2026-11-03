@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -27,12 +28,13 @@ import ApplicantListPage from './pages/recruiter/ApplicantListPage';
 
 export const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-emerald-500 selection:text-slate-950 font-sans">
-          <Navbar />
-          <main className="flex-1">
-            <Routes>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <div className="min-h-screen flex flex-col bg-background text-foreground antialiased font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-150">
+            <Navbar />
+            <main className="flex-1">
+              <Routes>
               {/* Public Routes */}
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />} />
@@ -117,6 +119,7 @@ export const App: React.FC = () => {
         </div>
       </AuthProvider>
     </BrowserRouter>
+  </ThemeProvider>
   );
 };
 

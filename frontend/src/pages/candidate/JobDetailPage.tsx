@@ -8,6 +8,7 @@ import { Job, MatchResult } from '../../types';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import Modal from '../../components/Modal';
 import { CategoryBadge, MatchScoreBadge } from '../../components/Badge';
+import Button from '../../components/ui/Button';
 import { 
   Building2, 
   Users, 
@@ -118,8 +119,8 @@ export const JobDetailPage: React.FC = () => {
   if (!job) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-xl font-bold text-white">Job not found</h2>
-        <Link to="/jobs" className="text-emerald-400 hover:underline mt-2 inline-block text-sm">
+        <h2 className="text-xl font-bold text-foreground">Job not found</h2>
+        <Link to="/jobs" className="text-primary hover:underline mt-2 inline-block text-sm font-medium">
           &larr; Back to all open jobs
         </Link>
       </div>
@@ -127,67 +128,74 @@ export const JobDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 sm:space-y-8 animate-fadeIn">
       {/* Back button */}
       <Link
         to="/jobs"
-        className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors font-medium"
       >
         <ChevronLeft className="w-4 h-4" /> Back to job search
       </Link>
 
       {/* Main Job Header Card */}
-      <div className="glass-card p-6 sm:p-8 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
+      <div className="glass-card p-6 sm:p-8 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
               <CategoryBadge category={job.roleCategory} />
-              <span className="text-xs text-slate-500 font-medium">&bull; Requisition ID: {job.id.substring(0, 8)}</span>
+              <span className="text-xs text-muted-foreground font-medium">
+                &bull; Requisition ID: <span className="font-mono">{job.id.substring(0, 8)}</span>
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{job.title}</h1>
-            <div className="flex items-center gap-2 text-sm text-slate-400 mt-2">
-              <Building2 className="w-4 h-4 text-slate-500" />
-              <span className="font-semibold text-slate-300">{job.companyName}</span>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+              {job.title}
+            </h1>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Building2 className="w-4 h-4 text-primary" />
+              <span className="font-semibold text-foreground/90">{job.companyName}</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
+          <div className="flex items-center gap-3 shrink-0">
+            <Button
               onClick={handleApply}
               disabled={applying}
-              className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-slate-950 font-bold rounded-xl text-sm transition-colors shadow-md"
+              isLoading={applying}
+              variant="primary"
+              size="md"
+              className="w-full sm:w-auto shadow-md"
             >
               {applying ? 'Submitting...' : 'Apply for Role'}
-            </button>
+            </Button>
           </div>
         </div>
 
-        <div className="pt-4 border-t border-slate-800 flex flex-wrap items-center gap-6 text-xs text-slate-400">
-          <span className="flex items-center gap-1.5">
-            <Users className="w-4 h-4 text-slate-500" /> {job.applicantsCount} active applicants
+        <div className="pt-4 border-t border-border/70 flex flex-wrap items-center gap-6 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5 font-medium">
+            <Users className="w-4 h-4 text-muted-foreground/80" /> {job.applicantsCount} active applicants
           </span>
-          <span className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-slate-500" /> Posted on {new Date(job.createdAt).toLocaleDateString()}
+          <span className="flex items-center gap-1.5 font-medium">
+            <Clock className="w-4 h-4 text-muted-foreground/80" /> Posted on {new Date(job.createdAt).toLocaleDateString()}
           </span>
         </div>
       </div>
 
       {/* Hybrid AI Match Evaluation Card (Only for logged-in candidates) */}
       {isAuthenticated && user?.role === 'ROLE_CANDIDATE' && (
-        <div className="glass-card p-6 border-emerald-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/20 space-y-5">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <BrainCircuit className="w-4 h-4" />
+        <div className="glass-card p-6 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 via-card to-teal-500/5 dark:from-emerald-950/25 dark:via-slate-900/50 dark:to-emerald-900/15 space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border/70">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                <BrainCircuit className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                   Hybrid AI Candidate-Job Match
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25">
                     60 / 40 Engine
                   </span>
                 </h3>
-                <p className="text-[11px] text-slate-400">Calculated specifically for your parsed resume</p>
+                <p className="text-[11px] text-muted-foreground">Calculated specifically for your parsed resume</p>
               </div>
             </div>
 
@@ -195,32 +203,34 @@ export const JobDetailPage: React.FC = () => {
           </div>
 
           {matchLoading ? (
-            <LoadingSpinner text="Evaluating technical compatibility & narrative depth..." size="sm" />
+            <div className="py-4">
+              <LoadingSpinner text="Evaluating technical compatibility & narrative depth..." size="sm" />
+            </div>
           ) : matchResult ? (
             <div className="space-y-4">
               {/* Score Breakdown Bars */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-slate-400">Deterministic Skill Overlap (60% weight)</span>
-                    <span className="font-bold text-white">{matchResult.skillOverlapScore}%</span>
+                <div className="p-3.5 bg-muted/40 rounded-xl border border-border/70">
+                  <div className="flex justify-between text-xs mb-1.5 font-medium">
+                    <span className="text-muted-foreground">Deterministic Skill Overlap (60% weight)</span>
+                    <span className="font-bold text-foreground">{matchResult.skillOverlapScore}%</span>
                   </div>
-                  <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div className="w-full bg-muted h-2.5 rounded-full overflow-hidden">
                     <div
-                      className="bg-emerald-400 h-full rounded-full transition-all duration-500"
+                      className="bg-emerald-500 h-full rounded-full transition-all duration-700 ease-out"
                       style={{ width: `${matchResult.skillOverlapScore}%` }}
                     />
                   </div>
                 </div>
 
-                <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-slate-400">Gemini LLM Narrative Fit (40% weight)</span>
-                    <span className="font-bold text-white">{matchResult.llmFitScore}%</span>
+                <div className="p-3.5 bg-muted/40 rounded-xl border border-border/70">
+                  <div className="flex justify-between text-xs mb-1.5 font-medium">
+                    <span className="text-muted-foreground">Gemini LLM Narrative Fit (40% weight)</span>
+                    <span className="font-bold text-foreground">{matchResult.llmFitScore}%</span>
                   </div>
-                  <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div className="w-full bg-muted h-2.5 rounded-full overflow-hidden">
                     <div
-                      className="bg-indigo-400 h-full rounded-full transition-all duration-500"
+                      className="bg-indigo-500 h-full rounded-full transition-all duration-700 ease-out"
                       style={{ width: `${matchResult.llmFitScore}%` }}
                     />
                   </div>
@@ -230,35 +240,35 @@ export const JobDetailPage: React.FC = () => {
               {/* Matched & Missing Skills */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5" /> Matched Skills ({matchResult.matchedSkills.length})
                   </h4>
                   <div className="flex flex-wrap gap-1.5">
                     {matchResult.matchedSkills.length > 0 ? (
                       matchResult.matchedSkills.map((s, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+                        <span key={i} className="px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-emerald-500/10 border border-emerald-500/25 text-emerald-800 dark:text-emerald-300">
                           {s}
                         </span>
                       ))
                     ) : (
-                      <span className="text-xs text-slate-500">None detected</span>
+                      <span className="text-xs text-muted-foreground">None detected</span>
                     )}
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <XCircle className="w-3.5 h-3.5" /> Missing / Target Skills ({matchResult.missingSkills.length})
                   </h4>
                   <div className="flex flex-wrap gap-1.5">
                     {matchResult.missingSkills.length > 0 ? (
                       matchResult.missingSkills.map((s, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 border border-amber-500/30 text-amber-300">
+                        <span key={i} className="px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-amber-500/10 border border-amber-500/25 text-amber-800 dark:text-amber-300">
                           {s}
                         </span>
                       ))
                     ) : (
-                      <span className="text-xs text-emerald-400 font-medium">All required skills met!</span>
+                      <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">All required skills met!</span>
                     )}
                   </div>
                 </div>
@@ -266,24 +276,23 @@ export const JobDetailPage: React.FC = () => {
 
               {/* AI Narrative Reasoning */}
               {matchResult.reasoning && (
-                <div className="p-3.5 bg-slate-950/80 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed">
-                  <div className="flex items-center gap-1.5 text-indigo-400 font-semibold mb-1">
+                <div className="p-4 bg-card/80 rounded-xl border border-border/80 text-xs text-foreground/90 leading-relaxed space-y-1">
+                  <div className="flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 font-semibold mb-1">
                     <Sparkles className="w-3.5 h-3.5" /> Qualitative Compatibility Insights:
                   </div>
-                  {matchResult.reasoning}
+                  <p className="text-muted-foreground leading-relaxed">{matchResult.reasoning}</p>
                 </div>
               )}
             </div>
           ) : (
-            <div className="text-center py-4">
-              <p className="text-xs text-slate-400 mb-2">
+            <div className="text-center py-6">
+              <p className="text-xs text-muted-foreground mb-3 max-w-sm mx-auto">
                 Upload your resume to calculate your personalized 60/40 compatibility score and AI reasoning.
               </p>
-              <Link
-                to="/candidate/resume"
-                className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-lg text-xs font-medium border border-emerald-500/30 inline-block"
-              >
-                Upload Resume Now
+              <Link to="/candidate/resume">
+                <Button variant="outline" size="sm">
+                  Upload Resume Now
+                </Button>
               </Link>
             </div>
           )}
@@ -293,14 +302,14 @@ export const JobDetailPage: React.FC = () => {
       {/* Description & Skill Requirements */}
       <div className="glass-card p-6 sm:p-8 space-y-6">
         <div>
-          <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-3">
+          <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">
             Required Technical Stack
           </h3>
           <div className="flex flex-wrap gap-2">
             {job.requiredSkills.map((skill, idx) => (
               <span
                 key={idx}
-                className="px-3 py-1 bg-slate-800/90 border border-slate-700 text-slate-200 rounded-lg text-xs font-medium"
+                className="px-3 py-1 bg-muted/70 border border-border/70 text-foreground rounded-lg text-xs font-medium"
               >
                 {skill}
               </span>
@@ -308,11 +317,11 @@ export const JobDetailPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 pt-6">
-          <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-3">
+        <div className="border-t border-border/70 pt-6">
+          <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">
             Job Description & Role Responsibilities
           </h3>
-          <div className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
+          <div className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap font-normal">
             {job.description}
           </div>
         </div>
@@ -325,19 +334,19 @@ export const JobDetailPage: React.FC = () => {
         title="Assessment Gating Required"
       >
         <div className="space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
             <ShieldAlert className="w-6 h-6" />
           </div>
 
           <div className="text-center space-y-1">
-            <h4 className="text-base font-bold text-white">Verified Credential Required</h4>
-            <p className="text-xs text-slate-300 leading-relaxed max-w-sm mx-auto">
+            <h4 className="text-base font-bold text-foreground">Verified Credential Required</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed max-w-sm mx-auto">
               {gatingError?.message}
             </p>
           </div>
 
           <div className="pt-2 flex flex-col gap-2">
-            <button
+            <Button
               onClick={() => {
                 const targetUrl = gatingError?.testId
                   ? `/candidate/assessments/${gatingError.testId}`
@@ -345,16 +354,20 @@ export const JobDetailPage: React.FC = () => {
                 setGatingError(null);
                 navigate(targetUrl);
               }}
-              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5"
+              variant="primary"
+              size="md"
+              className="w-full"
             >
-              Take Prerequisite Assessment <ArrowRight className="w-4 h-4" />
-            </button>
-            <button
+              Take Prerequisite Assessment <ArrowRight className="w-4 h-4 ml-1.5" />
+            </Button>
+            <Button
               onClick={() => setGatingError(null)}
-              className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs transition-colors"
+              variant="ghost"
+              size="sm"
+              className="w-full"
             >
               Cancel
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>
@@ -366,23 +379,22 @@ export const JobDetailPage: React.FC = () => {
         title="Application Submitted!"
       >
         <div className="space-y-4 text-center">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-6 h-6" />
           </div>
 
           <div>
-            <h4 className="text-base font-bold text-white">Application Successfully Logged</h4>
-            <p className="text-xs text-slate-300 mt-1 max-w-xs mx-auto">
-              Your profile has been submitted for <b className="text-emerald-400">{job.title}</b>.
+            <h4 className="text-base font-bold text-foreground">Application Successfully Logged</h4>
+            <p className="text-xs text-muted-foreground mt-1 max-w-xs mx-auto">
+              Your profile has been submitted for <b className="text-emerald-600 dark:text-emerald-400">{job.title}</b>.
             </p>
           </div>
 
-          <div className="pt-2 flex flex-col gap-2">
-            <Link
-              to="/candidate/applications"
-              className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs transition-colors block text-center"
-            >
-              Track in My Applications
+          <div className="pt-2">
+            <Link to="/candidate/applications" className="block w-full">
+              <Button variant="primary" size="md" className="w-full">
+                Track in My Applications
+              </Button>
             </Link>
           </div>
         </div>
@@ -391,4 +403,3 @@ export const JobDetailPage: React.FC = () => {
   );
 };
 export default JobDetailPage;
-
