@@ -11,3 +11,4 @@ public class UnauthorizedException extends BaseApiException {
         super(message, HttpStatus.UNAUTHORIZED, "UNAUTHORIZED_ACCESS");
     }
 }
+

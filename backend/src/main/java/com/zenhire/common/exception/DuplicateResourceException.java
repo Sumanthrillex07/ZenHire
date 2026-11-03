@@ -8,6 +8,12 @@ import org.springframework.http.HttpStatus;
 public class DuplicateResourceException extends BaseApiException {
 
     public DuplicateResourceException(String message) {
-        super(message, HttpStatus.BAD_REQUEST, "DUPLICATE_RESOURCE");
+        super(message, HttpStatus.CONFLICT, "DUPLICATE_RESOURCE");
+    }
+
+    public DuplicateResourceException(String resourceName, String field, Object value) {
+        super(String.format("%s with %s '%s' already exists", resourceName, field, value),
+                HttpStatus.CONFLICT,
+                "DUPLICATE_RESOURCE");
     }
 }

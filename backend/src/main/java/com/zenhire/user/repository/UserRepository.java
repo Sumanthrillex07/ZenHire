@@ -1,0 +1,23 @@
+package com.zenhire.user.repository;
+
+import com.zenhire.user.entity.User;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, UUID> {
+
+    Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
+
+    @EntityGraph(attributePaths = {"candidate", "recruiter"})
+    Optional<User> findWithProfilesByEmail(String email);
+
+    @EntityGraph(attributePaths = {"candidate", "recruiter"})
+    Optional<User> findWithProfilesById(UUID id);
+}
+

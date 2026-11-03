@@ -15,8 +15,8 @@
 | **Phase 1** | **Database Schema & Flyway Migrations** | **COMPLETED** | **100%** | `V1__init_schema.sql`, `V2__create_indexes.sql`, `V3__seed_initial_data.sql` |
 | **Phase 2** | **Project Scaffold & Docker Setup** | **COMPLETED** | **100%** | Spring Boot 3.3, React 18 TS, Docker Compose, Dockerfiles |
 | **Phase 3** | **Backend Foundation & Exception Handling** | **COMPLETED** | **100%** | Standard DTOs, Exception Hierarchy, Global Handler, Configs |
-| **Phase 4** | Spring Security 6 & JWT Authentication | READY | 0% | Security design specified in `docs/SECURITY_DESIGN.md` |
-| **Phase 5** | Candidate & Recruiter Profile Management | PENDING | 0% | APIs specified in `docs/API_SPECIFICATION.md` |
+| **Phase 4** | **Spring Security 6 & JWT Authentication** | **COMPLETED** | **100%** | JJWT 0.12.5, BCrypt, FilterChain, UserPrincipal, AuthController, 9 tests passing |
+| **Phase 5** | Candidate & Recruiter Profile Management | READY | 0% | APIs specified in `docs/API_SPECIFICATION.md` |
 | **Phase 6** | Job Requisition Management | PENDING | 0% | Job CRUD & category filtering specified |
 | **Phase 7** | Resume Intelligence & PDF Parsing | PENDING | 0% | Apache PDFBox & Gemini client design specified |
 | **Phase 8** | Hybrid AI Candidate-Job Matching | PENDING | 0% | 60/40 algorithm specified in `docs/AI_ARCHITECTURE.md` |

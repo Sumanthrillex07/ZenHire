@@ -11,3 +11,4 @@ public class InvalidWorkflowStateException extends BaseApiException {
         super(message, HttpStatus.BAD_REQUEST, "INVALID_STATUS_TRANSITION");
     }
 }
+

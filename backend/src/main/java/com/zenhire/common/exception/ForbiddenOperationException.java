@@ -11,3 +11,4 @@ public class ForbiddenOperationException extends BaseApiException {
         super(message, HttpStatus.FORBIDDEN, "FORBIDDEN_OPERATION");
     }
 }
+

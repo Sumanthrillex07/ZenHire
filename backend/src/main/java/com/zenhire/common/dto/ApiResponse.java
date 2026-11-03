@@ -33,3 +33,4 @@ public record ApiResponse<T>(
         return new ApiResponse<>(false, message, null, new ApiError(errorCode, details, null), Instant.now());
     }
 }
+

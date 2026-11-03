@@ -15,3 +15,4 @@ public class FileProcessingException extends BaseApiException {
         super(message, cause, HttpStatus.BAD_REQUEST, "FILE_PROCESSING_ERROR");
     }
 }
+

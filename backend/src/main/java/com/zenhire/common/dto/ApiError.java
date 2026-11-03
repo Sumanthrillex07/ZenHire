@@ -12,3 +12,4 @@ public record ApiError(
         String details,
         List<ValidationErrorItem> validationErrors
 ) {}
+

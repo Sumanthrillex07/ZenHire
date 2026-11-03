@@ -24,3 +24,4 @@ public abstract class BaseApiException extends RuntimeException {
         this.errorCode = errorCode;
     }
 }
+
