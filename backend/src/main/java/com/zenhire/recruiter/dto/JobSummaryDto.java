@@ -14,3 +14,4 @@ public record JobSummaryDto(
         Instant createdAt,
         long applicantsCount
 ) {}
+

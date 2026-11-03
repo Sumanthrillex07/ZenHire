@@ -25,3 +25,4 @@ public interface ApplicationService {
 
     InterviewDetailsDto scheduleInterview(UserPrincipal principal, UUID applicationId, ScheduleInterviewRequestDto request);
 }
+

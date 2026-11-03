@@ -14,3 +14,4 @@ public record TestDetailDto(
         int passScore,
         List<QuestionCandidateDto> questions
 ) {}
+

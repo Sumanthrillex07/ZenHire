@@ -19,3 +19,4 @@ public interface AssessmentService {
 
     AttemptResultDto submitAttempt(UserPrincipal principal, UUID attemptId, SubmitAttemptRequestDto request);
 }
+

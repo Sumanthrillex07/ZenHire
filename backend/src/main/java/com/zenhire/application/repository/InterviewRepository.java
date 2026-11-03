@@ -12,3 +12,4 @@ public interface InterviewRepository extends JpaRepository<Interview, UUID> {
 
     Optional<Interview> findByApplicationId(UUID applicationId);
 }
+

@@ -13,3 +13,4 @@ public record InterviewDetailsDto(
         InterviewStatus status,
         String notes
 ) {}
+

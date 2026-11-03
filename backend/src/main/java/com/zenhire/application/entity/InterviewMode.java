@@ -4,3 +4,4 @@ public enum InterviewMode {
     ONLINE,
     OFFLINE
 }
+

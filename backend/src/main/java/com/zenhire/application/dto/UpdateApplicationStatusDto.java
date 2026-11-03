@@ -7,3 +7,4 @@ public record UpdateApplicationStatusDto(
         @NotNull(message = "Application status is required")
         ApplicationStatus status
 ) {}
+

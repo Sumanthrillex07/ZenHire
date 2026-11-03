@@ -15,3 +15,4 @@ public record TestSummaryDto(
         int highestScore,
         boolean passed
 ) {}
+

@@ -19,3 +19,4 @@ public interface TestRepository extends JpaRepository<Test, UUID> {
 
     List<Test> findAllByOrderByCreatedAtAsc();
 }
+

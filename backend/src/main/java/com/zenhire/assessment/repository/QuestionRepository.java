@@ -12,3 +12,4 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
 
     List<Question> findAllByTestIdOrderByCreatedAtAsc(UUID testId);
 }
+

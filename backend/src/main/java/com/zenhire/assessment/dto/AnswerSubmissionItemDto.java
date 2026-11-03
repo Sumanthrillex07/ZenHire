@@ -15,3 +15,4 @@ public record AnswerSubmissionItemDto(
         @Max(value = 3, message = "Selected index must be between 0 and 3")
         Integer selectedIndex
 ) {}
+

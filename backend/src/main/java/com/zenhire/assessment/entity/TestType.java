@@ -4,3 +4,4 @@ public enum TestType {
     GENERAL,
     ROLE_SPECIFIC
 }
+

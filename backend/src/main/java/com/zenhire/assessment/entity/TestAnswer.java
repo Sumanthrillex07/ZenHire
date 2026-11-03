@@ -39,3 +39,4 @@ public class TestAnswer {
     @Column(name = "topic_tag", nullable = false, length = 100)
     private String topicTag;
 }
+

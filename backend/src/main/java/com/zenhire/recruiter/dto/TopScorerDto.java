@@ -11,3 +11,4 @@ public record TopScorerDto(
         int matchScore,
         ApplicationStatus status
 ) {}
+

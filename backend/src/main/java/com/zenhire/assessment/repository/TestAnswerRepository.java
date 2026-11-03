@@ -14,3 +14,4 @@ public interface TestAnswerRepository extends JpaRepository<TestAnswer, UUID> {
 
     List<TestAnswer> findAllByAttemptCandidateId(UUID candidateId);
 }
+

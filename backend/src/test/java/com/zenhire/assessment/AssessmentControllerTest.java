@@ -118,3 +118,4 @@ class AssessmentControllerTest {
                 .andExpect(jsonPath("$.data.passed").value(true));
     }
 }
+

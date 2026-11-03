@@ -9,3 +9,4 @@ public record CandidateAnalysisDto(
         List<String> weakTopics,
         List<RoleCategory> recommendedRoles
 ) {}
+

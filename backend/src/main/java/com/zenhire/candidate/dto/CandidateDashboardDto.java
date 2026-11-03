@@ -11,3 +11,4 @@ public record CandidateDashboardDto(
         long applicationsCount,
         List<TestSummaryDto> tests
 ) {}
+

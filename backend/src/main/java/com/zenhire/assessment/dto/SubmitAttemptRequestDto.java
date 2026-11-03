@@ -9,3 +9,4 @@ public record SubmitAttemptRequestDto(
         @NotEmpty(message = "Answers list cannot be empty")
         List<@Valid AnswerSubmissionItemDto> answers
 ) {}
+

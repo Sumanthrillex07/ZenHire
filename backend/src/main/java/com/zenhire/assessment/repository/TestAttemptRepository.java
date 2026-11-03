@@ -20,3 +20,4 @@ public interface TestAttemptRepository extends JpaRepository<TestAttempt, UUID> 
 
     boolean existsByCandidateIdAndTestRoleCategoryAndPassedTrue(UUID candidateId, RoleCategory roleCategory);
 }
+

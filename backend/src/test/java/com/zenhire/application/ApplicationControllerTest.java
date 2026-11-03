@@ -144,3 +144,4 @@ class ApplicationControllerTest {
                 .andExpect(jsonPath("$.data.mode").value("ONLINE"));
     }
 }
+

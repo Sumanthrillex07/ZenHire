@@ -52,3 +52,4 @@ public class TestAttempt {
     @Column(name = "completed_at")
     private Instant completedAt;
 }
+

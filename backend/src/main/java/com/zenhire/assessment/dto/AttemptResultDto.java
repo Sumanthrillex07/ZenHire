@@ -6,3 +6,4 @@ public record AttemptResultDto(
         int correctCount,
         int totalQuestions
 ) {}
+

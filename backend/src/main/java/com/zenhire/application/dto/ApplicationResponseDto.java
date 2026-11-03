@@ -20,3 +20,4 @@ public record ApplicationResponseDto(
         Instant appliedAt,
         InterviewDetailsDto interview
 ) {}
+

@@ -9,3 +9,4 @@ public record RecruiterDashboardDto(
         List<TopScorerDto> topScorers,
         List<JobSummaryDto> jobs
 ) {}
+
