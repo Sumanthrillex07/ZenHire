@@ -18,3 +18,4 @@ public interface ResumeService {
 
     ParsedResumeDto getCandidateResume(UUID candidateId);
 }
+

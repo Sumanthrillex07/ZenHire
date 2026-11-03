@@ -51,3 +51,4 @@ class HeuristicResumeExtractorTest {
         assertThat(data.education()).isNotBlank();
     }
 }
+

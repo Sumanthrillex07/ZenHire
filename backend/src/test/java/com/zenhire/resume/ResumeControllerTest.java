@@ -89,3 +89,4 @@ class ResumeControllerTest {
                 .andExpect(jsonPath("$.data.skills[0]").value("Java"));
     }
 }
+

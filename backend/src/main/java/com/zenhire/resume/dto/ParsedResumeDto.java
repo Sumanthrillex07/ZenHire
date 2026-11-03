@@ -13,3 +13,4 @@ public record ParsedResumeDto(
         String education,
         Instant uploadedAt
 ) {}
+

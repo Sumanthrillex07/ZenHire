@@ -9,3 +9,4 @@ public interface ResumeExtractionStrategy {
 
     ParsedResumeData extract(String rawText);
 }
+

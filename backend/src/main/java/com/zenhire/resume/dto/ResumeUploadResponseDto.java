@@ -12,3 +12,4 @@ public record ResumeUploadResponseDto(
         String education,
         Instant uploadedAt
 ) {}
+

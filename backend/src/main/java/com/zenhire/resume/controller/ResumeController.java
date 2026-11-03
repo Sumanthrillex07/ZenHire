@@ -61,3 +61,4 @@ public class ResumeController {
         return ResponseEntity.ok(ApiResponse.success("Candidate resume retrieved", resume));
     }
 }
+

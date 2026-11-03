@@ -81,3 +81,4 @@ public class HeuristicResumeExtractor implements ResumeExtractionStrategy {
         return "";
     }
 }
+

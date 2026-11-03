@@ -24,3 +24,4 @@ public interface ResumeRepository extends JpaRepository<Resume, UUID> {
     @Query("UPDATE Resume r SET r.isLatest = false WHERE r.candidate.id = :candidateId")
     void markOldResumesNotLatest(@Param("candidateId") UUID candidateId);
 }
+

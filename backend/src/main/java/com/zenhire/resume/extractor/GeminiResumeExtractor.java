@@ -80,3 +80,4 @@ public class GeminiResumeExtractor implements ResumeExtractionStrategy {
         return cleaned.trim();
     }
 }
+

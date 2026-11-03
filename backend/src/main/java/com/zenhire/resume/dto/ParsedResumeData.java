@@ -10,3 +10,4 @@ public record ParsedResumeData(
         String experience,
         String education
 ) {}
+
