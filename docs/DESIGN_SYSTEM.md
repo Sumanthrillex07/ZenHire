@@ -91,9 +91,13 @@ The design system incorporates standardized, accessible primitives in `src/compo
 - **`ApplicationStatusBadge`**: Tracks pipeline lifecycle (`APPLIED`, `SHORTLISTED`, `INTERVIEW_SCHEDULED`, `HIRED`, `REJECTED`).
 - **`MatchScoreBadge`**: High-precision dual-colored badge (>80% emerald, 60-79% amber, <60% slate/red).
 
-### 4.6 Theme Toggle (`src/components/ui/ThemeToggle.tsx`)
-- Instant toggle switching between Light, Dark, and System states without flash of unstyled content (FOUT).
-- Accessible `aria-label` with smooth icon transition.
+### 4.6 Theme Toggle & Transition System (`src/components/ui/ThemeToggle.tsx` & `src/context/ThemeContext.tsx`)
+- **Dual Transition Mechanics**:
+  - **View Transitions API**: Leverages `document.startViewTransition` on modern browsers (Chrome 111+, Edge, Safari 18+) for crossfade animation.
+  - **Temporary CSS Transition Layer**: Dynamically adds `.theme-transitioning` to `<html>` for 350ms during theme toggling, smoothing `background-color`, `border-color`, `color`, and `box-shadow` changes with `cubic-bezier(0.16, 1, 0.3, 1)`, and cleanly removes it after completion to prevent runtime overhead during scrolling.
+- **Zero-FOUT Initial Load**: Transition is skipped on initial page mount (`isFirstMount`), preventing delayed hydration flashes.
+- **Icon Micro-Interaction**: Sun and Moon icons transition with synchronous 90-degree rotation and scale crossfading.
+- **Reduced Motion Support**: Completely disables transitions when `prefers-reduced-motion: reduce` is active.
 
 ---
 
@@ -112,3 +116,4 @@ The design system incorporates standardized, accessible primitives in `src/compo
 1. **Reduced Motion**: All animations (`animate-fadeIn`, `animate-slideUp`, `animate-shimmer`) observe `@media (prefers-reduced-motion: reduce)`.
 2. **Zero FOUT**: Theme is read and applied by an inline `<script>` in `index.html` before DOM render.
 3. **WCAG AA Compliance**: All text-to-background combinations in both light and dark modes exceed a 4.5:1 contrast ratio.
+
