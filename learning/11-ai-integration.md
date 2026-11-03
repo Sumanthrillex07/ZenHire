@@ -131,3 +131,4 @@ Spring's legacy `RestTemplate` uses a synchronous, blocking I/O model (one threa
 Temperature controls the randomness/entropy of the probability distribution when selecting output tokens:
 - **Temperature 0.0 (Greedy Decoding):** The model always selects the token with the highest probability. This produces deterministic, reproducible, and factual responses, making it ideal for structured JSON extraction and candidate scoring.
 - **Temperature 1.0:** The probability distribution is flattened, introducing creativity and variety into the generated text. In ZenHire, we use temperature 0.1 for resume extraction and scoring, and temperature 0.4 for the conversational career advisor.
+

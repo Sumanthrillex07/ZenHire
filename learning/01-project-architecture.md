@@ -105,3 +105,4 @@ In Java, we can enforce boundaries at three levels:
 ### Question 2: "What is the difference between monolithic architecture and modular monolithic architecture?"
 **Answer:**  
 A traditional monolith often degrades into an unstructured "spaghetti" codebase where database entities, helper methods, and controllers leak across the entire project without clear boundaries. A modular monolith enforces bounded contexts (borrowed from Domain-Driven Design) inside a single deployable artifact, ensuring that business capabilities are strictly isolated by module boundaries.
+

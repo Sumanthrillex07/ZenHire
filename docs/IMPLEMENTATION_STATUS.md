@@ -12,8 +12,8 @@
 | Phase | Milestone Name | Status | Completion % | Artifacts / Notes |
 | :---: | :--- | :---: | :---: | :--- |
 | **Phase 0** | **Requirement Analysis & Architecture Planning** | **COMPLETED** | **100%** | All 14 architecture docs, 12 learning notes, git remote initialized |
-| **Phase 1** | Database Schema & Flyway Migrations | READY | 0% | Schema specified in `docs/DATABASE_DESIGN.md` |
-| **Phase 2** | Project Scaffold & Docker Setup | PENDING | 0% | Multi-stage Dockerfiles specified in `docs/DOCKER_AND_DEPLOYMENT.md` |
+| **Phase 1** | **Database Schema & Flyway Migrations** | **COMPLETED** | **100%** | `V1__init_schema.sql`, `V2__create_indexes.sql`, `V3__seed_initial_data.sql` |
+| **Phase 2** | Project Scaffold & Docker Setup | READY | 0% | Multi-stage Dockerfiles specified in `docs/DOCKER_AND_DEPLOYMENT.md` |
 | **Phase 3** | Backend Foundation & Exception Handling | PENDING | 0% | Layered package structure specified in `docs/LOW_LEVEL_DESIGN.md` |
 | **Phase 4** | Spring Security 6 & JWT Authentication | PENDING | 0% | Security design specified in `docs/SECURITY_DESIGN.md` |
 | **Phase 5** | Candidate & Recruiter Profile Management | PENDING | 0% | APIs specified in `docs/API_SPECIFICATION.md` |
@@ -49,9 +49,18 @@
 
 ---
 
-## 3. Mandatory Rule Verification
+## 3. Phase 1 Detailed Deliverables Checklist
+- [x] `backend/src/main/resources/db/migration/V1__init_schema.sql` (12 normalized tables, foreign keys with cascade/restrict, UUID primary keys, check constraints)
+- [x] `backend/src/main/resources/db/migration/V2__create_indexes.sql` (B-Tree indexes for lookups, composite indexes for filtering and sorting)
+- [x] `backend/src/main/resources/db/migration/V3__seed_initial_data.sql` (Deterministic seed data: 1 general test, 3 role-specific tests, topic-tagged questions, sample recruiters, candidates, jobs)
+- [x] PostgreSQL 16 DDL and JSONB validation
+
+---
+
+## 4. Mandatory Rule Verification
 - [x] **No Code Generated During Planning:** No backend Java code or frontend React components created prior to explicit user authorization.
 - [x] **Strict Naming & Documentation Integrity:** Project documented exclusively as **ZenHire** with zero references to external archives, migrations, or former projects.
 - [x] **Complete Separation of AI from Deterministic Logic:** Hybrid 60/40 scoring formula strictly documented without fabricated numbers.
 - [x] **Git Remote Configured:** `https://github.com/Sumanthrillex07/ZenHire.git` set as origin remote.
 - [x] **Clean Isolation:** Reference material isolated via `.gitignore` to prevent source contamination.
+

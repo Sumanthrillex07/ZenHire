@@ -232,3 +232,4 @@ sequenceDiagram
     RecCtrl-->>UI: 200 OK InterviewDto
     UI-->>Recruiter: Interview scheduled successfully
 ```
+

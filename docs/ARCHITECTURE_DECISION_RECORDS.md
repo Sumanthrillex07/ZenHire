@@ -159,3 +159,4 @@
 - **Consequences & Trade-offs:**
   - *Positive:* Deterministic, one-command execution (`docker compose up --build`), persistent named volumes, isolated bridge networking.
   - *Negative:* Requires Docker Desktop installed on the host machine.
+

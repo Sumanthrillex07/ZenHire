@@ -49,3 +49,4 @@
 - **Current Architecture:** Recruiter records `mode` (`ONLINE` / `OFFLINE`) and adds an external meeting link in the interview notes.
 - **Proposed Enhancement:** Integrate an embedded WebRTC room (via Daily.co or LiveKit) directly into the recruiter dossier interface, enabling 1-click video interviews without third-party tool switching.
 - **Benefits:** Provides a true all-in-one recruiting workstation.
+

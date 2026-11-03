@@ -128,3 +128,4 @@ Constructor injection can lead to long constructor parameter lists if a class ha
 ### Question 2: "Where are AOP proxies (like `@Transactional` and `@PreAuthorize`) created during the Bean Lifecycle?"
 **Answer:**  
 AOP proxies are created in the **BeanPostProcessor.postProcessAfterInitialization()** phase. If a bean has methods annotated with `@Transactional` or `@PreAuthorize`, the `AnnotationAwareAspectJAutoProxyCreator` wraps the original target object inside a dynamic CGLIB or JDK dynamic proxy that intercepts method calls to handle transaction begin/commit or security authorization checks before delegating to the actual method.
+

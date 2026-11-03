@@ -152,3 +152,4 @@ Historically, developers used in-memory H2 databases for testing to avoid runnin
 **Answer:**  
 Standard code coverage only measures which lines of code were executed during a test run; it does not measure whether the assertions were effective.  
 **Mutation Testing** (e.g., using PIT / PITest in Java) introduces deliberate small bugs (mutations) into your compiled bytecode—such as inverting conditional checks (`>` to `<=`), changing boundary numbers, or removing method calls. It then runs your test suite: if your tests fail (kill the mutant), the test suite is strong. If your tests still pass despite the mutant, your tests lack sufficient assertions.
+

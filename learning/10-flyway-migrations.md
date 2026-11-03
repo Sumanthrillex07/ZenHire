@@ -65,3 +65,4 @@ Guarantees 100% schema parity across every developer laptop, CI pipeline, and pr
 ### Question 2: "What is the purpose of setting `spring.jpa.hibernate.ddl-auto: validate` when using Flyway?"
 **Answer:**  
 Setting `ddl-auto: validate` instructs Hibernate on application startup to verify that the entity mappings (`@Entity`, `@Column`, `@Table`) match the actual database schema created by Flyway. If an entity field does not match the database column type or nullability, Hibernate halts startup with a `SchemaManagementException`. This acts as an automated safety net ensuring that Java domain classes and database tables never drift out of sync.
+

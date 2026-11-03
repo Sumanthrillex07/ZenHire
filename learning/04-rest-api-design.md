@@ -137,3 +137,4 @@ HTTP `201 Created` should be returned. According to the HTTP/1.1 specification (
 **Answer:**  
 - **401 Unauthorized:** Authentication is missing or invalid. The client has not proven who they are (e.g., missing JWT token, expired token, or invalid credentials).
 - **403 Forbidden:** The client is authenticated and their identity is known, but they do NOT have permission to perform the requested operation (e.g., a candidate trying to call `/api/v1/recruiter/dashboard`, or recruiter B trying to access applicants for recruiter A's job).
+

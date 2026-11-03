@@ -809,3 +809,4 @@ Endpoints returning lists support Spring Data JPA `page`, `size`, and `sort` que
   "timestamp": "2026-11-03T10:56:05.000Z"
 }
 ```
+

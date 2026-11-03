@@ -106,3 +106,4 @@ Prevents high database CPU spikes, locks, and slow response times as table rows 
 **Answer:**  
 `JSONB` (binary JSON) is ideal for semi-structured data where the internal schema is dynamic or where child attributes are always read and written together as a cohesive unit and never independently joined or queried across entities.  
 In ZenHire, assessment question choices (`options: ["A", "B", "C", "D"]`) and required skill tags (`requiredSkills: ["Java", "Spring Boot"]`) are stored as `JSONB` because they are tightly coupled to their parent question/job and never need independent foreign key relationships.
+

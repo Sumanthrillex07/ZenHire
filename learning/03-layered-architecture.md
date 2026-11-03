@@ -130,3 +130,4 @@ When `readOnly = true` is set:
 ### Question 2: "Which exceptions trigger a rollback by default in Spring `@Transactional`?"
 **Answer:**  
 By default, Spring rolls back transactions only on unchecked exceptions (`RuntimeException` and `Error`). Checked exceptions (extending `Exception`) do NOT trigger a rollback unless explicitly configured with `@Transactional(rollbackFor = Exception.class)`. In ZenHire, we explicitly declare `rollbackFor = Exception.class` on all write transactions.
+

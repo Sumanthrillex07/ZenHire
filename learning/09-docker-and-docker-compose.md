@@ -106,3 +106,4 @@ Eliminates brittle IP configuration, enables container portability across local 
 Containers are NOT lightweight virtual machines; they are isolated host processes governed by two core Linux kernel primitives:
 1. **Namespaces:** Provide isolation (what the process can *see*). Examples include PID (process IDs), NET (network interfaces/routing), MNT (filesystem mount points), and IPC (inter-process communication).
 2. **Control Groups (cgroups):** Provide resource metering and limits (how much the process can *use*), capping CPU, memory, and disk I/O to prevent a noisy container from consuming all host resources.
+

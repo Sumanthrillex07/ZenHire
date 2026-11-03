@@ -404,3 +404,4 @@ All schema changes will be versioned sequentially in `backend/src/main/resources
 - `V1__init_schema.sql`: Core table creations, foreign keys, unique constraints, and check constraints.
 - `V2__create_indexes.sql`: Performance indexes on foreign keys, status columns, and composite query paths.
 - `V3__seed_initial_data.sql`: Base seed questions across general and role-specific assessments, sample recruiter companies, and demonstration accounts.
+

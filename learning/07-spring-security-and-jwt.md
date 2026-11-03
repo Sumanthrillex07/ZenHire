@@ -138,3 +138,4 @@ We annotate our configuration class with `@EnableMethodSecurity`. Then, on servi
 **Answer:**  
 MD5 and standard SHA-256 are fast general-purpose cryptographic hash functions designed for speed. Because they are fast, attackers can use modern GPUs to compute billions of guesses per second, rendering them vulnerable to brute-force and rainbow table attacks.  
 BCrypt is an intentionally slow, adaptive key derivation function based on the Blowfish cipher. It incorporates a salt automatically to defeat rainbow tables and features a configurable work factor (cost) that can be increased over time as computing hardware becomes faster.
+

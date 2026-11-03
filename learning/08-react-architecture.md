@@ -130,3 +130,4 @@ The `key` prop gives elements a stable identity across renders, allowing React's
 **Answer:**  
 - `useEffect` is used to synchronize a component with external systems (performing side effects such as fetching data from an API, subscribing to browser events, or mutating the DOM) after the component renders.
 - `useCallback` is a performance optimization hook used to memoize a function definition between renders, preventing child components that receive the function as a prop from re-rendering unnecessarily when the parent re-renders.
+

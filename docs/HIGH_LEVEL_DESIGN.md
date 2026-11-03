@@ -192,3 +192,4 @@ flowchart LR
 1. **PostgreSQL Container:** Starts first; executes internal health check (`pg_isready -U zenhire_user -d zenhire_db`).
 2. **Backend Spring Boot Container:** Starts only after PostgreSQL container reports healthy (`condition: service_healthy`); executes Flyway migrations; starts Spring HTTP server on port 8080.
 3. **Frontend React Container:** Starts; serves compiled static assets and proxies `/api` calls to the backend service.
+

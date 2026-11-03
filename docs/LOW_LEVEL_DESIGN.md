@@ -396,3 +396,4 @@ public record ApiError(
 | `AccessDeniedException` | `403 Forbidden` | `ACCESS_DENIED` | Insufficient role permissions / cross-tenant leak |
 | `MaxUploadSizeExceededException` | `400 Bad Request` | `FILE_TOO_LARGE` | Upload exceeds 5 MB limit |
 | `Exception` (catch-all) | `500 Internal Error` | `INTERNAL_SERVER_ERROR` | Unhandled unexpected server exception |
+

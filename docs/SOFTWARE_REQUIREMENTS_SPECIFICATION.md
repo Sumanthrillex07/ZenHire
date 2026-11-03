@@ -314,3 +314,4 @@ Feature: Unique Application Constraint
     Then the response status should be 400 Bad Request
     And the error message should be "You have already applied to this job"
 ```
+

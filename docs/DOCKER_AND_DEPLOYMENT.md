@@ -334,3 +334,4 @@ docker compose down -v
 | `frontend` displays 502 Bad Gateway when making API calls | Backend application has not finished initializing its Spring context. | Check `docker compose logs backend` to ensure Flyway completed and Tomcat started on port 8080. |
 | Gemini API calls return `401 Unauthorized` | Missing or invalid `GEMINI_API_KEY` in `.env`. | Verify `GEMINI_API_KEY` is set in `.env` and matches an active Google AI Studio key. |
 | Resume upload throws `Permission Denied` | Upload directory missing write permissions for non-root user. | Check `Dockerfile` to confirm `RUN chown -R zenhire:zenhire /app/uploads` executed. |
+

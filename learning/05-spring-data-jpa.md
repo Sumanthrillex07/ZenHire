@@ -126,3 +126,4 @@ A `LazyInitializationException` occurs when application code tries to access an 
 1. Fetch the required association within the transaction using `JOIN FETCH` or `@EntityGraph`.
 2. Map the entity to a DTO within the `@Transactional` service boundary before returning to the controller.
 3. *Never* use the `enable_lazy_load_no_trans` anti-pattern, as it opens a new connection for every lazy access, degrading performance.
+

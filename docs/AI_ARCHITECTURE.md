@@ -223,3 +223,4 @@ flowchart TD
 - **Context Bounding:**
   - Raw resume text is capped at 15,000 characters (sufficient for any 5-page resume).
   - Chat history is bounded to the 20 most recent messages, preventing unbounded prompt token inflation.
+
