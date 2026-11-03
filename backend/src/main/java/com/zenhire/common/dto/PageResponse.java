@@ -27,5 +27,27 @@ public record PageResponse<T>(
                 page.isLast()
         );
     }
+
+    public static <T, R> PageResponse<R> of(Page<T> page, List<R> content) {
+        return new PageResponse<>(
+                content,
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isLast()
+        );
+    }
+
+    public static <T> PageResponse<T> of(List<T> content, int pageNumber, int pageSize, long totalElements, int totalPages, boolean isLast) {
+        return new PageResponse<>(
+                content,
+                pageNumber,
+                pageSize,
+                totalElements,
+                totalPages,
+                isLast
+        );
+    }
 }
 
