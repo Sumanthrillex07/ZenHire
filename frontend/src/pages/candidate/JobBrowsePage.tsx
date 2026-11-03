@@ -47,6 +47,7 @@ export const JobBrowsePage: React.FC = () => {
     setLoading(true);
     try {
       const pageData = await jobApi.getJobs({
+        category: selectedCategory || undefined,
         roleCategory: selectedCategory || undefined,
         status: 'OPEN',
         size: 50,

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,17 +23,44 @@ public interface JobRepository extends JpaRepository<Job, UUID> {
     Optional<Job> findWithRecruiterById(UUID id);
 
     @EntityGraph(attributePaths = {"recruiter"})
-    @Query("SELECT j FROM Job j " +
-           "WHERE j.status = :status " +
-           "AND (:category IS NULL OR j.roleCategory = :category) " +
-           "AND (:search IS NULL OR LOWER(j.title) LIKE LOWER(CONCAT('%', :search, '%')) " +
-           "     OR LOWER(j.description) LIKE LOWER(CONCAT('%', :search, '%')))")
-    Page<Job> searchJobs(
+    Page<Job> findAllByStatus(JobStatus status, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"recruiter"})
+    Page<Job> findAllByStatusAndRoleCategory(JobStatus status, RoleCategory roleCategory, Pageable pageable);
+
+    @EntityGraph(attributePaths = {"recruiter"})
+    @Query("SELECT j FROM Job j WHERE j.status = :status AND (LOWER(j.title) LIKE :pattern OR LOWER(j.description) LIKE :pattern)")
+    Page<Job> searchJobsAll(
             @Param("status") JobStatus status,
-            @Param("category") RoleCategory category,
-            @Param("search") String search,
+            @Param("pattern") String pattern,
             Pageable pageable
     );
+
+    @EntityGraph(attributePaths = {"recruiter"})
+    @Query("SELECT j FROM Job j WHERE j.status = :status AND j.roleCategory = :category AND (LOWER(j.title) LIKE :pattern OR LOWER(j.description) LIKE :pattern)")
+    Page<Job> searchJobsByCategory(
+            @Param("status") JobStatus status,
+            @Param("category") RoleCategory category,
+            @Param("pattern") String pattern,
+            Pageable pageable
+    );
+
+    default Page<Job> searchJobs(JobStatus status, RoleCategory category, String search, Pageable pageable) {
+        if (StringUtils.hasText(search)) {
+            String pattern = "%" + search.trim().toLowerCase() + "%";
+            if (category != null) {
+                return searchJobsByCategory(status, category, pattern, pageable);
+            } else {
+                return searchJobsAll(status, pattern, pageable);
+            }
+        } else {
+            if (category != null) {
+                return findAllByStatusAndRoleCategory(status, category, pageable);
+            } else {
+                return findAllByStatus(status, pageable);
+            }
+        }
+    }
 
     @EntityGraph(attributePaths = {"recruiter"})
     List<Job> findAllByRecruiterIdOrderByCreatedAtDesc(UUID recruiterId);

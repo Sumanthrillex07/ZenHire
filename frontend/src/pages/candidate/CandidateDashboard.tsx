@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { candidateApi } from '../../api/candidateApi';
-import { CandidateDashboardData, CandidateAnalysisData } from '../../types';
+import { jobApi } from '../../api/jobApi';
+import { CandidateDashboardData, CandidateAnalysisData, Job } from '../../types';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { 
   FileText, 
@@ -13,7 +14,10 @@ import {
   CheckCircle2, 
   Compass, 
   Sparkles,
-  Upload
+  Upload,
+  Building2,
+  ArrowRight,
+  Clock
 } from 'lucide-react';
 import { CategoryBadge } from '../../components/Badge';
 
@@ -21,17 +25,20 @@ export const CandidateDashboard: React.FC = () => {
   const { user } = useAuth();
   const [dashboard, setDashboard] = useState<CandidateDashboardData | null>(null);
   const [analysis, setAnalysis] = useState<CandidateAnalysisData | null>(null);
+  const [openJobs, setOpenJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [dashData, analyticsData] = await Promise.all([
+        const [dashData, analyticsData, jobsPage] = await Promise.all([
           candidateApi.getDashboard(),
           candidateApi.getAnalytics(),
+          jobApi.getJobs({ size: 6, status: 'OPEN' }),
         ]);
         setDashboard(dashData);
         setAnalysis(analyticsData);
+        setOpenJobs(jobsPage?.content || []);
       } catch (err) {
         console.error('Failed to load candidate dashboard', err);
       } finally {
@@ -272,6 +279,94 @@ export const CandidateDashboard: React.FC = () => {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Recruiter Job Requisitions Section */}
+      <div className="glass-card space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+              <Briefcase className="w-5 h-5 text-indigo-400" />
+              Latest Openings from Enterprise Recruiters
+            </h2>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Live engineering requisitions posted by verified employers. Pass domain assessments to unlock 1-click applications.
+            </p>
+          </div>
+          <Link
+            to="/jobs"
+            className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors"
+          >
+            Browse All ({openJobs.length}) Jobs <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {openJobs.length === 0 ? (
+          <div className="text-center py-8 text-xs text-slate-500">
+            No open requisitions currently available. Check back soon for new opportunities!
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {openJobs.map((job) => (
+              <div
+                key={job.id}
+                className="bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 rounded-xl p-4 flex flex-col justify-between transition-all hover:-translate-y-0.5 shadow-sm"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <CategoryBadge category={job.roleCategory} />
+                    <span className="text-[11px] text-slate-500 flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {new Date(job.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-bold text-white hover:text-emerald-400 transition-colors line-clamp-1">
+                      <Link to={`/jobs/${job.id}`}>{job.title}</Link>
+                    </h3>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-0.5">
+                      <Building2 className="w-3.5 h-3.5 text-indigo-400" />
+                      <span className="font-medium text-slate-300">{job.companyName}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                    {job.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {job.requiredSkills.slice(0, 3).map((skill, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 rounded text-[10px] bg-slate-800 text-slate-300 border border-slate-700/60"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {job.requiredSkills.length > 3 && (
+                      <span className="px-1.5 py-0.5 rounded text-[10px] bg-slate-800 text-slate-500">
+                        +{job.requiredSkills.length - 3}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                  <span className="text-[11px] text-slate-500">
+                    {job.applicantsCount} {job.applicantsCount === 1 ? 'applicant' : 'applicants'}
+                  </span>
+                  <Link
+                    to={`/jobs/${job.id}`}
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+                  >
+                    View & Apply &rarr;
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

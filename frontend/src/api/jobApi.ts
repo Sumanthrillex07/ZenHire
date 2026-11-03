@@ -10,13 +10,20 @@ export interface CreateJobPayload {
 
 export const jobApi = {
   async getJobs(params?: {
+    category?: RoleCategory | '';
     roleCategory?: RoleCategory | '';
+    search?: string;
     status?: JobStatus;
     page?: number;
     size?: number;
   }): Promise<PageResponse<Job>> {
     const cleanParams: Record<string, string | number> = {};
-    if (params?.roleCategory) cleanParams.roleCategory = params.roleCategory;
+    const cat = params?.category || params?.roleCategory;
+    if (cat) {
+      cleanParams.category = cat;
+      cleanParams.roleCategory = cat;
+    }
+    if (params?.search) cleanParams.search = params.search;
     if (params?.status) cleanParams.status = params.status;
     if (params?.page !== undefined) cleanParams.page = params.page;
     if (params?.size !== undefined) cleanParams.size = params.size;

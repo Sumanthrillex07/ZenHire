@@ -51,10 +51,12 @@ public class JobController {
     @Operation(summary = "Discover open jobs with optional role category and text search filters")
     public ResponseEntity<ApiResponse<PageResponse<JobResponseDto>>> getJobs(
             @RequestParam(required = false) RoleCategory category,
+            @RequestParam(required = false) RoleCategory roleCategory,
             @RequestParam(required = false) String search,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        PageResponse<JobResponseDto> jobs = jobService.getJobs(category, search, pageable);
+        RoleCategory filterCategory = category != null ? category : roleCategory;
+        PageResponse<JobResponseDto> jobs = jobService.getJobs(filterCategory, search, pageable);
         return ResponseEntity.ok(ApiResponse.success("Jobs retrieved successfully", jobs));
     }
 
