@@ -44,6 +44,9 @@ class JobServiceTest {
     @Mock
     private RecruiterRepository recruiterRepository;
 
+    @Mock
+    private com.zenhire.application.repository.ApplicationRepository applicationRepository;
+
     @InjectMocks
     private JobServiceImpl jobService;
 

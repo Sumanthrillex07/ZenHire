@@ -45,5 +45,25 @@ public class CandidateController {
         CandidateProfileDto updated = candidateService.updateProfile(principal, updateDto);
         return ResponseEntity.ok(ApiResponse.success("Profile updated successfully", updated));
     }
+
+    @GetMapping("/dashboard")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @Operation(summary = "Get candidate dashboard overview including resume status and test catalog summaries")
+    public ResponseEntity<ApiResponse<com.zenhire.candidate.dto.CandidateDashboardDto>> getDashboard(
+            @AuthenticationPrincipal UserPrincipal principal
+    ) {
+        com.zenhire.candidate.dto.CandidateDashboardDto dashboard = candidateService.getDashboard(principal);
+        return ResponseEntity.ok(ApiResponse.success("Candidate dashboard loaded", dashboard));
+    }
+
+    @GetMapping("/analysis")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @Operation(summary = "Get candidate skill analytics: strong topics, weak topics, and recommended career paths")
+    public ResponseEntity<ApiResponse<com.zenhire.candidate.dto.CandidateAnalysisDto>> getSkillAnalysis(
+            @AuthenticationPrincipal UserPrincipal principal
+    ) {
+        com.zenhire.candidate.dto.CandidateAnalysisDto analysis = candidateService.getSkillAnalysis(principal);
+        return ResponseEntity.ok(ApiResponse.success("Candidate skill analysis aggregated", analysis));
+    }
 }
 

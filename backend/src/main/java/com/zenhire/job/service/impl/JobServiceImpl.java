@@ -31,6 +31,7 @@ public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
     private final RecruiterRepository recruiterRepository;
+    private final com.zenhire.application.repository.ApplicationRepository applicationRepository;
 
     @Override
     @Transactional
@@ -67,7 +68,7 @@ public class JobServiceImpl implements JobService {
         Page<Job> jobPage = jobRepository.searchJobs(JobStatus.OPEN, category, sanitizedSearch, pageable);
 
         List<JobResponseDto> dtoList = jobPage.getContent().stream()
-                .map(job -> mapToDto(job, 0L))
+                .map(job -> mapToDto(job, applicationRepository.countByJobId(job.getId())))
                 .toList();
 
         return PageResponse.of(jobPage, dtoList);
@@ -79,7 +80,7 @@ public class JobServiceImpl implements JobService {
         Job job = jobRepository.findWithRecruiterById(jobId)
                 .orElseThrow(() -> new ResourceNotFoundException("Job", "id", jobId));
 
-        return mapToDto(job, 0L);
+        return mapToDto(job, applicationRepository.countByJobId(jobId));
     }
 
     @Override
@@ -96,7 +97,7 @@ public class JobServiceImpl implements JobService {
         Job saved = jobRepository.save(job);
         log.info("Updated status of job {} to {}", jobId, newStatus);
 
-        return mapToDto(saved, 0L);
+        return mapToDto(saved, applicationRepository.countByJobId(jobId));
     }
 
     @Override
@@ -106,7 +107,7 @@ public class JobServiceImpl implements JobService {
                 .orElseThrow(() -> new ResourceNotFoundException("Recruiter profile", "userId", principal.getId()));
 
         return jobRepository.findAllByRecruiterIdOrderByCreatedAtDesc(recruiter.getId()).stream()
-                .map(job -> mapToDto(job, 0L))
+                .map(job -> mapToDto(job, applicationRepository.countByJobId(job.getId())))
                 .toList();
     }
 

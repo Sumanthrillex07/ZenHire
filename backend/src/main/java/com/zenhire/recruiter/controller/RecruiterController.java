@@ -45,5 +45,15 @@ public class RecruiterController {
         RecruiterProfileDto updated = recruiterService.updateProfile(principal, updateDto);
         return ResponseEntity.ok(ApiResponse.success("Recruiter profile updated successfully", updated));
     }
+
+    @GetMapping("/dashboard")
+    @PreAuthorize("hasRole('RECRUITER')")
+    @Operation(summary = "Get recruiter dashboard overview: open jobs count, applicants metrics, top scorers, and requisitions")
+    public ResponseEntity<ApiResponse<com.zenhire.recruiter.dto.RecruiterDashboardDto>> getDashboard(
+            @AuthenticationPrincipal UserPrincipal principal
+    ) {
+        com.zenhire.recruiter.dto.RecruiterDashboardDto dashboard = recruiterService.getDashboard(principal);
+        return ResponseEntity.ok(ApiResponse.success("Recruiter dashboard metrics loaded", dashboard));
+    }
 }
 

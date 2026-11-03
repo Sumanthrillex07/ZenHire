@@ -20,8 +20,8 @@
 | **Phase 6** | **Job Requisition Management** | **COMPLETED** | **100%** | Job entity, RoleCategory, JobStatus, search/filtering, recruiter ownership, 25 tests passing |
 | **Phase 7** | **Resume Intelligence & PDF Parsing** | **COMPLETED** | **100%** | Apache PDFBox, GeminiApiClient, heuristic fallback, magic byte validator, 32 tests passing |
 | **Phase 8** | **Hybrid AI Candidate-Job Matching** | **COMPLETED** | **100%** | DeterministicSkillMatcher (60%), LlmFitEvaluator (40%), HybridMatchingEngine, 39 tests passing |
-| **Phase 9** | Assessment Engine & Application Gating | READY | 0% | Question bank, answer masking, and gating flow specified |
-| **Phase 10** | React 18 Frontend Development | PENDING | 0% | UI components, pages, and route guards specified |
+| **Phase 9** | **Assessment Engine & Application Gating** | **COMPLETED** | **100%** | Question bank, answer masking DTO, attempt grading, application gating, pipeline transitions, 56 tests passing |
+| **Phase 10** | React 18 Frontend Development | READY | 0% | UI components, pages, and route guards specified |
 | **Phase 11** | AI Career Advisor Chat Assistant | PENDING | 0% | Prompt templates and context injection specified |
 | **Phase 12** | Quality Assurance & 13 Edge Cases Testing | PENDING | 0% | Test suite specified in `docs/TESTING_STRATEGY.md` |
 | **Phase 13** | Final Dockerization & Production Release | PENDING | 0% | Compose verification & documentation audit |

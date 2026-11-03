@@ -36,6 +36,21 @@ class CandidateServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private com.zenhire.resume.repository.ResumeRepository resumeRepository;
+
+    @Mock
+    private com.zenhire.application.repository.ApplicationRepository applicationRepository;
+
+    @Mock
+    private com.zenhire.assessment.service.AssessmentService assessmentService;
+
+    @Mock
+    private com.zenhire.assessment.repository.TestAnswerRepository testAnswerRepository;
+
+    @Mock
+    private com.zenhire.assessment.repository.TestAttemptRepository testAttemptRepository;
+
     @InjectMocks
     private CandidateServiceImpl candidateService;
 
