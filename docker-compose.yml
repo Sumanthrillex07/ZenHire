@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. PostgreSQL Database Service
+  # ----------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: zenhire-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-zenhire_db}
+      POSTGRES_USER: ${DB_USER:-zenhire_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-zenhire_secure_pass_2026}
+    ports:
+      - "5432:5432"
+    volumes:
+      - zenhire_pg_data:/var/lib/postgresql/data
+    networks:
+      - zenhire-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-zenhire_user} -d ${DB_NAME:-zenhire_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ----------------------------------------------------------------------------
+  # 2. Spring Boot Backend Service
+  # ----------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: zenhire-backend
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-zenhire_db}
+      DB_USER: ${DB_USER:-zenhire_user}
+      DB_PASSWORD: ${DB_PASSWORD:-zenhire_secure_pass_2026}
+      JWT_SECRET: ${JWT_SECRET:-404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      FILE_UPLOAD_DIR: /app/uploads
+    ports:
+      - "8080:8080"
+    volumes:
+      - zenhire_uploads:/app/uploads
+    networks:
+      - zenhire-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
+
+  # ----------------------------------------------------------------------------
+  # 3. React Frontend Service
+  # ----------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: zenhire-frontend
+    restart: always
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3000:80"
+    networks:
+      - zenhire-network
+
+# ------------------------------------------------------------------------------
+# Persistent Storage Volumes
+# ------------------------------------------------------------------------------
+volumes:
+  zenhire_pg_data:
+    name: zenhire_pg_data
+  zenhire_uploads:
+    name: zenhire_uploads
+
+# ------------------------------------------------------------------------------
+# Internal Virtual Network
+# ------------------------------------------------------------------------------
+networks:
+  zenhire-network:
+    name: zenhire-network
+    driver: bridge
+

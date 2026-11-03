@@ -379,3 +379,4 @@ VALUES
     'pytorch-basics',
     'HARD'
 );
+

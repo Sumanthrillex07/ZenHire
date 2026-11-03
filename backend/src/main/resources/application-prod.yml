@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    com.zenhire: INFO
+    org.springframework.security: WARN
+    org.hibernate: WARN
+

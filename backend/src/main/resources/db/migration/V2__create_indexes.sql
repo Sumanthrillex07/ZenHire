@@ -33,3 +33,4 @@ CREATE INDEX idx_applications_status ON applications(status);
 -- 6. Interview & Chat Lookups
 CREATE INDEX idx_interviews_application_id ON interviews(application_id);
 CREATE INDEX idx_chat_messages_candidate_created ON chat_messages(candidate_id, created_at ASC);
+

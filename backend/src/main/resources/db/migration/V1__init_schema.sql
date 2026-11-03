@@ -179,3 +179,4 @@ CREATE TABLE chat_messages (
     message TEXT NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
