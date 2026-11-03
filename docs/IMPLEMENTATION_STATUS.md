@@ -14,8 +14,8 @@
 | **Phase 0** | **Requirement Analysis & Architecture Planning** | **COMPLETED** | **100%** | All 14 architecture docs, 12 learning notes, git remote initialized |
 | **Phase 1** | **Database Schema & Flyway Migrations** | **COMPLETED** | **100%** | `V1__init_schema.sql`, `V2__create_indexes.sql`, `V3__seed_initial_data.sql` |
 | **Phase 2** | **Project Scaffold & Docker Setup** | **COMPLETED** | **100%** | Spring Boot 3.3, React 18 TS, Docker Compose, Dockerfiles |
-| **Phase 3** | Backend Foundation & Exception Handling | READY | 0% | Layered package structure specified in `docs/LOW_LEVEL_DESIGN.md` |
-| **Phase 4** | Spring Security 6 & JWT Authentication | PENDING | 0% | Security design specified in `docs/SECURITY_DESIGN.md` |
+| **Phase 3** | **Backend Foundation & Exception Handling** | **COMPLETED** | **100%** | Standard DTOs, Exception Hierarchy, Global Handler, Configs |
+| **Phase 4** | Spring Security 6 & JWT Authentication | READY | 0% | Security design specified in `docs/SECURITY_DESIGN.md` |
 | **Phase 5** | Candidate & Recruiter Profile Management | PENDING | 0% | APIs specified in `docs/API_SPECIFICATION.md` |
 | **Phase 6** | Job Requisition Management | PENDING | 0% | Job CRUD & category filtering specified |
 | **Phase 7** | Resume Intelligence & PDF Parsing | PENDING | 0% | Apache PDFBox & Gemini client design specified |
@@ -72,7 +72,18 @@
 
 ---
 
-## 5. Mandatory Rule Verification
+## 5. Phase 3 Detailed Deliverables Checklist
+- [x] `ApiResponse<T>`, `ApiError`, `ValidationErrorItem`, `PageResponse<T>` standard envelopes
+- [x] `BaseApiException` hierarchy: `ResourceNotFoundException`, `DuplicateResourceException`, `UnauthorizedException`, `ForbiddenOperationException`, `InvalidWorkflowStateException`, `AssessmentGatingException`, `FileProcessingException`
+- [x] `GlobalExceptionHandler` (`@RestControllerAdvice`) translating validation, security, and domain exceptions
+- [x] `WebMvcConfig` (CORS and `/uploads/**` static file handler)
+- [x] `OpenApiConfig` (OpenAPI 3 / Swagger documentation with BearerAuth)
+- [x] `WebClientConfig` (Reactive WebClient with 16MB buffer for Gemini API)
+- [x] Verified `mvn test-compile` passes with 17 source files compiled
+
+---
+
+## 6. Mandatory Rule Verification
 - [x] **No Code Generated During Planning:** No backend Java code or frontend React components created prior to explicit user authorization.
 - [x] **Strict Naming & Documentation Integrity:** Project documented exclusively as **ZenHire** with zero references to external archives, migrations, or former projects.
 - [x] **Complete Separation of AI from Deterministic Logic:** Hybrid 60/40 scoring formula strictly documented without fabricated numbers.
