@@ -203,7 +203,7 @@ VALUES
     gen_random_uuid(),
     '55555555-5555-5555-5555-555555555501',
     'In active asynchronous team collaboration, what constitutes a high-quality pull request description?',
-    '["Only writing 'fixed bug' as the title", "Explaining the problem, the architectural solution, testing steps, and attaching screenshots where appropriate", "Linking a ticket with zero written description", "Leaving the description completely blank"]'::jsonb,
+    '["Only writing ''fixed bug'' as the title", "Explaining the problem, the architectural solution, testing steps, and attaching screenshots where appropriate", "Linking a ticket with zero written description", "Leaving the description completely blank"]'::jsonb,
     1,
     'communication',
     'EASY'
@@ -262,7 +262,7 @@ VALUES
 (
     gen_random_uuid(),
     '55555555-5555-5555-5555-555555555502',
-    'Why is it discouraged to use array index as the 'key' prop when rendering dynamic lists in React?',
+    'Why is it discouraged to use array index as the ''key'' prop when rendering dynamic lists in React?',
     '["React will throw a compile-time syntax error", "It can cause component state bugs and unnecessary re-renders when list items are sorted, added, or deleted", "Array indexes are not supported in React 18", "It causes memory leaks in the browser V8 engine"]'::jsonb,
     1,
     'react-fundamentals',
@@ -314,7 +314,7 @@ VALUES
     gen_random_uuid(),
     '55555555-5555-5555-5555-555555555503',
     'What is the signature portion of a JSON Web Token (JWT) used for?',
-    '["To encrypt the payload so it cannot be read by third parties", "To verify that the sender of the JWT is who it says it is and to ensure the message wasn't changed along the way", "To store the database user password", "To compress the token size for HTTP transport"]'::jsonb,
+    '["To encrypt the payload so it cannot be read by third parties", "To verify that the sender of the JWT is who it says it is and to ensure the message was not changed along the way", "To store the database user password", "To compress the token size for HTTP transport"]'::jsonb,
     1,
     'jwt-auth',
     'MEDIUM'
