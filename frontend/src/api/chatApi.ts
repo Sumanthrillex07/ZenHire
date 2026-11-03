@@ -2,7 +2,9 @@ import apiClient from './client';
 import { ApiResponse, ChatMessage } from '../types';
 
 export interface ChatResponse {
-  message: string;
+  reply: string;
+  message?: string;
+  aiMessage?: ChatMessage;
 }
 
 export const chatApi = {

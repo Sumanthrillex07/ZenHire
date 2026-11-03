@@ -65,6 +65,7 @@ class AiChatControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.reply").value("Review your Spring Boot projects."))
+                .andExpect(jsonPath("$.data.message").value("Review your Spring Boot projects."))
                 .andExpect(jsonPath("$.data.aiMessage.sender").value("AI"));
     }
 

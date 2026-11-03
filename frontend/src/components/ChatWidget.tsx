@@ -66,11 +66,12 @@ export const ChatWidget: React.FC = () => {
 
     try {
       const res = await chatApi.sendMessage(textToSend);
+      const replyText = res.reply || res.message || res.aiMessage?.message || '';
       const aiMsg: ChatMessage = {
-        id: `ai-${Date.now()}`,
+        id: res.aiMessage?.id || `ai-${Date.now()}`,
         sender: 'AI',
-        message: res.message,
-        createdAt: new Date().toISOString(),
+        message: replyText,
+        createdAt: res.aiMessage?.createdAt || new Date().toISOString(),
       };
       setMessages((prev) => [...prev, aiMsg]);
     } catch {
