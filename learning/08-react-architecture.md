@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 08: React 18 & Frontend Architecture
+# 08: React 18 & Frontend Architecture
 
 > **Focus:** React 18 (Vite + TypeScript), State Architecture, Protected Route Guards, Axios Interceptors  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -120,7 +119,7 @@ Client-side route protection is purely for UX and navigation convenience. True s
 
 ---
 
-## 2. Interview Preparation & React Flashcards
+## 2. Key Frontend Architecture Questions & Answers
 
 ### Question 1: "What is the purpose of the `key` prop in React lists, and why shouldn't you use array index as key?"
 **Answer:**  

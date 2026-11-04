@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 07: Spring Security 6 & JWT Architecture
+# 07: Spring Security 6 & JWT Architecture
 
 > **Focus:** Spring Security 6 Filter Chain, Stateless JWT Mechanics, RBAC Enforcement, Method Security  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -125,7 +124,7 @@ Enables zero-lookup stateless authentication across horizontally scaled applicat
 
 ---
 
-## 2. Interview Preparation & Security Flashcards
+## 2. Key Security Questions & Answers
 
 ### Question 1: "How do you secure methods using Spring Security `@PreAuthorize`?"
 **Answer:**  

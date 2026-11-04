@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 04: REST API Design & Exception Architecture
+# 04: REST API Design & Exception Architecture
 
 > **Focus:** RESTful Idempotency, HTTP Semantics, JSR-380 Bean Validation, Global Exception Handling  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -127,7 +126,7 @@ Complex cross-field validations (e.g., "if role is RECRUITER, companyName must n
 
 ---
 
-## 2. Interview Preparation & REST API Flashcards
+## 2. Key REST API Questions & Answers
 
 ### Question 1: "What HTTP status code should be returned when a resource is created, and what header should accompany it?"
 **Answer:**  

@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 11: Production AI & LLM Integration
+# 11: Production AI & LLM Integration
 
 > **Focus:** Google Gemini 1.5 API Integration, Spring WebClient, Hybrid Matching Engine, Prompt Injection Defense, Fallback Resilience  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -120,7 +119,7 @@ Eliminates AI hallucinations, prevents brand liability, and ensures candidates r
 
 ---
 
-## 2. Interview Preparation & AI Flashcards
+## 2. Key AI Engineering Questions & Answers
 
 ### Question 1: "Why did you use Spring Reactive WebClient instead of RestTemplate for external AI calls?"
 **Answer:**  

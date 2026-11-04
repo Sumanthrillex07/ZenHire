@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 05: Spring Data JPA & Hibernate Internals
+# 05: Spring Data JPA & Hibernate Internals
 
 > **Focus:** Hibernate Persistence Context, Fetch Strategies, N+1 Query Optimization, Entity Graphs  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -113,7 +112,7 @@ Cartesian Product issue: Joining multiple `@OneToMany` collections simultaneousl
 
 ---
 
-## 2. Interview Preparation & JPA Flashcards
+## 2. Key JPA & Hibernate Questions & Answers
 
 ### Question 1: "Why should `FetchType.LAZY` be the default for all entity relationships?"
 **Answer:**  

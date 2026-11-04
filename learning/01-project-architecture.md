@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 01: Project Architecture
+# 01: Project Architecture
 
 > **Focus:** Software Architectural Styles, Modular Monoliths, Inversion of Control, Domain Boundaries  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -93,7 +92,7 @@ Adds an extra file (the interface) for each service. For trivial CRUD operations
 
 ---
 
-## 2. Interview Preparation & Architectural Flashcards
+## 2. Key Architecture Questions & Answers
 
 ### Question 1: "How do you enforce boundaries in a Java modular monolith to prevent developers from bypassing interfaces?"
 **Answer:**  

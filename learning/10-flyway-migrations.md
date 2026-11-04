@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 10: Flyway Database Migrations
+# 10: Flyway Database Migrations
 
 > **Focus:** Database Schema Versioning, Checksum Validation, Idempotent Migrations, Production Safety  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -55,7 +54,7 @@ Guarantees 100% schema parity across every developer laptop, CI pipeline, and pr
 
 ---
 
-## 2. Interview Preparation & Flyway Flashcards
+## 2. Key Database Migration Questions & Answers
 
 ### Question 1: "What is the difference between Versioned Migrations (`V...`) and Repeatable Migrations (`R...`) in Flyway?"
 **Answer:**  

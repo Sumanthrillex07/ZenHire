@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 12: Testing, Mocking & Debugging
+# 12: Testing, Mocking & Debugging
 
 > **Focus:** JUnit 5, Mockito Architecture, Spring Boot `@WebMvcTest` Slice Testing, Testcontainers PostgreSQL  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -141,7 +140,7 @@ Provides fast, comprehensive verification of HTTP serialization, routing, header
 
 ---
 
-## 2. Interview Preparation & Testing Flashcards
+## 2. Key Testing & Reliability Questions & Answers
 
 ### Question 1: "What are Testcontainers and why are they superior to H2 in-memory databases for JPA testing?"
 **Answer:**  

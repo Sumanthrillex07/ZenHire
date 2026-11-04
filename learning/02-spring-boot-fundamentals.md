@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 02: Spring Boot Fundamentals
+# 02: Spring Boot Fundamentals
 
 > **Focus:** Spring Boot 3 Internals, Auto-Configuration, Bean Lifecycle, Dependency Injection Best Practices  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -117,7 +116,7 @@ Constructor injection can lead to long constructor parameter lists if a class ha
 
 ---
 
-## 2. Interview Preparation & Spring Boot Flashcards
+## 2. Key Spring Boot Questions & Answers
 
 ### Question 1: "What is the difference between `@Component`, `@Service`, and `@Repository` in Spring?"
 **Answer:**  

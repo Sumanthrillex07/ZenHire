@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 09: Docker & Container Orchestration
+# 09: Docker & Container Orchestration
 
 > **Focus:** Container Virtualization, Multi-Stage Dockerfile Optimization, Internal Bridge Networking, Volume Persistence  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -94,7 +93,7 @@ Eliminates brittle IP configuration, enables container portability across local 
 
 ---
 
-## 2. Interview Preparation & Docker Flashcards
+## 2. Key Docker & Orchestration Questions & Answers
 
 ### Question 1: "What is the difference between Docker Bind Mounts and Docker Named Volumes?"
 **Answer:**  

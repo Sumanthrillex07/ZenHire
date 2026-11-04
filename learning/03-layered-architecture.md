@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 03: Layered Architecture & Transaction Boundaries
+# 03: Layered Architecture & Transaction Boundaries
 
 > **Focus:** Separation of Concerns, DTO Pattern, Entity Encapsulation, `@Transactional` Boundaries  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -18,7 +17,7 @@ Layered architecture organizes an enterprise application into distinct horizonta
 - **Entity vs DTO Separation:** Entities represent database records and relational mappings. Data Transfer Objects (DTOs) represent the strict public contract of the API.
 
 #### 2. Why are we using it in ZenHire?
-Directly exposing database entities in REST APIs is one of the most common SDE-1 anti-patterns. In ZenHire:
+Directly exposing database entities in REST APIs is a critical architectural anti-pattern. In ZenHire:
 1. `Question` entity has a `correctIndex` field. If we return the entity directly, correct answers leak to candidates.
 2. `User` entity has a `passwordHash` field. Exposing the entity risks credential disclosure.
 3. Entities often contain lazy-loaded collections (`@OneToMany`). Serializing them directly triggers Hibernate `LazyInitializationException` or catastrophic N+1 query storms.
@@ -119,7 +118,7 @@ Eliminates manual `connection.commit()` and `connection.rollback()` try-catch bo
 
 ---
 
-## 2. Interview Preparation & Layered Architecture Flashcards
+## 2. Key Layered Architecture Questions & Answers
 
 ### Question 1: "What is the difference between `@Transactional(readOnly = true)` and `@Transactional`?"
 **Answer:**  

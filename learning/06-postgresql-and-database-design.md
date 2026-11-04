@@ -1,8 +1,7 @@
-# SDE-1 Engineering Masterclass — 06: PostgreSQL & Database Design
+# 06: PostgreSQL & Database Design
 
 > **Focus:** Relational Normalization, Indexing Strategies, JSONB vs Normalized Tables, Constraint Engineering  
-> **Target Audience:** SDE-1 Backend / Full-Stack Engineers  
-> **Project Context:** ZenHire Enterprise Recruitment Platform
+> **Context:** ZenHire Talent Intelligence Platform
 
 ---
 
@@ -94,7 +93,7 @@ Prevents high database CPU spikes, locks, and slow response times as table rows 
 
 ---
 
-## 2. Interview Preparation & PostgreSQL Flashcards
+## 2. Key Database Questions & Answers
 
 ### Question 1: "Why did you choose UUID over auto-incrementing BIGSERIAL for primary keys in ZenHire?"
 **Answer:**  
