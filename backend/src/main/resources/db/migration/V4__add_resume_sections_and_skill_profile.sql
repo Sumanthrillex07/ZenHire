@@ -11,3 +11,4 @@ ALTER TABLE resumes
 
 -- Index for searching skill profile jsonb attributes if needed
 CREATE INDEX IF NOT EXISTS idx_resumes_skill_profile ON resumes USING gin (skill_profile);
+

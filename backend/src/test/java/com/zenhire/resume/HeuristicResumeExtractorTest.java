@@ -72,4 +72,73 @@ class HeuristicResumeExtractorTest {
         assertThat(data.experience()).isNotBlank();
         assertThat(data.education()).isNotBlank();
     }
+
+    @Test
+    @DisplayName("Should extract and normalize LangChain, LangGraph, and AI frameworks")
+    void shouldExtractAndNormalizeLangChainAndLangGraph() {
+        String resumeText = """
+                Alex AI Engineer
+                
+                TECHNICAL SKILLS:
+                AI & Frameworks: langchain, lang-graph, llamaindex, PyTorch, Ollama
+                Cloud: Docker, AWS
+                
+                EXPERIENCE:
+                AI Engineer at AgentCorp (2024 - Present)
+                Built multi-agent workflows using LangGraph and LangChain pipelines.
+                
+                PROJECTS:
+                RAG Agent: Integrated LangChain with vector databases for question answering.
+                """;
+
+        ParsedResumeData data = extractor.extract(resumeText);
+
+        assertThat(data.skills()).contains("LangChain", "LangGraph", "LlamaIndex", "PyTorch", "Ollama");
+        
+        assertThat(data.skillProfile()).anyMatch(item ->
+                item.name().equals("LangChain") &&
+                "AI_ML".equals(item.category()) &&
+                item.sourceSections().contains("SKILLS") &&
+                item.sourceSections().contains("EXPERIENCE")
+        );
+
+        assertThat(data.skillProfile()).anyMatch(item ->
+                item.name().equals("LangGraph") &&
+                "AI_ML".equals(item.category()) &&
+                item.sourceSections().contains("SKILLS") &&
+                item.sourceSections().contains("EXPERIENCE")
+        );
+    }
+
+    @Test
+    @DisplayName("Should keep and never drop unmapped or novel skills")
+    void shouldKeepNovelUnmappedSkills() {
+        String resumeText = """
+                Dev Candidate
+                
+                SKILLS:
+                Languages: Java, Python
+                Modern Tools: Pinia, CustomAgentTool, SuperNovelFramework
+                
+                EXPERIENCE:
+                Frontend Engineer (2025 - Present)
+                Maintained store state using Pinia for complex dashboard views.
+                """;
+
+        ParsedResumeData data = extractor.extract(resumeText);
+
+        // Core known skills
+        assertThat(data.skills()).contains("Java", "Python");
+
+        // Novel unmapped skills must NOT be dropped
+        assertThat(data.skills()).contains("Pinia", "CustomAgentTool", "SuperNovelFramework");
+
+        // Pinia should have evidence from experience
+        assertThat(data.skillProfile()).anyMatch(item ->
+                item.name().equals("Pinia") &&
+                item.sourceSections().contains("SKILLS") &&
+                item.sourceSections().contains("EXPERIENCE") &&
+                item.evidenceSnippet().contains("Pinia")
+        );
+    }
 }

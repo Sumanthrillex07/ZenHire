@@ -99,6 +99,18 @@ public class HeuristicResumeExtractor implements ResumeExtractionStrategy {
         // Sort by confidence DESC
         skillProfiles.sort(Comparator.comparingDouble(SkillProfileItem::confidence).reversed());
 
+        // Extract candidate / novel skills directly from the SKILLS section so unmapped skills are NEVER removed or dropped
+        extractNovelSkillsFromSkillsSection(
+                skillsSection,
+                experienceSection,
+                projectsSection,
+                uniqueCanonicalSkills,
+                skillProfiles
+        );
+
+        // Re-sort after adding novel skills
+        skillProfiles.sort(Comparator.comparingDouble(SkillProfileItem::confidence).reversed());
+
         log.info("Heuristic extractor detected {} unique normalized skills across sections", uniqueCanonicalSkills.size());
 
         return new ParsedResumeData(
@@ -110,6 +122,131 @@ public class HeuristicResumeExtractor implements ResumeExtractionStrategy {
                 sections,
                 skillProfiles
         );
+    }
+
+    private static final Set<String> STOPWORDS = Set.of(
+            "and", "or", "etc", "experience", "proficient", "familiar", "knowledge",
+            "working", "strong", "skills", "technologies", "tools", "years", "basic",
+            "intermediate", "advanced", "good", "level", "understanding", "principles",
+            "concepts", "methodologies", "development", "architecture", "engineering",
+            "environment", "solutions", "practices", "languages", "frameworks", "databases",
+            "technical", "stack", "overview", "core", "libraries", "platforms"
+    );
+
+    /**
+     * Extracts novel or unmapped skills directly from the SKILLS section to ensure nothing is dropped.
+     */
+    public void extractNovelSkillsFromSkillsSection(
+            String skillsSection,
+            String experienceSection,
+            String projectsSection,
+            Set<String> uniqueCanonicalSkills,
+            List<SkillProfileItem> skillProfiles
+    ) {
+        if (skillsSection == null || skillsSection.isBlank()) return;
+
+        String[] lines = skillsSection.split("\\r?\\n");
+        for (String line : lines) {
+            String trimmedLine = line.trim();
+            if (trimmedLine.isBlank()) continue;
+
+            String inferredCategory = "OTHER";
+            String contentToParse = trimmedLine;
+
+            int colonIdx = trimmedLine.indexOf(':');
+            if (colonIdx > 0 && colonIdx < 35) {
+                String prefix = trimmedLine.substring(0, colonIdx).toLowerCase();
+                inferredCategory = inferCategoryFromHeader(prefix);
+                contentToParse = trimmedLine.substring(colonIdx + 1).trim();
+            }
+
+            // Split by commas, semicolons, pipes, or bullets
+            String[] tokens = contentToParse.split("[,;|•\u2022\u25E6\t]+");
+            for (String rawToken : tokens) {
+                String candidate = cleanCandidateSkill(rawToken);
+                if (isValidCandidateSkill(candidate)) {
+                    String canonical = taxonomyService.normalize(candidate);
+
+                    boolean alreadyExists = uniqueCanonicalSkills.stream()
+                            .anyMatch(s -> s.equalsIgnoreCase(canonical));
+
+                    if (!alreadyExists) {
+                        List<String> sourceSections = new ArrayList<>();
+                        sourceSections.add("SKILLS");
+                        String evidenceSnippet = "";
+
+                        if (!experienceSection.isBlank()) {
+                            Optional<String> expEvidence = taxonomyService.findEvidenceSnippet(experienceSection, canonical);
+                            if (expEvidence.isPresent()) {
+                                sourceSections.add("EXPERIENCE");
+                                evidenceSnippet = expEvidence.get();
+                            }
+                        }
+
+                        if (!projectsSection.isBlank()) {
+                            Optional<String> projEvidence = taxonomyService.findEvidenceSnippet(projectsSection, canonical);
+                            if (projEvidence.isPresent()) {
+                                sourceSections.add("PROJECTS");
+                                if (evidenceSnippet.isBlank()) {
+                                    evidenceSnippet = projEvidence.get();
+                                }
+                            }
+                        }
+
+                        String recency = taxonomyService.evaluateRecency(evidenceSnippet.isBlank() ? experienceSection : evidenceSnippet);
+                        double confidence = taxonomyService.calculateConfidence(sourceSections, !evidenceSnippet.isBlank(), recency);
+                        String resolvedCategory = "OTHER".equals(inferredCategory)
+                                ? taxonomyService.getCategory(canonical)
+                                : inferredCategory;
+
+                        skillProfiles.add(new SkillProfileItem(
+                                canonical,
+                                resolvedCategory,
+                                confidence,
+                                recency,
+                                sourceSections,
+                                evidenceSnippet.isBlank() ? "Extracted from candidate Skills section" : evidenceSnippet
+                        ));
+                        uniqueCanonicalSkills.add(canonical);
+                    }
+                }
+            }
+        }
+    }
+
+    private String inferCategoryFromHeader(String header) {
+        if (header.contains("lang")) return "LANGUAGES";
+        if (header.contains("ai") || header.contains("ml") || header.contains("model") || header.contains("llm")) return "AI_ML";
+        if (header.contains("frame") || header.contains("back") || header.contains("server")) return "BACKEND";
+        if (header.contains("front") || header.contains("ui") || header.contains("web")) return "FRONTEND";
+        if (header.contains("data") || header.contains("db") || header.contains("sql") || header.contains("store")) return "DATABASES";
+        if (header.contains("cloud") || header.contains("devops") || header.contains("infra")) return "CLOUD_DEVOPS";
+        if (header.contains("test") || header.contains("qa")) return "TESTING_TOOLS";
+        if (header.contains("arch") || header.contains("pattern") || header.contains("system")) return "ARCHITECTURE";
+        return "OTHER";
+    }
+
+    private String cleanCandidateSkill(String raw) {
+        if (raw == null) return "";
+        // Remove parenthesized and bracketed remarks like (expert) or [v2]
+        String cleaned = raw.replaceAll("\\([^)]*\\)", "").replaceAll("\\[[^\\]]*\\]", "");
+        // Remove leading bullets and hyphens
+        cleaned = cleaned.replaceAll("^[•\\-\\*\u2022\u25E6\u25AA\u25B8]+\\s*", "");
+        // Remove leading and trailing punctuation
+        cleaned = cleaned.replaceAll("^[^a-zA-Z0-9+#.]+|[^a-zA-Z0-9+#.]+$", "");
+        return cleaned.trim();
+    }
+
+    private boolean isValidCandidateSkill(String candidate) {
+        if (candidate.length() < 2 || candidate.length() > 40) {
+            return false;
+        }
+        // Must contain at least one alphabet letter
+        if (!candidate.matches(".*[a-zA-Z].*")) {
+            return false;
+        }
+        // Must not be a common stopword or descriptive qualifier
+        return !STOPWORDS.contains(candidate.toLowerCase());
     }
 
     private boolean containsSkill(String text, SkillTaxonomyService.TaxonomyEntry entry) {

@@ -103,6 +103,15 @@ public class SkillTaxonomyService {
         register("RabbitMQ", "ARCHITECTURE", "message queues");
         register("gRPC", "ARCHITECTURE");
         register("JWT", "ARCHITECTURE", "json web token", "jwt tokens");
+        register("WebSockets", "ARCHITECTURE", "websocket", "ws");
+        register("WebRTC", "ARCHITECTURE");
+        register("Temporal", "ARCHITECTURE", "temporal.io");
+        register("OpenTelemetry", "ARCHITECTURE", "otel");
+        register("Prometheus", "ARCHITECTURE");
+        register("Grafana", "ARCHITECTURE");
+        register("Apache Spark", "ARCHITECTURE", "spark", "pyspark");
+        register("Apache Flink", "ARCHITECTURE", "flink");
+        register("Apache Airflow", "ARCHITECTURE", "airflow");
 
         // --- Testing & Tools ---
         register("JUnit", "TESTING_TOOLS", "junit 5", "junit4");
@@ -113,12 +122,32 @@ public class SkillTaxonomyService {
         register("Gradle", "TESTING_TOOLS");
         register("Vite", "TESTING_TOOLS");
 
-        // --- AI & Machine Learning ---
+        // --- AI & Machine Learning & Agentic Frameworks ---
         register("Machine Learning", "AI_ML", "ml", "statistical learning");
         register("Deep Learning", "AI_ML", "dl", "neural networks");
         register("PyTorch", "AI_ML", "torch");
-        register("TensorFlow", "AI_ML", "tf-keras");
-        register("LLMs", "AI_ML", "large language models", "generative ai", "genai", "prompt engineering");
+        register("TensorFlow", "AI_ML", "tf-keras", "keras");
+        register("LLMs", "AI_ML", "large language models", "generative ai", "genai");
+        register("LangChain", "AI_ML", "langchain", "lang-chain", "lang chain");
+        register("LangGraph", "AI_ML", "langgraph", "lang-graph");
+        register("LlamaIndex", "AI_ML", "llamaindex", "llama-index", "gpt-index");
+        register("CrewAI", "AI_ML", "crewai", "crew-ai");
+        register("AutoGen", "AI_ML", "autogen", "microsoft autogen");
+        register("Hugging Face", "AI_ML", "huggingface", "hf", "transformers", "diffusers");
+        register("RAG", "AI_ML", "retrieval augmented generation", "rag pipeline", "rag architectures", "rag systems");
+        register("AI Agents", "AI_ML", "agentic ai", "autonomous agents", "ai agent", "multi-agent systems");
+        register("Ollama", "AI_ML");
+        register("vLLM", "AI_ML");
+        register("Vector Databases", "AI_ML", "vector db", "vector database", "vector search");
+        register("Pinecone", "AI_ML");
+        register("ChromaDB", "AI_ML", "chroma", "chromadb");
+        register("Milvus", "AI_ML");
+        register("Weaviate", "AI_ML");
+        register("Qdrant", "AI_ML");
+        register("OpenAI API", "AI_ML", "openai", "chatgpt api", "gpt-4", "gpt-4o");
+        register("Anthropic Claude", "AI_ML", "claude", "claude api", "anthropic");
+        register("Gemini API", "AI_ML", "google gemini", "gemini api", "gemini flash", "gemini pro");
+        register("Prompt Engineering", "AI_ML", "prompt-engineering");
     }
 
     /**
@@ -215,3 +244,4 @@ public class SkillTaxonomyService {
         return Math.min(1.0, Math.round(score * 100.0) / 100.0);
     }
 }
+

@@ -36,10 +36,13 @@ public class GeminiResumeExtractor implements ResumeExtractionStrategy {
             4. Education
             5. Certifications
 
-            Extract all technical skills mentioned in the Skills section as well as contextual evidence in Experience, Projects, Education, and Certifications.
-            Normalize all skills (e.g., K8s -> Kubernetes, Postgres -> PostgreSQL, ReactJS -> React).
+            CRITICAL EXTRACTION DIRECTIVES:
+            - Extract ALL technical skills, tools, frameworks, and technologies mentioned across the resume.
+            - Ensure modern and agentic frameworks (e.g. LangChain, LangGraph, LlamaIndex, AutoGen, CrewAI, Ollama, vLLM, Vector Databases) are thoroughly captured and categorized under AI_ML.
+            - PRESERVE NOVEL / UNMAPPED SKILLS: If a skill, library, tool, or proprietary framework is not present in common standard lists, you MUST still extract it, preserve its exact name, and assign the most appropriate category (e.g. OTHER, BACKEND, FRONTEND, AI_ML, etc.). NEVER DROP, OMIT, OR FILTER OUT any valid skill.
+            - Normalize known variations and aliases to industry-standard canonical names (e.g., K8s -> Kubernetes, Postgres -> PostgreSQL, ReactJS -> React, Langchain -> LangChain, Langgraph -> LangGraph).
             For each skill, evaluate:
-            - name: Canonical skill name
+            - name: Canonical or preserved skill name
             - category: One of [LANGUAGES, BACKEND, FRONTEND, DATABASES, CLOUD_DEVOPS, ARCHITECTURE, TESTING_TOOLS, AI_ML, OTHER]
             - confidence: Float from 0.50 to 1.00 based on presence in dedicated skills section + project/experience evidence
             - recency: One of [CURRENT, RECENT, HISTORICAL] based on the years or latest job role
@@ -102,7 +105,9 @@ public class GeminiResumeExtractor implements ResumeExtractionStrategy {
                         if (rawName.isBlank()) continue;
 
                         String canonicalName = taxonomyService.normalize(rawName);
-                        String category = item.has("category") ? item.get("category").asText().trim() : taxonomyService.getCategory(canonicalName);
+                        String category = item.has("category") && !item.get("category").asText().isBlank()
+                                ? item.get("category").asText().trim().toUpperCase()
+                                : taxonomyService.getCategory(canonicalName);
                         double confidence = item.has("confidence") ? item.get("confidence").asDouble(0.80) : 0.80;
                         String recency = item.has("recency") ? item.get("recency").asText().trim() : "RECENT";
                         String evidence = item.has("evidenceSnippet") ? item.get("evidenceSnippet").asText().trim() : "";
@@ -125,6 +130,18 @@ public class GeminiResumeExtractor implements ResumeExtractionStrategy {
                         ));
                         canonicalSkillsSet.add(canonicalName);
                     }
+                }
+
+                // Safety pass: Ensure any novel skills listed in the candidate's skills section are never dropped
+                String skillsSectionText = sectionsMap.getOrDefault("SKILLS", "");
+                if (!skillsSectionText.isBlank()) {
+                    fallbackExtractor.extractNovelSkillsFromSkillsSection(
+                            skillsSectionText,
+                            experience,
+                            projects,
+                            canonicalSkillsSet,
+                            skillProfile
+                    );
                 }
 
                 // If Gemini extracted zero skills or structure was empty, trigger fallback
