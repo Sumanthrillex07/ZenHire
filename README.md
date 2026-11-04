@@ -32,7 +32,9 @@ ZenHire is built as a clean modular monolith adhering to layered architecture, s
 - **Recruitment Analytics:** KPI metrics for open requisitions, total applicants, and shortlisted talent.
 
 ### 👨‍💻 Candidate Experience
-- **AI Resume Intelligence:** Drag-and-drop PDF resume upload extracted via Apache PDFBox 3.0 and Gemini 1.5 Flash into structured tech stacks, verified experience summaries, and education.
+- **5-Section AI Resume Intelligence:** Drag-and-drop PDF resume upload extracted via Apache PDFBox 3.0 and Gemini 1.5 Flash across 5 canonical sections: **Skills**, **Experience**, **Projects**, **Education**, and **Certifications**.
+- **Hybrid Skill Taxonomy & Normalization:** Standardizes aliases (`k8s` ➔ `Kubernetes`, `reactjs` ➔ `React`, `lang-graph` ➔ `LangGraph`) across modern stacks including AI/Agentic frameworks (`LangChain`, `LangGraph`, `LlamaIndex`, `CrewAI`, `Vector Databases`, `Ollama`).
+- **Non-Destructive Skill Preservation:** Novel, uncataloged, or proprietary technologies are strictly preserved and never dropped, accompanied by contextual evidence snippets and multi-section confidence scores (0.00–1.00).
 - **Technical Assessment Gating:** Role-specific multiple-choice assessments with topic tags, difficulty levels, and server-side grading. Passing the domain assessment unlocks job application gates.
 - **60/40 Hybrid AI Matching:** Dual progress breakdown showing 60% deterministic skill overlap and 40% LLM qualitative narrative fit.
 - **Application Tracking Pipeline:** Live tracking cards with interview schedules, recruiter notes, and real-time status badges.
@@ -52,13 +54,13 @@ ZenHire is built as a clean modular monolith adhering to layered architecture, s
 | :--- | :--- | :--- |
 | **Backend** | Java 21, Spring Boot 3.3.0 | Spring Web, Spring Data JPA, Hibernate, Bean Validation |
 | **Security** | Spring Security 6, JWT, BCrypt | Stateless authorization, granular role-based access (`CANDIDATE`, `RECRUITER`) |
-| **Database** | PostgreSQL 16, Flyway 10 | Versioned SQL migrations (`V1`, `V2`, `V3`), relational constraints, indexing |
+| **Database** | PostgreSQL 16, Flyway 10 | Versioned SQL migrations (`V1`, `V2`, `V3`, `V4`), GIN indexing on JSONB skill profiles |
 | **Document Processing** | Apache PDFBox 3.0 | Deterministic text stream extraction from uploaded PDF resumes |
-| **AI Integration** | Google Gemini 1.5 Flash | Structured resume extraction, candidate-job narrative scoring, career advisory |
+| **AI Integration** | Google Gemini 1.5 Flash | 5-section resume extraction, candidate-job narrative scoring, career advisory |
 | **Frontend** | React 18, TypeScript, Vite 5 | SPA with React Router v6, Axios interceptors, Lucide React icons |
 | **Styling** | Tailwind CSS 3 | Custom semantic tokens, subtle glassmorphism, responsive utilities |
 | **DevOps & Containers** | Docker, Docker Compose, Nginx | Multi-stage builds for backend JAR and frontend Nginx static distribution |
-| **Testing** | JUnit 5, Mockito, Vitest | Unit, slice, security, and component tests |
+| **Testing** | JUnit 5, Mockito, Vitest | 61 Backend tests, 9 Frontend tests (70 total tests passing) |
 
 ---
 

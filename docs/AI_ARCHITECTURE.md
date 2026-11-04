@@ -70,7 +70,7 @@ ZenHire incorporates three distinct LLM capabilities:
 
 | Capability | Module | Model Responsibility | Fallback Mechanism |
 | :--- | :--- | :--- | :--- |
-| **1. Resume Parser** | `ResumeService` | Ingests unformatted raw text extracted from PDF and converts it into a typed JSON schema (`skills`, `experience`, `education`). | Heuristic dictionary & regex extractor scanning 100+ standard tech keywords. |
+| **1. Resume Parser & Skill Sync** | `ResumeService` / `GeminiResumeExtractor` | Ingests unformatted raw text extracted from PDF, segments into 5 canonical sections (`Skills`, `Experience`, `Projects`, `Education`, `Certifications`), and extracts normalized skill profiles with confidence scores, recency, and evidence quotes. | NLP Heuristic extractor (`HeuristicResumeExtractor`) using section boundary lookaheads, multi-word word-boundary phrase matching, and novel skills preservation parser. |
 | **2. Fit Evaluator** | `HybridMatchingEngine` | Analyzes qualitative narrative alignment between candidate experience and job responsibilities, returning `llmFitScore` and `reasoning`. | Heuristic skill-coverage ratio scoring. |
 | **3. Career Advisor** | `AiAdvisorService` | Serves as an interactive career mentor, answering candidate queries strictly based on their verified profile and application context. | Rule-based response dispatcher for common resume/application queries. |
 
@@ -78,16 +78,51 @@ ZenHire incorporates three distinct LLM capabilities:
 
 ## 3. Detailed Prompt Engineering & JSON Contracts
 
-### 3.1 Resume Parsing Prompt & Schema
+### 3.1 5-Section Resume Parsing Prompt & Schema
 - **Endpoint:** `POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}`
 - **System Instruction:**
 ```text
-You are an expert technical resume parser. Analyze the provided resume text and extract the candidate's technical skills, professional work experience summary, and educational background.
+You are an advanced recruitment intelligence system and technical resume analyzer.
+Perform deep extraction on the provided resume text across 5 canonical sections:
+1. Skills
+2. Experience
+3. Projects
+4. Education
+5. Certifications
+
+CRITICAL EXTRACTION DIRECTIVES:
+- Extract ALL technical skills, tools, frameworks, and technologies mentioned across the resume.
+- Ensure modern and agentic frameworks (e.g. LangChain, LangGraph, LlamaIndex, AutoGen, CrewAI, Ollama, vLLM, Vector Databases) are thoroughly captured and categorized under AI_ML.
+- PRESERVE NOVEL / UNMAPPED SKILLS: If a skill, library, tool, or proprietary framework is not present in common standard lists, you MUST still extract it, preserve its exact name, and assign the most appropriate category (e.g. OTHER, BACKEND, FRONTEND, AI_ML, etc.). NEVER DROP, OMIT, OR FILTER OUT any valid skill.
+- Normalize known variations and aliases to industry-standard canonical names (e.g., K8s -> Kubernetes, Postgres -> PostgreSQL, ReactJS -> React, Langchain -> LangChain, Langgraph -> LangGraph).
+
+For each skill, evaluate:
+- name: Canonical or preserved skill name
+- category: One of [LANGUAGES, BACKEND, FRONTEND, DATABASES, CLOUD_DEVOPS, ARCHITECTURE, TESTING_TOOLS, AI_ML, OTHER]
+- confidence: Float from 0.50 to 1.00 based on presence in dedicated skills section + project/experience evidence
+- recency: One of [CURRENT, RECENT, HISTORICAL] based on the years or latest job role
+- sourceSections: Array of sections where found, e.g. ["SKILLS", "EXPERIENCE", "PROJECTS"]
+- evidenceSnippet: Concrete excerpt or quote showing how the skill was utilized
+
 Respond ONLY with a valid JSON object matching this exact structure:
 {
-  "skills": ["string", "string"],
-  "experience": "string summarizing total duration and key job roles",
-  "education": "string summarizing degree, institution, and graduation year"
+  "sections": {
+    "skills": "text summary of skills section",
+    "experience": "text summary of professional experience",
+    "projects": "text summary of key projects",
+    "education": "text summary of academic degrees",
+    "certifications": "text summary of certifications"
+  },
+  "skillProfile": [
+    {
+      "name": "Spring Boot",
+      "category": "BACKEND",
+      "confidence": 0.95,
+      "recency": "CURRENT",
+      "sourceSections": ["SKILLS", "EXPERIENCE"],
+      "evidenceSnippet": "Built high-throughput REST APIs using Spring Boot and JPA"
+    }
+  ]
 }
 Do not include any markdown fences (e.g. ```json), XML tags, preamble, or commentary.
 ```
@@ -98,6 +133,39 @@ Resume Text:
 {sanitized_resume_raw_text}
 """
 ```
+
+### 3.1.1 Hybrid Skill Taxonomy & Normalization Architecture
+ZenHire incorporates a dedicated `SkillTaxonomyService` maintaining canonical entries and alias lookup tables:
+- **Languages:** Java, Python, TypeScript, JavaScript, Go, Rust, C++, C#, Kotlin, Swift, PHP, Ruby, SQL.
+- **Backend:** Spring Boot, Spring Security, Node.js, Express.js, FastAPI, Django, Flask, .NET.
+- **Frontend:** React, Next.js, Redux, Vue.js, Angular, Tailwind CSS, HTML5, CSS3.
+- **Databases:** PostgreSQL, MySQL, MongoDB, Redis, Elasticsearch, Cassandra, DynamoDB.
+- **Cloud & DevOps:** Docker, Kubernetes, AWS, Google Cloud, Azure, CI/CD, GitHub Actions, Terraform, Linux.
+- **Architecture:** Microservices, REST APIs, GraphQL, Kafka, RabbitMQ, gRPC, JWT, WebSockets, WebRTC, Temporal, OpenTelemetry, Prometheus, Grafana, Apache Spark, Apache Flink, Apache Airflow.
+- **Testing & Tools:** JUnit, Mockito, Testcontainers, Git, Maven, Gradle, Vite.
+- **AI & Agentic Frameworks:** Machine Learning, Deep Learning, PyTorch, TensorFlow, LLMs, LangChain, LangGraph, LlamaIndex, CrewAI, AutoGen, Hugging Face, RAG, AI Agents, Ollama, vLLM, Pinecone, ChromaDB, Milvus, Weaviate, Qdrant, OpenAI API, Anthropic Claude, Gemini API, Prompt Engineering.
+
+### 3.1.2 Non-Destructive Novel Skill Preservation
+To ensure candidates with modern, niche, or proprietary skill sets are treated equitably:
+1. When `SkillTaxonomyService.normalize(rawSkill)` executes:
+   - Known aliases map directly to canonical taxonomy names and standard categories.
+   - Novel, uncataloged skills return their raw trimmed name with zero data loss.
+2. In `HeuristicResumeExtractor`:
+   - A specialized tokenizer extracts candidate skill tokens directly from the candidate's `SKILLS` section.
+   - Any token not present in the registered taxonomy dictionary is retained, validated against the `EXPERIENCE` and `PROJECTS` sections for evidence quotes, assigned an inferred category, and preserved in the skill profile.
+3. In `GeminiResumeExtractor`:
+   - System prompts strictly forbid dropping uncataloged technologies.
+   - An automated safety pass guarantees that any skill in the candidate's skills section not captured by the LLM is added to the validated profile.
+
+### 3.1.3 Skill Confidence Scoring Formula
+Deterministic confidence calculation:
+$$\text{Confidence Score} = \min\left(1.0, 0.50 + \sum \text{Weights}\right)$$
+- $\mathbf{+0.20}$ if present in `SKILLS`
+- $\mathbf{+0.20}$ if corroborated in `EXPERIENCE`
+- $\mathbf{+0.15}$ if corroborated in `PROJECTS`
+- $\mathbf{+0.10}$ if verified in `CERTIFICATIONS`
+- $\mathbf{+0.05}$ if a concrete contextual evidence excerpt is extracted
+- $\mathbf{+0.05}$ if classified as `CURRENT` ($2024\text{--}2026$ / Present)
 
 ---
 

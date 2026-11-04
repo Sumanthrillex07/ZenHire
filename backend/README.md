@@ -10,12 +10,13 @@ The backend of **ZenHire** is an enterprise-grade modular monolith built with **
 - **Framework:** Spring Boot 3.3.0
 - **Security:** Spring Security 6 with stateless JWT authentication & BCrypt hashing
 - **Persistence:** Spring Data JPA & Hibernate 6
-- **Database:** PostgreSQL 16 with Flyway 10 migrations
+- **Database:** PostgreSQL 16 with Flyway 10 migrations (`V1`–`V4`)
 - **Document Processing:** Apache PDFBox 3.0.2
 - **AI Integration:** Google Gemini 1.5 Flash (via Spring WebClient)
+- **Resume Extraction:** 5-Section Segmentation (`SKILLS`, `EXPERIENCE`, `PROJECTS`, `EDUCATION`, `CERTIFICATIONS`) with `SkillTaxonomyService` and non-destructive skill preservation
 - **Validation:** Bean Validation (Hibernate Validator)
 - **Build Tool:** Maven 3.9+
-- **Testing:** JUnit 5, Mockito, MockMvc
+- **Testing:** JUnit 5, Mockito, MockMvc (61 passing tests)
 
 ---
 
@@ -100,8 +101,8 @@ All responses follow the unified envelope:
 - `POST /api/jobs` — Create new requisition (Recruiter only)
 
 ### Resumes (`/api/resumes`)
-- `POST /api/resumes/upload` — Upload PDF resume (Apache PDFBox extraction + Gemini sync)
-- `GET /api/resumes/latest` — Retrieve parsed profile and extracted skill tags
+- `POST /api/resumes/upload` — Upload PDF resume (Apache PDFBox extraction, 5-section segmentation, taxonomy normalization, and skill profile sync)
+- `GET /api/resumes/latest` — Retrieve parsed profile, section summaries, and enriched skill profile with confidence scores and evidence quotes
 
 ### Assessments (`/api/assessments`)
 - `GET /api/assessments` — List technical assessments and candidate pass status

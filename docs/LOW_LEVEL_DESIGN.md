@@ -180,32 +180,43 @@ com.zenhire
 
 ## 2. Key Design Patterns & Implementation Mechanics
 
-### 2.1 Strategy Pattern: Resume Extraction Fallback Strategy
+### 2.1 Strategy Pattern: 5-Section Resume Extraction & Taxonomy Strategy
 ```mermaid
 classDiagram
     class ResumeExtractionStrategy {
         <<interface>>
-        +extractStructuredProfile(String rawText) ParsedResumeDto
+        +extract(String rawText) ParsedResumeData
     }
-    class GeminiResumeExtractionStrategy {
-        -GeminiApiClient geminiClient
+    class GeminiResumeExtractor {
+        -GeminiApiClient geminiApiClient
+        -HeuristicResumeExtractor fallbackExtractor
+        -SkillTaxonomyService taxonomyService
         -ObjectMapper objectMapper
-        +extractStructuredProfile(String rawText) ParsedResumeDto
+        +extract(String rawText) ParsedResumeData
     }
-    class HeuristicFallbackExtractionStrategy {
-        -SkillDictionary skillDictionary
-        +extractStructuredProfile(String rawText) ParsedResumeDto
+    class HeuristicResumeExtractor {
+        -ResumeSectionParser sectionParser
+        -SkillTaxonomyService taxonomyService
+        +extract(String rawText) ParsedResumeData
+        +extractNovelSkillsFromSkillsSection(...) void
     }
-    class ResumeExtractionService {
-        -GeminiResumeExtractionStrategy primaryStrategy
-        -HeuristicFallbackExtractionStrategy fallbackStrategy
-        +parseResume(String rawText) ParsedResumeDto
+    class ResumeSectionParser {
+        +parseSections(String rawText) Map~String, String~
     }
-    ResumeExtractionStrategy <|.. GeminiResumeExtractionStrategy
-    ResumeExtractionStrategy <|.. HeuristicFallbackExtractionStrategy
-    ResumeExtractionService --> ResumeExtractionStrategy
+    class SkillTaxonomyService {
+        +normalize(String input) String
+        +getCategory(String canonicalSkill) String
+        +findEvidenceSnippet(String text, String canonicalSkill) Optional~String~
+        +calculateConfidence(...) double
+    }
+    ResumeExtractionStrategy <|.. GeminiResumeExtractor
+    ResumeExtractionStrategy <|.. HeuristicResumeExtractor
+    GeminiResumeExtractor --> SkillTaxonomyService
+    GeminiResumeExtractor --> HeuristicResumeExtractor
+    HeuristicResumeExtractor --> ResumeSectionParser
+    HeuristicResumeExtractor --> SkillTaxonomyService
 ```
-- **Rationale:** If the primary Gemini LLM call times out or exceeds rate limits, the system dynamically delegates extraction to the `HeuristicFallbackExtractionStrategy` without disrupting user workflow.
+- **Rationale:** The system segments resumes into 5 canonical sections (`SKILLS`, `EXPERIENCE`, `PROJECTS`, `EDUCATION`, `CERTIFICATIONS`). The primary `GeminiResumeExtractor` normalizes skills against `SkillTaxonomyService`. If the AI call fails or is unconfigured, `HeuristicResumeExtractor` deterministically matches taxonomy entries and parses candidate novel skills without losing unmapped technologies.
 
 ### 2.2 State Machine Pattern: Application Lifecycle State Transitions
 The application status follows a strict finite state machine enforced in `ApplicationWorkflowServiceImpl`:

@@ -23,12 +23,26 @@
 | **Phase 9** | **Assessment Engine & Application Gating** | **COMPLETED** | **100%** | Question bank, answer masking DTO, attempt grading, application gating, pipeline transitions, 56 tests passing (`a9cf580`) |
 | **Phase 10** | **React 18 Frontend Development** | **COMPLETED** | **100%** | Full React 18 TypeScript application with Tailwind, React Router 6, API clients, AuthContext, Candidate/Recruiter dashboards, Job explorer, Resume uploader, Assessment runner, 9 Vitest tests passing (`d27c464`) |
 | **Phase 11** | **AI Recruitment Assistant (Career Advisor)** | **COMPLETED** | **100%** | Full-stack contextual assistant: sliding context window, candidate profile grounding, floating interactive UI chat drawer with prompt chips (`7208a70` & `d27c464`) |
-| **Phase 12** | **Quality Assurance & 13 Edge Cases Testing** | **COMPLETED** | **100%** | 59 JUnit 5/MockMvc tests passing, 9 Vitest frontend tests passing. All 13 mission-critical edge cases verified |
+| **Phase 12** | **Quality Assurance & 13 Edge Cases Testing** | **COMPLETED** | **100%** | 61 JUnit 5/MockMvc tests passing, 9 Vitest frontend tests passing. All 13 mission-critical edge cases verified |
 | **Phase 13** | **Final Dockerization & Production Release** | **COMPLETED** | **100%** | Multi-stage Docker Compose verification, PostgreSQL persistent volume, health checks, environment templates |
+| **Phase 14** | **5-Section Resume Sync, Skill Taxonomy & UI/UX** | **COMPLETED** | **100%** | Flyway V4, 5-section segmentation (`SKILLS`, `EXPERIENCE`, `PROJECTS`, `EDUCATION`, `CERTIFICATIONS`), `SkillTaxonomyService` with modern AI frameworks (LangChain, LangGraph, etc.), non-destructive novel skill retention, 250ms smooth theme transition engine (`a44fce5`) |
 
 ---
 
-## 2. Phase 10 Detailed Deliverables Checklist (Frontend)
+## 2. Phase 14 Deliverables Checklist (Resume Sync, Taxonomy & UI/UX)
+- [x] Database migration `V4__add_resume_sections_and_skill_profile.sql` adding `parsed_projects`, `parsed_certifications`, `parsed_sections` (JSONB), and `skill_profile` (JSONB) with GIN index
+- [x] Canonical 5-section parsing in `ResumeSectionParser.java` with regex lookahead anchors
+- [x] `SkillTaxonomyService` with canonical normalization and alias resolution across 8 categories:
+  - Languages, Backend, Frontend, Databases, Cloud & DevOps, Architecture, Testing & Tools, and AI & Machine Learning
+  - Modern AI/Agentic Frameworks: LangChain, LangGraph, LlamaIndex, CrewAI, AutoGen, Hugging Face, Vector Databases, Ollama, vLLM, Prompt Engineering
+- [x] Non-destructive skill preservation: novel or unmapped skills are strictly preserved, evidence-checked against experience/projects, and never removed
+- [x] Dynamic confidence scoring formula (0.00 to 1.00) based on section presence, contextual evidence snippets, and recency
+- [x] Complete UI/UX redesign: 250ms smooth transition delay across colors and surfaces, zero-FOUT theme engine, and interactive candidate skill profile cards with category pills and live search
+- [x] Comprehensive test coverage: 61 backend unit/slice tests and 9 frontend Vitest tests passing cleanly
+
+---
+
+## 3. Phase 10 Detailed Deliverables Checklist (Frontend)
 - [x] Centralized TypeScript type models (`frontend/src/types/index.ts`) for all domains
 - [x] Axios API layer with JWT interceptor and 401 redirect handling (`frontend/src/api/client.ts`)
 - [x] Specialized API modules (`authApi`, `candidateApi`, `recruiterApi`, `jobApi`, `resumeApi`, `matchingApi`, `assessmentApi`, `applicationApi`, `chatApi`)
@@ -94,10 +108,10 @@
 
 ---
 
-## 6. Summary Metrics
-- **Total Backend Tests:** 59 passing (100% pass rate)
+## 7. Summary Metrics
+- **Total Backend Tests:** 61 passing (100% pass rate)
 - **Total Frontend Tests:** 9 passing (100% pass rate)
-- **Grand Total Tests:** 68 passing
+- **Grand Total Tests:** 70 passing
 - **Backend Build:** `mvn clean test` ➔ **BUILD SUCCESS**
 - **Frontend Build:** `npm run build` ➔ **DIST GENERATED CLEANLY**
 - **Architecture Integrity:** 100% Original ZenHire Specifications

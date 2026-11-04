@@ -82,6 +82,10 @@ erDiagram
         jsonb parsed_skills
         text parsed_experience
         text parsed_education
+        text parsed_projects
+        text parsed_certifications
+        jsonb parsed_sections
+        jsonb skill_profile
         boolean is_latest
         timestamptz uploaded_at
     }
@@ -219,7 +223,7 @@ Stores enterprise recruiter and company affiliation details.
 ---
 
 ### 3.4 Table: `resumes`
-Stores uploaded PDF documents and structured extraction records.
+Stores uploaded PDF documents, 5 segmented canonical sections, and enriched candidate skill profiles.
 
 | Column | Data Type | Constraints | Description |
 | :--- | :--- | :--- | :--- |
@@ -227,9 +231,13 @@ Stores uploaded PDF documents and structured extraction records.
 | `candidate_id` | `UUID` | `NOT NULL REFERENCES candidates(id) ON DELETE CASCADE` | Candidate who uploaded the resume. |
 | `file_url` | `VARCHAR(500)` | `NOT NULL` | Relative or static URL path to the stored PDF. |
 | `raw_text` | `TEXT` | `NOT NULL` | Raw text stream extracted via Apache PDFBox. |
-| `parsed_skills` | `JSONB` | `NOT NULL DEFAULT '[]'` | JSONB array of technical skill strings. |
-| `parsed_experience` | `TEXT` | `NULL` | LLM-generated work experience narrative summary. |
-| `parsed_education` | `TEXT` | `NULL` | LLM-generated education history summary. |
+| `parsed_skills` | `JSONB` | `NOT NULL DEFAULT '[]'` | JSONB array of canonical technical skill strings. |
+| `parsed_experience` | `TEXT` | `NULL` | Work experience narrative summary. |
+| `parsed_education` | `TEXT` | `NULL` | Educational background summary. |
+| `parsed_projects` | `TEXT` | `NULL` | Projects and portfolio summary (added in Flyway V4). |
+| `parsed_certifications` | `TEXT` | `NULL` | Professional certifications and licenses (added in Flyway V4). |
+| `parsed_sections` | `JSONB` | `NOT NULL DEFAULT '{}'` | Raw section map keyed by section type (`SKILLS`, `EXPERIENCE`, `PROJECTS`, `EDUCATION`, `CERTIFICATIONS`). |
+| `skill_profile` | `JSONB` | `NOT NULL DEFAULT '[]'` | Detailed skill items: `{name, category, confidence, recency, sourceSections, evidenceSnippet}` with GIN indexing. |
 | `is_latest` | `BOOLEAN` | `NOT NULL DEFAULT TRUE` | Flags active resume for candidate matching. |
 | `uploaded_at` | `TIMESTAMPTZ` | `NOT NULL DEFAULT CURRENT_TIMESTAMP` | Upload timestamp. |
 

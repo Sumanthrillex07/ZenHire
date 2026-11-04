@@ -148,7 +148,7 @@ sequenceDiagram
 ### 4.3 Backend Service Layer (Modular Monolith)
 - **Role:** Implements core business logic, transaction management, assessment evaluation, and orchestration.
 - **Key Subsystems:**
-  - `ResumeParserService`: Orchestrates Apache PDFBox text extraction and calls Gemini LLM to parse technical skills, experience, and education.
+  - `ResumeParserService`: Orchestrates Apache PDFBox text extraction, canonical 5-section segmentation (`SKILLS`, `EXPERIENCE`, `PROJECTS`, `EDUCATION`, `CERTIFICATIONS`), taxonomy normalization, non-destructive skill preservation, and enriched skill profile evidence validation.
   - `HybridMatchingEngine`: Combines normalized deterministic string overlap with LLM narrative evaluation using the 60/40 weighted formula.
   - `AssessmentService`: Delivers masked questions, validates answers, computes score percentages, and records attempts.
   - `ApplicationWorkflowService`: Manages application state machine transitions and interview scheduling.
@@ -158,8 +158,8 @@ sequenceDiagram
 - **Role:** ACID-compliant relational storage ensuring data integrity and durability.
 - **Key Components:**
   - **Relational Schema:** Normalized tables with explicit primary keys (`UUID`), foreign keys, uniqueness constraints, and check constraints.
-  - **Flyway Migrations:** Incremental, version-controlled SQL scripts (`V1__initial_schema.sql`, `V2__seed_questions.sql`) guaranteeing deterministic environment setup.
-  - **Indexing:** B-Tree indexes on foreign keys, email lookups, and status filters.
+  - **Flyway Migrations:** Incremental, version-controlled SQL scripts (`V1` to `V4`) guaranteeing deterministic environment setup, including GIN indexing on JSONB skill profiles.
+  - **Indexing:** B-Tree indexes on foreign keys, email lookups, and status filters, with GIN indexing on JSONB columns.
 
 ---
 

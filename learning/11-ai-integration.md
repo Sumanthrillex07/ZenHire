@@ -119,6 +119,63 @@ Eliminates AI hallucinations, prevents brand liability, and ensures candidates r
 
 ---
 
+### Concept 11.3: Hybrid Skill Extraction, Taxonomy Normalization & Non-Destructive Preservation
+
+#### 1. What is it?
+Hybrid Skill Extraction is a dual-layer extraction architecture that pairs high-speed deterministic NLP section segmentation and dictionary phrase matching with LLM contextual evidence extraction. It maps candidate skills against a canonical taxonomy (e.g. `k8s` ➔ `Kubernetes`, `reactjs` ➔ `React`, `lang-graph` ➔ `LangGraph`) while strictly guaranteeing that novel or unmapped technologies are preserved and never discarded.
+
+#### 2. Why are we using it in ZenHire?
+In automated resume evaluation, candidate profiles suffer from two polar failure modes:
+1. **Keyword Over-Strictness:** If a candidate writes `k8s`, `Postgres`, or `spring-boot`, simple keyword matchers fail to match job requirements asking for `Kubernetes`, `PostgreSQL`, or `Spring Boot`.
+2. **Loss of Cutting-Edge Technologies:** If an extraction engine restricts matches only to a hardcoded taxonomy, candidates with emerging skills (e.g., `LangChain`, `LangGraph`, `LlamaIndex`, `Temporal`, or internal company tools) have their skills silently erased.
+ZenHire resolves both problems by standardizing aliases to canonical forms while ensuring all unmapped technologies are preserved with contextual evidence and confidence scores.
+
+#### 3. How does it work internally?
+```
+Raw Resume Text (PDFBox)
+         │
+         ▼
+[ResumeSectionParser] ──► Segments into 5 Canonical Sections:
+                           SKILLS · EXPERIENCE · PROJECTS · EDUCATION · CERTIFICATIONS
+         │
+         ├───► Primary Path: [GeminiResumeExtractor]
+         │     Extracts skills, cross-section sources, evidence quotes, and recency.
+         │     Normalizes names through SkillTaxonomyService.
+         │     Any uncataloged skill is preserved with category 'OTHER' or LLM category.
+         │
+         └───► Fallback Path: [HeuristicResumeExtractor]
+               1. Phrase-matches canonical taxonomy entries via word-boundary regex (\b<alias>\b).
+               2. Runs token parser on the candidate's SKILLS section to capture unmapped skills.
+               3. Cross-verifies unmapped skills in EXPERIENCE/PROJECTS for evidence quotes.
+```
+
+**Confidence Scoring Formula:**
+$$\text{Confidence} = \min\left(1.0, 0.50 + 0.20_{\text{skills}} + 0.20_{\text{exp}} + 0.15_{\text{projects}} + 0.10_{\text{certs}} + 0.05_{\text{evidence}} + 0.05_{\text{current}}\right)$$
+
+#### 4. Where is it implemented in ZenHire?
+- `com.zenhire.resume.extractor.ResumeSectionParser`
+- `com.zenhire.resume.extractor.SkillTaxonomyService`
+- `com.zenhire.resume.extractor.GeminiResumeExtractor`
+- `com.zenhire.resume.extractor.HeuristicResumeExtractor`
+- `com.zenhire.resume.dto.SkillProfileItem`
+
+#### 5. What problem does it solve?
+Prevents candidate disqualification caused by naming variations or emerging frameworks, provides recruiters with verifiable evidence quotes from project histories, and avoids vendor lock-in to external LLMs through offline deterministic fallback.
+
+#### 6. What are the alternatives?
+- **Pure Regex / String Matching:** Fails to extract contextual evidence or recognize novel frameworks.
+- **Pure Open LLM with No Taxonomy:** Yields inconsistent naming conventions across candidates, degrading recruiter search and deterministic matching.
+
+#### 7. What are the trade-offs?
+- Maintaining an alias taxonomy requires updates as industry libraries evolve.
+- **Mitigation:** The taxonomy is supplemented with an open non-destructive parser so new technologies are immediately captured even before they are registered in the dictionary.
+
+#### 8. What questions could an interviewer ask about it?
+> *"What happens when a candidate lists a completely novel framework like 'LangGraph' or a custom internal tool?"*  
+> **Strong Answer:** "ZenHire's taxonomy service uses a non-destructive normalization design (`aliasToCanonicalMap.getOrDefault(lookup, trimmed)`). If the technology is in our taxonomy, it is normalized to its canonical form and category. If it is not found, the system preserves the candidate's exact raw name, extracts contextual usage quotes from their experience or projects sections, computes a multi-section confidence score, and categorizes it under its inferred category or `OTHER`. No skill is ever silently dropped."
+
+---
+
 ## 2. Key AI Engineering Questions & Answers
 
 ### Question 1: "Why did you use Spring Reactive WebClient instead of RestTemplate for external AI calls?"
