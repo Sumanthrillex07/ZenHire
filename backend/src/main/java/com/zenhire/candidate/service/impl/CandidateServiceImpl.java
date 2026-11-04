@@ -85,7 +85,7 @@ public class CandidateServiceImpl implements CandidateService {
                 .orElseThrow(() -> new ResourceNotFoundException("Candidate profile", "userId", principal.getId()));
 
         Optional<Resume> resumeOpt = resumeRepository.findByCandidateIdAndIsLatestTrue(candidate.getId());
-        long appCount = applicationRepository.findAllByCandidateIdOrderByAppliedAtDesc(candidate.getId()).size();
+        long appCount = applicationRepository.countByCandidateId(candidate.getId());
         List<TestSummaryDto> testCatalog = assessmentService.getTestCatalog(principal);
 
         return new CandidateDashboardDto(

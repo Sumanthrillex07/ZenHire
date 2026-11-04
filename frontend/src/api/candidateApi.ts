@@ -44,7 +44,7 @@ export const candidateApi = {
   },
 
   async getAnalytics(): Promise<CandidateAnalysisData> {
-    const response = await apiClient.get<ApiResponse<CandidateAnalysisData>>('/candidate/skills/analysis');
+    const response = await apiClient.get<ApiResponse<CandidateAnalysisData>>('/candidate/analysis');
     return response.data.data;
   },
 };

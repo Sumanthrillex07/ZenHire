@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { candidateApi } from '../../api/candidateApi';
 import { jobApi } from '../../api/jobApi';
-import { CandidateDashboardData, CandidateAnalysisData, Job } from '../../types';
+import { applicationApi } from '../../api/applicationApi';
+import { CandidateDashboardData, CandidateAnalysisData, Job, Application } from '../../types';
 import { CardSkeleton } from '../../components/ui/Skeleton';
-import { CategoryBadge } from '../../components/Badge';
+import { CategoryBadge, ApplicationStatusBadge } from '../../components/Badge';
 import { 
   FileText, 
   Briefcase, 
@@ -19,7 +20,8 @@ import {
   Building2,
   ArrowRight,
   Clock,
-  ArrowUpRight
+  ArrowUpRight,
+  Calendar
 } from 'lucide-react';
 
 export const CandidateDashboard: React.FC = () => {
@@ -27,21 +29,40 @@ export const CandidateDashboard: React.FC = () => {
   const [dashboard, setDashboard] = useState<CandidateDashboardData | null>(null);
   const [analysis, setAnalysis] = useState<CandidateAnalysisData | null>(null);
   const [openJobs, setOpenJobs] = useState<Job[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [dashData, analyticsData, jobsPage] = await Promise.all([
+        const [dashResult, analyticsResult, jobsResult, appsResult] = await Promise.allSettled([
           candidateApi.getDashboard(),
           candidateApi.getAnalytics(),
           jobApi.getJobs({ size: 6, status: 'OPEN' }),
+          applicationApi.getCandidateApplications(),
         ]);
-        setDashboard(dashData);
-        setAnalysis(analyticsData);
-        setOpenJobs(jobsPage?.content || []);
+
+        if (dashResult.status === 'fulfilled') {
+          setDashboard(dashResult.value);
+        } else {
+          console.warn('Failed to load candidate dashboard metrics', dashResult.reason);
+        }
+
+        if (analyticsResult.status === 'fulfilled') {
+          setAnalysis(analyticsResult.value);
+        } else {
+          console.warn('Failed to load candidate analytics', analyticsResult.reason);
+        }
+
+        if (jobsResult.status === 'fulfilled') {
+          setOpenJobs(jobsResult.value?.content || []);
+        }
+
+        if (appsResult.status === 'fulfilled') {
+          setApplications(appsResult.value || []);
+        }
       } catch (err) {
-        console.error('Failed to load candidate dashboard', err);
+        console.error('Unexpected error loading candidate dashboard', err);
       } finally {
         setLoading(false);
       }
@@ -68,6 +89,7 @@ export const CandidateDashboard: React.FC = () => {
   }
 
   const passedTestsCount = dashboard?.tests.filter((t) => t.passed).length || 0;
+  const activeAppsCount = applications.length > 0 ? applications.length : (dashboard?.applicationsCount ?? 0);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in">
@@ -135,7 +157,7 @@ export const CandidateDashboard: React.FC = () => {
           <div>
             <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">Active Applications</div>
             <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">
-              {dashboard?.applicationsCount ?? 0}
+              {activeAppsCount}
             </div>
             <Link
               to="/candidate/applications"
@@ -165,6 +187,86 @@ export const CandidateDashboard: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Active Application Pipeline Preview Section */}
+      {applications.length > 0 && (
+        <div className="glass-card space-y-4 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Briefcase className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                Active Pipeline ({applications.length})
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Real-time tracking for your submitted applications and interview schedules.
+              </p>
+            </div>
+            <Link
+              to="/candidate/applications"
+              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 transition-colors"
+            >
+              All Applications ({applications.length}) &rarr;
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {applications.slice(0, 3).map((app) => (
+              <div
+                key={app.id}
+                className="bg-white/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 flex flex-col justify-between space-y-3 hover:border-indigo-500/40 transition-all hover:-translate-y-0.5 shadow-subtle dark:shadow-sm"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <ApplicationStatusBadge status={app.status} />
+                    {app.matchScore != null && (
+                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                        {app.matchScore}% Match
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors line-clamp-1">
+                      <Link to={`/jobs/${app.jobId}`}>{app.jobTitle}</Link>
+                    </h3>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                      <Building2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                      <span className="font-medium text-slate-700 dark:text-slate-300">{app.companyName}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1 text-[11px] text-slate-400 dark:text-slate-500">
+                    <Clock className="w-3 h-3" />
+                    <span>Applied {new Date(app.appliedAt).toLocaleDateString()}</span>
+                  </div>
+
+                  {app.interview && (
+                    <div className="p-2.5 rounded-xl bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200/80 dark:border-blue-900/40 text-xs space-y-1">
+                      <div className="font-bold text-blue-900 dark:text-blue-300 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                        Interview Scheduled
+                      </div>
+                      <div className="text-[11px] text-blue-700 dark:text-blue-300/90">
+                        {new Date(app.interview.scheduledTime).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })} ({app.interview.mode})
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+                  <CategoryBadge category={app.roleCategory} />
+                  <Link
+                    to="/candidate/applications"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
+                  >
+                    View Status &rarr;
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Analytics & Skill Diagnostics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

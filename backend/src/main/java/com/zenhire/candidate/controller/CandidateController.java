@@ -56,7 +56,7 @@ public class CandidateController {
         return ResponseEntity.ok(ApiResponse.success("Candidate dashboard loaded", dashboard));
     }
 
-    @GetMapping("/analysis")
+    @GetMapping({"/analysis", "/skills/analysis"})
     @PreAuthorize("hasRole('CANDIDATE')")
     @Operation(summary = "Get candidate skill analytics: strong topics, weak topics, and recommended career paths")
     public ResponseEntity<ApiResponse<com.zenhire.candidate.dto.CandidateAnalysisDto>> getSkillAnalysis(

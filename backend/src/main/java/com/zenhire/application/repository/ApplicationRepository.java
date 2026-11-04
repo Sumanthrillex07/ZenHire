@@ -20,6 +20,8 @@ public interface ApplicationRepository extends JpaRepository<Application, UUID> 
     @EntityGraph(attributePaths = {"job", "job.recruiter", "interview"})
     List<Application> findAllByCandidateIdOrderByAppliedAtDesc(UUID candidateId);
 
+    long countByCandidateId(UUID candidateId);
+
     @EntityGraph(attributePaths = {"candidate", "candidate.user", "resume", "interview"})
     List<Application> findAllByJobIdOrderByMatchScoreDesc(UUID jobId);
 
