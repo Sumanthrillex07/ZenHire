@@ -1,84 +1,118 @@
 package com.zenhire.resume.extractor;
 
 import com.zenhire.resume.dto.ParsedResumeData;
+import com.zenhire.resume.dto.SkillProfileItem;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * Deterministic fallback extractor using keyword dictionary mapping and section boundary regex.
+ * Deterministic fallback extractor using section parsing, phrase matching, and taxonomy validation.
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class HeuristicResumeExtractor implements ResumeExtractionStrategy {
 
-    private static final List<String> TECH_DICTIONARY = List.of(
-            // Languages
-            "Java", "Python", "JavaScript", "TypeScript", "C++", "C#", "Go", "Golang", "Rust", "Kotlin", "Swift", "PHP", "Ruby", "SQL",
-            // Backend Frameworks & Libraries
-            "Spring Boot", "Spring Data", "Spring Security", "Hibernate", "JPA", "Node.js", "Express", "Django", "FastAPI", "Flask", ".NET",
-            // Frontend
-            "React", "Redux", "Next.js", "Angular", "Vue", "HTML5", "CSS3", "Tailwind CSS", "Bootstrap",
-            // Databases & Caching
-            "PostgreSQL", "MySQL", "MongoDB", "Redis", "Elasticsearch", "Cassandra", "Oracle", "DynamoDB",
-            // DevOps & Cloud
-            "Docker", "Kubernetes", "AWS", "Azure", "GCP", "CI/CD", "GitHub Actions", "Jenkins", "Terraform", "Linux",
-            // Architecture & Protocols
-            "REST", "GraphQL", "gRPC", "Microservices", "Kafka", "RabbitMQ", "OAuth2", "JWT",
-            // Testing & Tools
-            "JUnit", "Mockito", "Testcontainers", "Git", "Maven", "Gradle", "Vite"
-    );
+    private final ResumeSectionParser sectionParser;
+    private final SkillTaxonomyService taxonomyService;
 
     @Override
     public ParsedResumeData extract(String rawText) {
-        log.info("Executing heuristic resume extraction on {} characters of text", rawText.length());
+        log.info("Executing NLP & Heuristic skill extraction on {} characters of resume text", rawText.length());
 
-        List<String> detectedSkills = extractSkills(rawText);
-        String experience = extractSection(rawText, "(?i)(?:experience|work history|employment|professional background)", "(?i)(?:education|skills|projects|certifications|$)");
-        String education = extractSection(rawText, "(?i)(?:education|academic background|qualifications)", "(?i)(?:skills|projects|experience|certifications|$)");
+        Map<String, String> sections = sectionParser.parseSections(rawText);
 
-        if (experience.isBlank()) {
-            experience = "Professional experience parsed from resume text.";
+        String skillsSection = sections.getOrDefault(ResumeSectionParser.SectionType.SKILLS.name(), "");
+        String experienceSection = sections.getOrDefault(ResumeSectionParser.SectionType.EXPERIENCE.name(), "");
+        String projectsSection = sections.getOrDefault(ResumeSectionParser.SectionType.PROJECTS.name(), "");
+        String educationSection = sections.getOrDefault(ResumeSectionParser.SectionType.EDUCATION.name(), "");
+        String certificationsSection = sections.getOrDefault(ResumeSectionParser.SectionType.CERTIFICATIONS.name(), "");
+
+        // If no sections were identified by headers, search entire rawText
+        if (sections.isEmpty() || (skillsSection.isBlank() && experienceSection.isBlank())) {
+            experienceSection = rawText;
         }
-        if (education.isBlank()) {
-            education = "Educational background parsed from resume text.";
-        }
 
-        return new ParsedResumeData(detectedSkills, experience, education);
-    }
+        List<SkillProfileItem> skillProfiles = new ArrayList<>();
+        Set<String> uniqueCanonicalSkills = new LinkedHashSet<>();
 
-    private List<String> extractSkills(String rawText) {
-        Set<String> matchedSkills = new LinkedHashSet<>();
+        for (SkillTaxonomyService.TaxonomyEntry entry : taxonomyService.getAllTaxonomyEntries()) {
+            String canonical = entry.canonicalName();
+            List<String> sourceSections = new ArrayList<>();
+            String evidenceSnippet = "";
 
-        for (String skill : TECH_DICTIONARY) {
-            String patternString = "\\b" + Pattern.quote(skill) + "\\b";
-            Pattern pattern = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(rawText);
-            if (matcher.find()) {
-                matchedSkills.add(skill);
+            // Check SKILLS section
+            if (!skillsSection.isBlank() && containsSkill(skillsSection, entry)) {
+                sourceSections.add("SKILLS");
+            }
+
+            // Check EXPERIENCE section
+            if (!experienceSection.isBlank()) {
+                Optional<String> expEvidence = taxonomyService.findEvidenceSnippet(experienceSection, canonical);
+                if (expEvidence.isPresent()) {
+                    sourceSections.add("EXPERIENCE");
+                    evidenceSnippet = expEvidence.get();
+                }
+            }
+
+            // Check PROJECTS section
+            if (!projectsSection.isBlank()) {
+                Optional<String> projEvidence = taxonomyService.findEvidenceSnippet(projectsSection, canonical);
+                if (projEvidence.isPresent()) {
+                    sourceSections.add("PROJECTS");
+                    if (evidenceSnippet.isBlank()) {
+                        evidenceSnippet = projEvidence.get();
+                    }
+                }
+            }
+
+            // Check CERTIFICATIONS section
+            if (!certificationsSection.isBlank() && containsSkill(certificationsSection, entry)) {
+                sourceSections.add("CERTIFICATIONS");
+            }
+
+            // Check EDUCATION section
+            if (!educationSection.isBlank() && containsSkill(educationSection, entry)) {
+                sourceSections.add("EDUCATION");
+            }
+
+            // If detected in at least one section or general body
+            if (!sourceSections.isEmpty()) {
+                String recency = taxonomyService.evaluateRecency(evidenceSnippet.isBlank() ? experienceSection : evidenceSnippet);
+                double confidence = taxonomyService.calculateConfidence(sourceSections, !evidenceSnippet.isBlank(), recency);
+
+                skillProfiles.add(new SkillProfileItem(
+                        canonical,
+                        entry.category(),
+                        confidence,
+                        recency,
+                        sourceSections,
+                        evidenceSnippet.isBlank() ? "Listed in " + String.join(", ", sourceSections) : evidenceSnippet
+                ));
+                uniqueCanonicalSkills.add(canonical);
             }
         }
 
-        return new ArrayList<>(matchedSkills);
+        // Sort by confidence DESC
+        skillProfiles.sort(Comparator.comparingDouble(SkillProfileItem::confidence).reversed());
+
+        log.info("Heuristic extractor detected {} unique normalized skills across sections", uniqueCanonicalSkills.size());
+
+        return new ParsedResumeData(
+                new ArrayList<>(uniqueCanonicalSkills),
+                experienceSection.isBlank() ? "Professional experience parsed from resume text." : experienceSection,
+                educationSection.isBlank() ? "Educational background parsed from resume text." : educationSection,
+                projectsSection,
+                certificationsSection,
+                sections,
+                skillProfiles
+        );
     }
 
-    private String extractSection(String text, String startHeaderPattern, String endHeaderPattern) {
-        Pattern pattern = Pattern.compile(startHeaderPattern + "[:\\s]*([\\s\\S]*?)(?=" + endHeaderPattern + ")", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(text);
-
-        if (matcher.find()) {
-            String matched = matcher.group(1).trim();
-            // Truncate to reasonable summary size (max 500 chars)
-            if (matched.length() > 500) {
-                return matched.substring(0, 500) + "...";
-            }
-            return matched;
-        }
-
-        return "";
+    private boolean containsSkill(String text, SkillTaxonomyService.TaxonomyEntry entry) {
+        return taxonomyService.findEvidenceSnippet(text, entry.canonicalName()).isPresent();
     }
 }
-

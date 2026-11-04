@@ -127,3 +127,4 @@ All responses follow the unified envelope:
 1. **DTO-Level Answer Key Masking:** Question entities keep `correctIndex` strictly hidden inside the persistence layer. Candidate-facing DTOs omit correct answers to eliminate client-side inspection vulnerabilities.
 2. **Strict Server-Side Gating:** Application attempts check test records in the database. Even if client-side validation is bypassed, the server returns an `ASSESSMENT_GATE_REQUIRED` error (HTTP 403).
 3. **Resilient AI Fallbacks:** If Gemini API limits or network issues occur, the system automatically falls back to an integrated 120+ keyword heuristic matcher.
+

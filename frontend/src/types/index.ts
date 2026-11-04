@@ -32,6 +32,15 @@ export interface Job {
   matchScore?: number;
 }
 
+export interface SkillProfileItem {
+  name: string;
+  category: string;
+  confidence: number;
+  recency: string;
+  sourceSections: string[];
+  evidenceSnippet?: string;
+}
+
 export interface Resume {
   id: string;
   candidateId?: string;
@@ -39,6 +48,10 @@ export interface Resume {
   skills: string[];
   experience: string;
   education: string;
+  projects?: string;
+  certifications?: string;
+  sections?: Record<string, string>;
+  skillProfile?: SkillProfileItem[];
   uploadedAt: string;
 }
 

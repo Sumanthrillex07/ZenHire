@@ -101,3 +101,4 @@ npm run preview
 | `/recruiter/dashboard` | Recruiter | Recruitment command center, KPIs, top candidates |
 | `/recruiter/jobs/new` | Recruiter | Job requisition authoring with skill chips |
 | `/recruiter/jobs/:jobId/applicants` | Recruiter | Ranked candidate pipeline with interview scheduler |
+

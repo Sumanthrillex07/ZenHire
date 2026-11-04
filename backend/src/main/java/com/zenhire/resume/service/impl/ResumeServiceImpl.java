@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -62,11 +64,16 @@ public class ResumeServiceImpl implements ResumeService {
                 .parsedSkills(parsedData.skills())
                 .parsedExperience(parsedData.experience())
                 .parsedEducation(parsedData.education())
+                .parsedProjects(parsedData.projects())
+                .parsedCertifications(parsedData.certifications())
+                .parsedSections(parsedData.sections() != null ? parsedData.sections() : Map.of())
+                .skillProfile(parsedData.skillProfile() != null ? parsedData.skillProfile() : List.of())
                 .isLatest(true)
                 .build();
 
         Resume saved = resumeRepository.save(resume);
-        log.info("Resume parsed and persisted successfully [ID: {}] for candidate: {}", saved.getId(), candidate.getId());
+        log.info("Resume parsed and persisted successfully [ID: {}] with {} skill profile entries for candidate: {}",
+                saved.getId(), saved.getSkillProfile().size(), candidate.getId());
 
         return new ResumeUploadResponseDto(
                 saved.getId(),
@@ -74,6 +81,10 @@ public class ResumeServiceImpl implements ResumeService {
                 saved.getParsedSkills(),
                 saved.getParsedExperience(),
                 saved.getParsedEducation(),
+                saved.getParsedProjects() != null ? saved.getParsedProjects() : "",
+                saved.getParsedCertifications() != null ? saved.getParsedCertifications() : "",
+                saved.getParsedSections() != null ? saved.getParsedSections() : Map.of(),
+                saved.getSkillProfile() != null ? saved.getSkillProfile() : List.of(),
                 saved.getUploadedAt()
         );
     }
@@ -107,8 +118,11 @@ public class ResumeServiceImpl implements ResumeService {
                 resume.getParsedSkills(),
                 resume.getParsedExperience(),
                 resume.getParsedEducation(),
+                resume.getParsedProjects() != null ? resume.getParsedProjects() : "",
+                resume.getParsedCertifications() != null ? resume.getParsedCertifications() : "",
+                resume.getParsedSections() != null ? resume.getParsedSections() : Map.of(),
+                resume.getSkillProfile() != null ? resume.getSkillProfile() : List.of(),
                 resume.getUploadedAt()
         );
     }
 }
-

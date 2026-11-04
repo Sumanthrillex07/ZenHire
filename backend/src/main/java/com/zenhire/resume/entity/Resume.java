@@ -1,5 +1,6 @@
 package com.zenhire.resume.entity;
 
+import com.zenhire.resume.dto.SkillProfileItem;
 import com.zenhire.user.entity.Candidate;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,9 +9,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Entity representing an uploaded and parsed candidate resume.
@@ -50,6 +49,22 @@ public class Resume {
     @Column(name = "parsed_education", columnDefinition = "TEXT")
     private String parsedEducation;
 
+    @Column(name = "parsed_projects", columnDefinition = "TEXT")
+    private String parsedProjects;
+
+    @Column(name = "parsed_certifications", columnDefinition = "TEXT")
+    private String parsedCertifications;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "parsed_sections", columnDefinition = "jsonb")
+    @Builder.Default
+    private Map<String, String> parsedSections = new HashMap<>();
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "skill_profile", columnDefinition = "jsonb")
+    @Builder.Default
+    private List<SkillProfileItem> skillProfile = new ArrayList<>();
+
     @Column(name = "is_latest", nullable = false)
     @Builder.Default
     private boolean isLatest = true;
@@ -58,4 +73,3 @@ public class Resume {
     @Column(name = "uploaded_at", nullable = false, updatable = false)
     private Instant uploadedAt;
 }
-
