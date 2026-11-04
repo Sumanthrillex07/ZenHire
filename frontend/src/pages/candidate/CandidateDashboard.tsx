@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { candidateApi } from '../../api/candidateApi';
@@ -70,6 +70,22 @@ export const CandidateDashboard: React.FC = () => {
 
     fetchDashboardData();
   }, []);
+
+  const appliedJobIds = useMemo(
+    () => new Set(applications.map((app) => app.jobId)),
+    [applications]
+  );
+
+  const sortedOpenJobs = useMemo(() => {
+    return [...openJobs].sort((a, b) => {
+      const aApplied = appliedJobIds.has(a.id);
+      const bApplied = appliedJobIds.has(b.id);
+      if (aApplied !== bApplied) {
+        return aApplied ? 1 : -1; // Unapplied jobs go up, applied jobs go down
+      }
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // Newest first
+    });
+  }, [openJobs, appliedJobIds]);
 
   if (loading) {
     return (
@@ -427,70 +443,92 @@ export const CandidateDashboard: React.FC = () => {
           </Link>
         </div>
 
-        {openJobs.length === 0 ? (
+        {sortedOpenJobs.length === 0 ? (
           <div className="text-center py-8 text-xs text-slate-500 dark:text-slate-400">
             No open requisitions currently available. Check back soon for new opportunities!
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {openJobs.map((job) => (
-              <div
-                key={job.id}
-                className="bg-white/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 hover:border-emerald-500/40 dark:hover:border-slate-700 rounded-2xl p-4 flex flex-col justify-between transition-all hover:-translate-y-0.5 shadow-subtle dark:shadow-sm"
-              >
-                <div className="space-y-2.5">
-                  <div className="flex items-start justify-between gap-2">
-                    <CategoryBadge category={job.roleCategory} />
-                    <span className="text-[11px] text-slate-400 dark:text-slate-500 flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {new Date(job.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
+            {sortedOpenJobs.map((job) => {
+              const isApplied = appliedJobIds.has(job.id);
+              return (
+                <div
+                  key={job.id}
+                  className={`bg-white/80 dark:bg-slate-900/60 border ${
+                    isApplied
+                      ? 'border-emerald-500/30 dark:border-emerald-500/20 opacity-90'
+                      : 'border-slate-200/80 dark:border-slate-800/80 hover:border-emerald-500/40 dark:hover:border-slate-700'
+                  } rounded-2xl p-4 flex flex-col justify-between transition-all hover:-translate-y-0.5 shadow-subtle dark:shadow-sm`}
+                >
+                  <div className="space-y-2.5">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <CategoryBadge category={job.roleCategory} />
+                        {isApplied && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                            Applied
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[11px] text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {new Date(job.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
 
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors line-clamp-1">
-                      <Link to={`/jobs/${job.id}`}>{job.title}</Link>
-                    </h3>
-                    <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                      <Building2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                      <span className="font-medium text-slate-700 dark:text-slate-300">{job.companyName}</span>
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors line-clamp-1">
+                        <Link to={`/jobs/${job.id}`}>{job.title}</Link>
+                      </h3>
+                      <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                        <Building2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                        <span className="font-medium text-slate-700 dark:text-slate-300">{job.companyName}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                      {job.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {job.requiredSkills.slice(0, 3).map((skill, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700/60"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                      {job.requiredSkills.length > 3 && (
+                        <span className="px-1.5 py-0.5 rounded-md text-[10px] bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-500">
+                          +{job.requiredSkills.length - 3}
+                        </span>
+                      )}
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                    {job.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {job.requiredSkills.slice(0, 3).map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700/60"
+                  <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+                    <span className="text-[11px] text-slate-400 dark:text-slate-500">
+                      {job.applicantsCount} {job.applicantsCount === 1 ? 'applicant' : 'applicants'}
+                    </span>
+                    {isApplied ? (
+                      <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 px-2.5 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/25 cursor-not-allowed">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        Applied
+                      </span>
+                    ) : (
+                      <Link
+                        to={`/jobs/${job.id}`}
+                        className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors"
                       >
-                        {skill}
-                      </span>
-                    ))}
-                    {job.requiredSkills.length > 3 && (
-                      <span className="px-1.5 py-0.5 rounded-md text-[10px] bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-500">
-                        +{job.requiredSkills.length - 3}
-                      </span>
+                        View &amp; Apply &rarr;
+                      </Link>
                     )}
                   </div>
                 </div>
-
-                <div className="pt-4 mt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
-                  <span className="text-[11px] text-slate-400 dark:text-slate-500">
-                    {job.applicantsCount} {job.applicantsCount === 1 ? 'applicant' : 'applicants'}
-                  </span>
-                  <Link
-                    to={`/jobs/${job.id}`}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors"
-                  >
-                    View &amp; Apply &rarr;
-                  </Link>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

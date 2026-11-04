@@ -30,6 +30,7 @@ export const JobBrowsePage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<RoleCategory | ''>('');
   const [searchQuery, setSearchQuery] = useState('');
   const [applyingJobId, setApplyingJobId] = useState<string | null>(null);
+  const [appliedJobIds, setAppliedJobIds] = useState<Set<string>>(new Set());
 
   // Gating alert state
   const [gatingError, setGatingError] = useState<{
@@ -43,18 +44,28 @@ export const JobBrowsePage: React.FC = () => {
 
   useEffect(() => {
     loadJobs();
-  }, [selectedCategory]);
+  }, [selectedCategory, isAuthenticated, user]);
 
   const loadJobs = async () => {
     setLoading(true);
     try {
-      const pageData = await jobApi.getJobs({
+      const pageDataPromise = jobApi.getJobs({
         category: selectedCategory || undefined,
         roleCategory: selectedCategory || undefined,
         status: 'OPEN',
         size: 50,
       });
+
+      const appsPromise = (isAuthenticated && user?.role === 'ROLE_CANDIDATE')
+        ? applicationApi.getCandidateApplications().catch(() => [])
+        : Promise.resolve([]);
+
+      const [pageData, apps] = await Promise.all([pageDataPromise, appsPromise]);
+
       setJobs(pageData?.content || []);
+      if (apps && apps.length > 0) {
+        setAppliedJobIds(new Set(apps.map((a) => a.jobId)));
+      }
     } catch (err) {
       console.error('Failed to load jobs', err);
     } finally {
@@ -78,6 +89,7 @@ export const JobBrowsePage: React.FC = () => {
     try {
       await applicationApi.applyForJob(job.id);
       setAppliedSuccessJobTitle(job.title);
+      setAppliedJobIds((prev) => new Set([...prev, job.id]));
     } catch (err: any) {
       const errorData = err.response?.data?.error;
       const errorCode = errorData?.errorCode;
@@ -99,15 +111,24 @@ export const JobBrowsePage: React.FC = () => {
     }
   };
 
-  const filteredJobs = jobs.filter((job) => {
-    if (!searchQuery.trim()) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      job.title.toLowerCase().includes(query) ||
-      job.companyName.toLowerCase().includes(query) ||
-      job.requiredSkills.some((s) => s.toLowerCase().includes(query))
-    );
-  });
+  const filteredJobs = jobs
+    .filter((job) => {
+      if (!searchQuery.trim()) return true;
+      const query = searchQuery.toLowerCase();
+      return (
+        job.title.toLowerCase().includes(query) ||
+        job.companyName.toLowerCase().includes(query) ||
+        job.requiredSkills.some((s) => s.toLowerCase().includes(query))
+      );
+    })
+    .sort((a, b) => {
+      const aApplied = appliedJobIds.has(a.id);
+      const bApplied = appliedJobIds.has(b.id);
+      if (aApplied !== bApplied) {
+        return aApplied ? 1 : -1; // Unapplied jobs go up, applied jobs go down
+      }
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // Newest first
+    });
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in">
@@ -225,79 +246,106 @@ export const JobBrowsePage: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredJobs.map((job) => (
-            <div
-              key={job.id}
-              className="glass-card rounded-2xl border border-slate-200/80 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-slate-700 flex flex-col justify-between transition-all hover:translate-y-[-2px] shadow-subtle dark:shadow-sm p-6"
-            >
-              <div>
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
-                      <Link to={`/jobs/${job.id}`}>{job.title}</Link>
-                    </h3>
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      <Building2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                      <span className="font-semibold text-slate-700 dark:text-slate-300">{job.companyName}</span>
+          {filteredJobs.map((job) => {
+            const isApplied = appliedJobIds.has(job.id);
+            return (
+              <div
+                key={job.id}
+                className={`glass-card rounded-2xl border ${
+                  isApplied
+                    ? 'border-emerald-500/30 bg-emerald-500/[0.015]'
+                    : 'border-slate-200/80 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-slate-700'
+                } flex flex-col justify-between transition-all hover:translate-y-[-2px] shadow-subtle dark:shadow-sm p-6`}
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+                        <Link to={`/jobs/${job.id}`}>{job.title}</Link>
+                      </h3>
+                      <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        <Building2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                        <span className="font-semibold text-slate-700 dark:text-slate-300">{job.companyName}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CategoryBadge category={job.roleCategory} />
+                      {isApplied && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                          Applied
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <CategoryBadge category={job.roleCategory} />
+
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mt-2 leading-relaxed">
+                    {job.description}
+                  </p>
+
+                  {/* Required Skills Chips */}
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {job.requiredSkills.slice(0, 5).map((skill, i) => (
+                      <span
+                        key={i}
+                        className="px-2.5 py-0.5 rounded-lg text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {job.requiredSkills.length > 5 && (
+                      <span className="text-[11px] text-slate-400 dark:text-slate-500 self-center font-medium">
+                        +{job.requiredSkills.length - 5} more
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mt-2 leading-relaxed">
-                  {job.description}
-                </p>
+                {/* Card Footer */}
+                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                  <div className="flex items-center gap-4 text-[11px] text-slate-400 dark:text-slate-500">
+                    <span className="flex items-center gap-1">
+                      <Users className="w-3.5 h-3.5" /> {job.applicantsCount} {job.applicantsCount === 1 ? 'applicant' : 'applicants'}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      {new Date(job.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
 
-                {/* Required Skills Chips */}
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {job.requiredSkills.slice(0, 5).map((skill, i) => (
-                    <span
-                      key={i}
-                      className="px-2.5 py-0.5 rounded-lg text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800"
+                  <div className="flex items-center gap-2">
+                    <Link
+                      to={`/jobs/${job.id}`}
+                      className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold border border-slate-200 dark:border-slate-700 transition-all active:scale-95"
                     >
-                      {skill}
-                    </span>
-                  ))}
-                  {job.requiredSkills.length > 5 && (
-                    <span className="text-[11px] text-slate-400 dark:text-slate-500 self-center font-medium">
-                      +{job.requiredSkills.length - 5} more
-                    </span>
-                  )}
+                      Details
+                    </Link>
+                    {isApplied ? (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled
+                        className="font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/30 cursor-not-allowed opacity-90 shadow-2xs"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-600 dark:text-emerald-400" />
+                        Applied
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => handleApply(job)}
+                        isLoading={applyingJobId === job.id}
+                        className="font-bold shadow-xs"
+                      >
+                        Apply
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
-
-              {/* Card Footer */}
-              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
-                <div className="flex items-center gap-4 text-[11px] text-slate-400 dark:text-slate-500">
-                  <span className="flex items-center gap-1">
-                    <Users className="w-3.5 h-3.5" /> {job.applicantsCount} {job.applicantsCount === 1 ? 'applicant' : 'applicants'}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" />
-                    {new Date(job.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Link
-                    to={`/jobs/${job.id}`}
-                    className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold border border-slate-200 dark:border-slate-700 transition-all active:scale-95"
-                  >
-                    Details
-                  </Link>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => handleApply(job)}
-                    isLoading={applyingJobId === job.id}
-                    className="font-bold shadow-xs"
-                  >
-                    Apply
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

@@ -40,12 +40,13 @@ export const JobDetailPage: React.FC = () => {
   } | null>(null);
 
   const [appliedSuccess, setAppliedSuccess] = useState(false);
+  const [hasApplied, setHasApplied] = useState(false);
 
   useEffect(() => {
     if (id) {
       loadJobDetails(id);
     }
-  }, [id]);
+  }, [id, isAuthenticated, user]);
 
   const loadJobDetails = async (jobId: string) => {
     setLoading(true);
@@ -53,14 +54,26 @@ export const JobDetailPage: React.FC = () => {
       const jobData = await jobApi.getJobById(jobId);
       setJob(jobData);
 
-      // If candidate is logged in, attempt to fetch hybrid match evaluation
+      // If candidate is logged in, attempt to fetch hybrid match evaluation and application status
       if (isAuthenticated && user?.role === 'ROLE_CANDIDATE') {
         fetchMatchEvaluation(jobId);
+        checkIfApplied(jobId);
       }
     } catch (err) {
       console.error('Failed to load job', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const checkIfApplied = async (jobId: string) => {
+    try {
+      const apps = await applicationApi.getCandidateApplications();
+      if (apps.some((app) => app.jobId === jobId)) {
+        setHasApplied(true);
+      }
+    } catch (err) {
+      console.warn('Failed to verify application status', err);
     }
   };
 
@@ -91,6 +104,7 @@ export const JobDetailPage: React.FC = () => {
     try {
       await applicationApi.applyForJob(job.id);
       setAppliedSuccess(true);
+      setHasApplied(true);
     } catch (err: any) {
       const errorData = err.response?.data?.error;
       const errorCode = errorData?.errorCode;
@@ -157,16 +171,28 @@ export const JobDetailPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            <Button
-              onClick={handleApply}
-              disabled={applying}
-              isLoading={applying}
-              variant="primary"
-              size="md"
-              className="w-full sm:w-auto shadow-md"
-            >
-              {applying ? 'Submitting...' : 'Apply for Role'}
-            </Button>
+            {hasApplied || appliedSuccess ? (
+              <Button
+                disabled
+                variant="outline"
+                size="md"
+                className="w-full sm:w-auto font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/30 cursor-not-allowed opacity-90 shadow-2xs"
+              >
+                <CheckCircle2 className="w-4 h-4 mr-1.5 text-emerald-600 dark:text-emerald-400" />
+                Applied
+              </Button>
+            ) : (
+              <Button
+                onClick={handleApply}
+                disabled={applying}
+                isLoading={applying}
+                variant="primary"
+                size="md"
+                className="w-full sm:w-auto shadow-md"
+              >
+                {applying ? 'Submitting...' : 'Apply for Role'}
+              </Button>
+            )}
           </div>
         </div>
 
