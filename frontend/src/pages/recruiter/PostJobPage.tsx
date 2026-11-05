@@ -75,26 +75,26 @@ export const PostJobPage: React.FC = () => {
       {/* Back button */}
       <Link
         to="/recruiter/dashboard"
-        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors font-medium"
+        className="inline-flex items-center gap-1.5 font-mono text-xs text-pewter hover:text-foreground transition-colors"
       >
         <ChevronLeft className="w-4 h-4" /> Back to Recruiter Dashboard
       </Link>
 
       <div>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20 text-xs font-semibold mb-2">
-          <Briefcase className="w-3.5 h-3.5" /> Requisition Authoring
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-crimson/10 text-crimson border border-crimson/25 font-mono text-xs tracking-wider uppercase mb-3">
+          <Briefcase className="w-3.5 h-3.5" /> &#123; REQUISITION AUTHORING STUDIO &#125;_
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+        <h1 className="text-2xl sm:text-4xl font-display font-medium text-foreground tracking-tight">
           Create New Job Opening
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="font-mono text-xs sm:text-sm text-pewter dark:text-pewter light:text-slate-600 mt-2 max-w-xl leading-relaxed">
           Post an open engineering position. Candidates will be evaluated against your required skills and gated through domain assessments.
         </p>
       </div>
 
-      <div className="glass-card p-6 sm:p-8">
+      <div className="glass-card p-6 sm:p-8 rounded-[24px] border border-smoke/70 bg-carbon">
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs flex items-center gap-2 animate-fadeIn font-medium">
+          <div className="mb-6 p-4 rounded-[20px] bg-crimson/10 border border-crimson/30 text-crimson text-xs font-mono flex items-center gap-2 animate-fadeIn">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -103,7 +103,7 @@ export const PostJobPage: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Job Title */}
           <div>
-            <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+            <label className="block font-mono text-xs text-pewter uppercase tracking-wider mb-2">
               Job Title *
             </label>
             <input
@@ -112,32 +112,32 @@ export const PostJobPage: React.FC = () => {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Senior Backend Engineer (Java / Distributed Systems)"
               required
-              className="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+              className="w-full px-4 py-3 bg-ash border border-smoke/70 rounded-[20px] font-mono text-xs sm:text-sm text-foreground placeholder-pewter focus:outline-none focus:border-crimson focus:ring-1 focus:ring-crimson transition-all"
             />
           </div>
 
           {/* Role Category */}
           <div>
-            <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+            <label className="block font-mono text-xs text-pewter uppercase tracking-wider mb-2">
               Role Category & Assessment Track *
             </label>
             <select
               value={roleCategory}
               onChange={(e) => setRoleCategory(e.target.value as RoleCategory)}
-              className="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+              className="w-full px-4 py-3 bg-ash border border-smoke/70 rounded-[20px] font-mono text-xs sm:text-sm text-foreground focus:outline-none focus:border-crimson focus:ring-1 focus:ring-crimson transition-all"
             >
               <option value="BACKEND">Backend Engineering</option>
               <option value="FRONTEND">Frontend Engineering</option>
               <option value="AI_ML">AI & Machine Learning</option>
             </select>
-            <p className="text-[11px] text-muted-foreground mt-1.5 font-medium">
+            <p className="font-mono text-[11px] text-pewter mt-1.5">
               Candidates must pass the prerequisite assessment for this track before their application unlocks.
             </p>
           </div>
 
           {/* Required Skills Builder */}
           <div>
-            <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+            <label className="block font-mono text-xs text-pewter uppercase tracking-wider mb-2">
               Required Technical Stack & Skills ({requiredSkills.length}) *
             </label>
 
@@ -147,15 +147,14 @@ export const PostJobPage: React.FC = () => {
                 value={skillInput}
                 onChange={(e) => setSkillInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type skill name and press Enter or click Add (e.g. Docker, Kafka, Redis)"
-                className="flex-1 px-4 py-2 bg-background border border-border rounded-xl text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                placeholder="Type skill name and press Enter (e.g. Docker, Kafka, Redis)"
+                className="flex-1 px-4 py-2.5 bg-ash border border-smoke/70 rounded-[20px] font-mono text-xs text-foreground placeholder-pewter focus:outline-none focus:border-crimson focus:ring-1 focus:ring-crimson transition-all"
               />
               <Button
                 type="button"
                 onClick={handleAddSkill}
                 variant="outline"
                 size="sm"
-                className="font-semibold"
               >
                 Add Skill
               </Button>
@@ -166,13 +165,13 @@ export const PostJobPage: React.FC = () => {
               {requiredSkills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-500/10 border border-indigo-500/25 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-ash border border-smoke/70 text-foreground rounded-full font-mono text-xs"
                 >
                   {skill}
                   <button
                     type="button"
                     onClick={() => handleRemoveSkill(skill)}
-                    className="hover:text-red-500 transition-colors"
+                    className="hover:text-crimson transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -183,7 +182,7 @@ export const PostJobPage: React.FC = () => {
 
           {/* Job Description */}
           <div>
-            <label className="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
+            <label className="block font-mono text-xs text-pewter uppercase tracking-wider mb-2">
               Comprehensive Role Description & Scope *
             </label>
             <textarea
@@ -192,11 +191,11 @@ export const PostJobPage: React.FC = () => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Detail the technical responsibilities, architecture challenges, team structure, and qualifications expected..."
               required
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-xs sm:text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 leading-relaxed transition-all"
+              className="w-full px-4 py-3 bg-ash border border-smoke/70 rounded-[20px] font-mono text-xs sm:text-sm text-foreground placeholder-pewter focus:outline-none focus:border-crimson focus:ring-1 focus:ring-crimson leading-relaxed transition-all"
             />
           </div>
 
-          <div className="pt-4 border-t border-border/70 flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-smoke/70 flex items-center justify-end gap-3">
             <Link to="/recruiter/dashboard">
               <Button variant="outline" size="md">
                 Cancel
@@ -206,9 +205,9 @@ export const PostJobPage: React.FC = () => {
               type="submit"
               disabled={loading}
               isLoading={loading}
-              variant="indigo"
+              variant="primary"
               size="md"
-              className="gap-1.5 shadow-md font-bold"
+              className="gap-1.5 shadow-md"
             >
               <PlusCircle className="w-4 h-4" />
               {loading ? 'Publishing...' : 'Publish Job Opening'}

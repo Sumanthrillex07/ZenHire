@@ -7,7 +7,7 @@ interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Skeleton: React.FC<SkeletonProps> = ({ className = '', ...props }) => {
   return (
     <div
-      className={`skeleton-shimmer rounded-lg bg-slate-200/80 dark:bg-slate-800/60 ${className}`}
+      className={`skeleton-shimmer rounded-xl bg-[#eee8e8] dark:bg-[#181818] ${className}`}
       {...props}
     />
   );
@@ -15,7 +15,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({ className = '', ...props }) 
 
 export const CardSkeleton: React.FC = () => {
   return (
-    <div className="glass-card p-6 space-y-4">
+    <div className="glass-card rounded-[24px] p-6 space-y-4">
       <div className="flex items-center justify-between">
         <Skeleton className="h-5 w-24" />
         <Skeleton className="h-4 w-16" />
@@ -24,9 +24,9 @@ export const CardSkeleton: React.FC = () => {
       <Skeleton className="h-4 w-full" />
       <Skeleton className="h-4 w-5/6" />
       <div className="flex gap-2 pt-2">
-        <Skeleton className="h-6 w-16 rounded-md" />
-        <Skeleton className="h-6 w-16 rounded-md" />
-        <Skeleton className="h-6 w-16 rounded-md" />
+        <Skeleton className="h-6 w-16 rounded-full" />
+        <Skeleton className="h-6 w-16 rounded-full" />
+        <Skeleton className="h-6 w-16 rounded-full" />
       </div>
     </div>
   );
@@ -34,8 +34,8 @@ export const CardSkeleton: React.FC = () => {
 
 export const TableSkeleton: React.FC<{ rows?: number }> = ({ rows = 5 }) => {
   return (
-    <div className="w-full space-y-3">
-      <div className="flex justify-between items-center py-2 border-b border-slate-200 dark:border-slate-800">
+    <div className="w-full space-y-3 font-mono">
+      <div className="flex justify-between items-center py-2 border-b border-[#e3dede] dark:border-[#1e1c1c]">
         <Skeleton className="h-4 w-28" />
         <Skeleton className="h-4 w-36" />
         <Skeleton className="h-4 w-20" />
@@ -44,7 +44,7 @@ export const TableSkeleton: React.FC<{ rows?: number }> = ({ rows = 5 }) => {
         <div key={i} className="flex justify-between items-center py-3">
           <Skeleton className="h-4 w-32" />
           <Skeleton className="h-4 w-48" />
-          <Skeleton className="h-6 w-20 rounded-md" />
+          <Skeleton className="h-6 w-20 rounded-full" />
         </div>
       ))}
     </div>

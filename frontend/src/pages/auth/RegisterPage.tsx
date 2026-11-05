@@ -53,30 +53,31 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
+    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 font-sans">
       <div className="w-full max-w-md space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-indigo-600 shadow-lg shadow-emerald-500/20">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#ea2845] to-[#780f20] shadow-lg shadow-[#ea2845]/20">
             <Sparkles className="w-6 h-6 text-white" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <div className="bracketed-eyebrow mt-1">&#123; ONBOARDING &#125;_</div>
+          <h2 className="text-2xl sm:text-3xl font-medium text-[#0c0909] dark:text-white tracking-tight">
             Create your account
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+          <p className="font-mono text-xs sm:text-sm text-[#6e6868] dark:text-[#9b9a9a] font-light">
             Join ZenHire for verified matchmaking and candidate intelligence
           </p>
         </div>
 
         {/* Role Toggle Selector */}
-        <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xs">
+        <div className="grid grid-cols-2 p-1 bg-[#f0eded] dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-full shadow-2xs font-mono">
           <button
             type="button"
             onClick={() => setRole('ROLE_CANDIDATE')}
-            className={`py-2.5 text-xs font-bold rounded-xl transition-all duration-150 ${
+            className={`py-2 text-xs font-medium rounded-full transition-all duration-150 ${
               role === 'ROLE_CANDIDATE'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-[#050303] text-white dark:bg-white dark:text-[#050303] shadow-sm'
+                : 'text-[#6e6868] dark:text-[#9b9a9a] hover:text-[#0c0909] dark:hover:text-white'
             }`}
           >
             Candidate
@@ -84,10 +85,10 @@ export const RegisterPage: React.FC = () => {
           <button
             type="button"
             onClick={() => setRole('ROLE_RECRUITER')}
-            className={`py-2.5 text-xs font-bold rounded-xl transition-all duration-150 ${
+            className={`py-2 text-xs font-medium rounded-full transition-all duration-150 ${
               role === 'ROLE_RECRUITER'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-[#050303] text-white dark:bg-white dark:text-[#050303] shadow-sm'
+                : 'text-[#6e6868] dark:text-[#9b9a9a] hover:text-[#0c0909] dark:hover:text-white'
             }`}
           >
             Recruiter / Employer
@@ -95,9 +96,9 @@ export const RegisterPage: React.FC = () => {
         </div>
 
         {/* Form Container */}
-        <div className="glass-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-elevated dark:shadow-glass-dark">
+        <div className="glass-card p-6 sm:p-8 rounded-[24px] bg-white dark:bg-[#0b0b0b] border border-[#e3dede] dark:border-[#373535] shadow-elevated dark:shadow-glass-dark">
           {error && (
-            <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-400 text-xs flex items-center gap-2.5 animate-slide-up">
+            <div className="mb-5 p-3.5 rounded-xl bg-[#ea2845]/10 border border-[#ea2845]/30 text-[#ea2845] font-mono text-xs flex items-center gap-2.5 animate-slide-up">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
@@ -105,45 +106,45 @@ export const RegisterPage: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium font-sans text-[#0c0909] dark:text-white mb-1.5">
                 Full Name
               </label>
               <div className="relative">
-                <UserIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <UserIcon className="w-4 h-4 text-[#9b9a9a] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Jane Doe"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-[24px] text-xs sm:text-sm font-mono text-[#0c0909] dark:text-white placeholder-[#9b9a9a] focus:outline-none focus:border-[#ea2845]/70 focus:ring-1 focus:ring-[#ea2845]/20 transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium font-sans text-[#0c0909] dark:text-white mb-1.5">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <Mail className="w-4 h-4 text-[#9b9a9a] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="jane@example.com"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-[24px] text-xs sm:text-sm font-mono text-[#0c0909] dark:text-white placeholder-[#9b9a9a] focus:outline-none focus:border-[#ea2845]/70 focus:ring-1 focus:ring-[#ea2845]/20 transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium font-sans text-[#0c0909] dark:text-white mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <Lock className="w-4 h-4 text-[#9b9a9a] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
@@ -151,12 +152,12 @@ export const RegisterPage: React.FC = () => {
                   placeholder="•••••••• (min 6 characters)"
                   required
                   minLength={6}
-                  className="w-full pl-10 pr-10 py-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                  className="w-full pl-10 pr-10 py-2.5 bg-white dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-[24px] text-xs sm:text-sm font-mono text-[#0c0909] dark:text-white placeholder-[#9b9a9a] focus:outline-none focus:border-[#ea2845]/70 focus:ring-1 focus:ring-[#ea2845]/20 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-[#9b9a9a] hover:text-[#0c0909] dark:hover:text-white"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -165,18 +166,18 @@ export const RegisterPage: React.FC = () => {
 
             {role === 'ROLE_RECRUITER' && (
               <div className="animate-fade-in">
-                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                <label className="block text-xs font-medium font-sans text-[#0c0909] dark:text-white mb-1.5">
                   Company Name
                 </label>
                 <div className="relative">
-                  <Building2 className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Building2 className="w-4 h-4 text-[#9b9a9a] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                   <input
                     type="text"
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     placeholder="Acme Technologies Inc."
                     required
-                    className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+                    className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-[24px] text-xs sm:text-sm font-mono text-[#0c0909] dark:text-white placeholder-[#9b9a9a] focus:outline-none focus:border-[#ea2845]/70 focus:ring-1 focus:ring-[#ea2845]/20 transition-all"
                   />
                 </div>
               </div>
@@ -184,19 +185,19 @@ export const RegisterPage: React.FC = () => {
 
             <Button
               type="submit"
-              variant={role === 'ROLE_RECRUITER' ? 'indigo' : 'primary'}
+              variant="primary"
               size="lg"
               isLoading={loading}
-              className="w-full mt-2 font-bold shadow-md shadow-emerald-500/20"
+              className="w-full mt-2 font-semibold shadow-sm"
               rightIcon={!loading && <ArrowRight className="w-4 h-4" />}
             >
               Create Account
             </Button>
           </form>
 
-          <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 text-center text-xs text-slate-500 dark:text-slate-400">
+          <div className="mt-6 pt-4 border-t border-[#eee8e8] dark:border-[#1e1c1c] text-center text-xs font-mono text-[#6e6868] dark:text-[#9b9a9a]">
             Already have an account?{' '}
-            <Link to="/login" className="text-emerald-600 dark:text-emerald-400 hover:underline font-bold">
+            <Link to="/login" className="text-[#ea2845] hover:underline font-medium">
               Sign In
             </Link>
           </div>

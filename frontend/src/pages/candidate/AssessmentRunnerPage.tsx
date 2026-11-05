@@ -99,44 +99,44 @@ export const AssessmentRunnerPage: React.FC = () => {
   if (result) {
     return (
       <div className="max-w-xl mx-auto px-4 py-16 animate-fadeIn">
-        <div className="glass-card p-8 sm:p-10 text-center space-y-6">
+        <div className="glass-card p-8 sm:p-10 text-center space-y-6 rounded-[24px] border border-smoke/70 bg-carbon">
           <div
-            className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto border ${
+            className={`w-16 h-16 rounded-[20px] flex items-center justify-center mx-auto border ${
               result.passed
-                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
-                : 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400'
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                : 'bg-crimson/10 border-crimson/30 text-crimson'
             }`}
           >
             {result.passed ? <CheckCircle2 className="w-8 h-8" /> : <AlertTriangle className="w-8 h-8" />}
           </div>
 
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mb-3 border">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium mb-3 border">
               {result.passed ? (
-                <span className="text-emerald-700 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/10">
+                <span className="text-emerald-400 border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 rounded-full">
                   PASSED &bull; CREDENTIAL VERIFIED
                 </span>
               ) : (
-                <span className="text-amber-700 dark:text-amber-400 border-amber-500/30 bg-amber-500/10">
+                <span className="text-crimson border-crimson/30 bg-crimson/10 px-2 py-0.5 rounded-full">
                   FAILED &bull; RETAKE REQUIRED
                 </span>
               )}
             </div>
 
-            <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
+            <h2 className="text-3xl font-display font-medium text-foreground tracking-tight">
               Score: {result.score}%
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="font-mono text-xs sm:text-sm text-pewter mt-1">
               You answered {result.correctCount} of {result.totalQuestions} questions correctly.
               (Passing requirement: {test.passScore}%)
             </p>
           </div>
 
-          <div className="p-4 bg-muted/40 rounded-xl border border-border/70 text-xs text-muted-foreground text-left space-y-1">
-            <div className="flex items-center gap-1.5 text-foreground font-semibold mb-1">
-              <ShieldCheck className="w-4 h-4 text-primary" /> Assessment Gating Impact:
+          <div className="p-4 bg-ash rounded-[16px] border border-smoke/70 text-xs font-mono text-pewter text-left space-y-1">
+            <div className="flex items-center gap-1.5 text-foreground font-display font-medium mb-1">
+              <ShieldCheck className="w-4 h-4 text-crimson" /> Assessment Gating Impact:
             </div>
-            <p>
+            <p className="leading-relaxed">
               {result.passed
                 ? `Congratulations! You have satisfied the assessment gate for all ${test.roleCategory || 'General'} engineering requisitions.`
                 : `You fell short of the ${test.passScore}% pass threshold. You can review key topic areas on your dashboard and retry anytime.`}
@@ -151,7 +151,7 @@ export const AssessmentRunnerPage: React.FC = () => {
             </Link>
             {result.passed ? (
               <Link to="/jobs" className="flex-1">
-                <Button variant="primary" size="md" className="w-full gap-1.5 font-bold">
+                <Button variant="primary" size="md" className="w-full gap-1.5 font-display font-medium">
                   Browse Gated Roles <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
@@ -165,7 +165,7 @@ export const AssessmentRunnerPage: React.FC = () => {
                 }}
                 variant="primary"
                 size="md"
-                className="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold"
+                className="flex-1 font-display font-medium"
               >
                 Retry Assessment Now
               </Button>
@@ -182,25 +182,25 @@ export const AssessmentRunnerPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-fadeIn">
       {/* Test Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-border/70">
+      <div className="flex items-center justify-between pb-4 border-b border-smoke/70">
         <div>
-          <span className="text-xs text-muted-foreground font-medium">ZenHire Verified Evaluation</span>
-          <h1 className="text-xl font-bold text-foreground tracking-tight">{test.title}</h1>
+          <span className="font-mono text-xs text-crimson uppercase tracking-wider block mb-1">&#123; VERIFIED TECHNICAL BENCHMARK &#125;_</span>
+          <h1 className="text-xl sm:text-2xl font-display font-medium text-foreground tracking-tight">{test.title}</h1>
         </div>
         {test.roleCategory && <CategoryBadge category={test.roleCategory} />}
       </div>
 
       {/* Progress Bar & Question Tracker */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+      <div className="space-y-2 font-mono text-xs text-pewter">
+        <div className="flex items-center justify-between">
           <span>
             Question <b className="text-foreground">{currentIndex + 1}</b> of {test.questions.length}
           </span>
           <span className="font-medium">{progressPercent}% Complete</span>
         </div>
-        <div className="w-full bg-muted h-2.5 rounded-full overflow-hidden">
+        <div className="w-full bg-ash h-2.5 rounded-full overflow-hidden border border-smoke/50">
           <div
-            className="bg-primary h-full rounded-full transition-all duration-300"
+            className="bg-crimson h-full rounded-full transition-all duration-300"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -208,17 +208,17 @@ export const AssessmentRunnerPage: React.FC = () => {
 
       {/* Active Question Card */}
       {currentQ && (
-        <div className="glass-card p-6 sm:p-8 space-y-6">
+        <div className="glass-card p-6 sm:p-8 space-y-6 rounded-[24px] border border-smoke/70 bg-carbon">
           <div className="flex items-center justify-between">
-            <span className="px-2.5 py-1 rounded-md bg-primary/10 border border-primary/20 text-[11px] font-semibold text-primary">
+            <span className="px-3 py-1 rounded-full bg-crimson/10 border border-crimson/25 text-[11px] font-mono text-crimson">
               Topic: {currentQ.topicTag}
             </span>
-            <span className="text-[11px] font-medium text-muted-foreground uppercase">
+            <span className="text-[11px] font-mono text-pewter uppercase">
               Difficulty: {currentQ.difficulty}
             </span>
           </div>
 
-          <h2 className="text-base sm:text-lg font-semibold text-foreground leading-relaxed">
+          <h2 className="text-base sm:text-lg font-display font-medium text-foreground leading-relaxed">
             {currentQ.questionText}
           </h2>
 
@@ -231,17 +231,17 @@ export const AssessmentRunnerPage: React.FC = () => {
                   key={optIndex}
                   type="button"
                   onClick={() => handleSelectOption(currentQ.id, optIndex)}
-                  className={`w-full text-left p-4 rounded-xl border text-sm transition-all flex items-start gap-3.5 ${
+                  className={`w-full text-left p-4 rounded-[20px] border text-sm font-mono transition-all flex items-start gap-3.5 ${
                     isSelected
-                      ? 'bg-primary/10 border-primary text-foreground ring-1 ring-primary/40 shadow-sm'
-                      : 'bg-card hover:bg-muted/40 border-border text-foreground/90'
+                      ? 'bg-crimson/10 border-crimson text-foreground ring-1 ring-crimson/40 shadow-sm'
+                      : 'bg-ash hover:bg-smoke/30 border-smoke/70 text-foreground/90'
                   }`}
                 >
                   <div
                     className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                       isSelected
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-muted-foreground/50'
+                        ? 'border-crimson bg-crimson text-bone'
+                        : 'border-pewter/50'
                     }`}
                   >
                     {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
@@ -273,7 +273,7 @@ export const AssessmentRunnerPage: React.FC = () => {
             onClick={() => setCurrentIndex((prev) => Math.min(test.questions.length - 1, prev + 1))}
             variant="primary"
             size="md"
-            className="gap-1.5 font-bold"
+            className="gap-1.5"
           >
             Next Question <ChevronRight className="w-4 h-4" />
           </Button>
@@ -285,7 +285,7 @@ export const AssessmentRunnerPage: React.FC = () => {
             isLoading={submitting}
             variant="primary"
             size="md"
-            className="shadow-md font-bold"
+            className="shadow-md"
           >
             {submitting ? 'Grading Assessment...' : 'Submit Answers & Calculate Score'}
           </Button>

@@ -131,65 +131,65 @@ export const JobBrowsePage: React.FC = () => {
     });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in font-sans">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-bold mb-2 border border-emerald-500/20">
-            <Briefcase className="w-3.5 h-3.5" /> Requisition Discovery
+          <div className="bracketed-eyebrow mb-1">
+            &#123; REQUISITION DISCOVERY &#125;_
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-medium text-[#0c0909] dark:text-white tracking-tight">
             Explore Open Opportunities
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl leading-relaxed">
+          <p className="font-mono text-xs sm:text-sm text-[#6e6868] dark:text-[#9b9a9a] mt-1 max-w-2xl leading-relaxed font-light">
             Browse verified technical roles with automated assessment gating and transparent match evaluation.
           </p>
         </div>
-        <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-          Showing <span className="text-emerald-600 dark:text-emerald-400 font-bold">{filteredJobs.length}</span> active positions
+        <div className="text-xs font-mono text-[#6e6868] dark:text-[#9b9a9a]">
+          Showing <span className="text-[#ea2845] font-semibold">{filteredJobs.length}</span> active positions
         </div>
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="glass-card p-4 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-slate-200/80 dark:border-slate-800 shadow-subtle dark:shadow-glass-dark">
+      <div className="glass-card p-4 rounded-[24px] flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-[#0b0b0b] border border-[#e3dede] dark:border-[#373535] shadow-subtle dark:shadow-glass-dark">
         {/* Category Pills */}
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setSelectedCategory('')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
               selectedCategory === ''
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white border border-slate-200 dark:border-slate-800'
+                ? 'bg-[#050303] text-white dark:bg-white dark:text-[#050303] shadow-xs'
+                : 'bg-[#f0eded] hover:bg-[#e4dede] text-[#6e6868] dark:bg-[#181818] dark:text-[#9b9a9a] dark:hover:text-white border border-[#ded9d9] dark:border-[#373535]'
             }`}
           >
             All Roles
           </button>
           <button
             onClick={() => setSelectedCategory('FRONTEND')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
               selectedCategory === 'FRONTEND'
-                ? 'bg-cyan-600 text-white shadow-xs'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white border border-slate-200 dark:border-slate-800'
+                ? 'bg-[#050303] text-white dark:bg-white dark:text-[#050303] shadow-xs'
+                : 'bg-[#f0eded] hover:bg-[#e4dede] text-[#6e6868] dark:bg-[#181818] dark:text-[#9b9a9a] dark:hover:text-white border border-[#ded9d9] dark:border-[#373535]'
             }`}
           >
             Frontend
           </button>
           <button
             onClick={() => setSelectedCategory('BACKEND')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
               selectedCategory === 'BACKEND'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white border border-slate-200 dark:border-slate-800'
+                ? 'bg-[#050303] text-white dark:bg-white dark:text-[#050303] shadow-xs'
+                : 'bg-[#f0eded] hover:bg-[#e4dede] text-[#6e6868] dark:bg-[#181818] dark:text-[#9b9a9a] dark:hover:text-white border border-[#ded9d9] dark:border-[#373535]'
             }`}
           >
             Backend
           </button>
           <button
             onClick={() => setSelectedCategory('AI_ML')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
               selectedCategory === 'AI_ML'
-                ? 'bg-indigo-600 text-white shadow-xs'
-                : 'bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white border border-slate-200 dark:border-slate-800'
+                ? 'bg-[#ea2845] text-white shadow-xs'
+                : 'bg-[#f0eded] hover:bg-[#e4dede] text-[#6e6868] dark:bg-[#181818] dark:text-[#9b9a9a] dark:hover:text-white border border-[#ded9d9] dark:border-[#373535]'
             }`}
           >
             AI &amp; ML
@@ -198,18 +198,18 @@ export const JobBrowsePage: React.FC = () => {
 
         {/* Search Input */}
         <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#9b9a9a] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search title, skill, or company..."
-            className="w-full pl-9 pr-9 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+            className="w-full pl-9 pr-9 py-2 bg-white dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-[24px] text-xs sm:text-sm font-mono text-[#0c0909] dark:text-white placeholder-[#9b9a9a] focus:outline-none focus:border-[#ea2845]/70 focus:ring-1 focus:ring-[#ea2845]/20 transition-all"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9b9a9a] hover:text-[#0c0909] dark:hover:text-white"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -226,10 +226,10 @@ export const JobBrowsePage: React.FC = () => {
           <CardSkeleton />
         </div>
       ) : filteredJobs.length === 0 ? (
-        <div className="glass-card p-12 text-center rounded-2xl border border-slate-200/80 dark:border-slate-800">
-          <Briefcase className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
-          <h3 className="text-base font-bold text-slate-900 dark:text-white">No job openings found</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
+        <div className="glass-card p-12 text-center rounded-[24px] bg-white dark:bg-[#0b0b0b] border border-[#e3dede] dark:border-[#373535]">
+          <Briefcase className="w-12 h-12 text-[#9b9a9a] mx-auto mb-3" />
+          <h3 className="text-base font-medium font-sans text-[#0c0909] dark:text-white">No job openings found</h3>
+          <p className="text-xs font-mono text-[#6e6868] dark:text-[#9b9a9a] mt-1 max-w-sm mx-auto font-light">
             Try tweaking your search keywords or resetting your category filters.
           </p>
           {(selectedCategory || searchQuery) && (
@@ -238,7 +238,7 @@ export const JobBrowsePage: React.FC = () => {
                 setSelectedCategory('');
                 setSearchQuery('');
               }}
-              className="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold transition-all"
+              className="mt-4 px-4 py-2 bg-[#f0eded] hover:bg-[#e4dede] dark:bg-[#181818] dark:hover:bg-[#252222] text-[#0c0909] dark:text-white rounded-[20px] text-xs font-mono transition-all border border-[#ded9d9] dark:border-[#373535]"
             >
               Reset Filters
             </button>
@@ -251,27 +251,27 @@ export const JobBrowsePage: React.FC = () => {
             return (
               <div
                 key={job.id}
-                className={`glass-card rounded-2xl border ${
+                className={`glass-card rounded-[24px] bg-white dark:bg-[#0b0b0b] border ${
                   isApplied
-                    ? 'border-emerald-500/30 bg-emerald-500/[0.015]'
-                    : 'border-slate-200/80 dark:border-slate-800 hover:border-emerald-500/40 dark:hover:border-slate-700'
+                    ? 'border-[#ea2845]/30 opacity-90'
+                    : 'border-[#e3dede] dark:border-[#373535] hover:border-[#ea2845]/40'
                 } flex flex-col justify-between transition-all hover:translate-y-[-2px] shadow-subtle dark:shadow-sm p-6`}
               >
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <div>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+                      <h3 className="text-base sm:text-lg font-medium text-[#0c0909] dark:text-white hover:text-[#ea2845] transition-colors font-sans">
                         <Link to={`/jobs/${job.id}`}>{job.title}</Link>
                       </h3>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1">
-                        <Building2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                        <span className="font-semibold text-slate-700 dark:text-slate-300">{job.companyName}</span>
+                      <div className="flex items-center gap-1.5 text-xs font-mono text-[#6e6868] dark:text-[#9b9a9a] mt-1">
+                        <Building2 className="w-3.5 h-3.5 text-[#ea2845]" />
+                        <span className="font-normal text-[#0c0909] dark:text-white">{job.companyName}</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <CategoryBadge category={job.roleCategory} />
                       {isApplied && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25">
                           <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                           Applied
                         </span>
@@ -279,7 +279,7 @@ export const JobBrowsePage: React.FC = () => {
                     </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mt-2 leading-relaxed">
+                  <p className="text-xs sm:text-sm font-mono text-[#6e6868] dark:text-[#9b9a9a] line-clamp-2 mt-2 leading-relaxed font-light">
                     {job.description}
                   </p>
 
@@ -288,13 +288,13 @@ export const JobBrowsePage: React.FC = () => {
                     {job.requiredSkills.slice(0, 5).map((skill, i) => (
                       <span
                         key={i}
-                        className="px-2.5 py-0.5 rounded-lg text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800"
+                        className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-black/5 dark:bg-[#181818] text-[#0c0909] dark:text-white border border-[#ded9d9] dark:border-[#373535]"
                       >
                         {skill}
                       </span>
                     ))}
                     {job.requiredSkills.length > 5 && (
-                      <span className="text-[11px] text-slate-400 dark:text-slate-500 self-center font-medium">
+                      <span className="text-[11px] font-mono text-[#6e6868] dark:text-[#9b9a9a] self-center">
                         +{job.requiredSkills.length - 5} more
                       </span>
                     )}
@@ -302,8 +302,8 @@ export const JobBrowsePage: React.FC = () => {
                 </div>
 
                 {/* Card Footer */}
-                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-[11px] text-slate-400 dark:text-slate-500">
+                <div className="mt-6 pt-4 border-t border-[#eee8e8] dark:border-[#1e1c1c] flex items-center justify-between">
+                  <div className="flex items-center gap-4 text-[11px] font-mono text-[#6e6868] dark:text-[#9b9a9a]">
                     <span className="flex items-center gap-1">
                       <Users className="w-3.5 h-3.5" /> {job.applicantsCount} {job.applicantsCount === 1 ? 'applicant' : 'applicants'}
                     </span>
@@ -316,7 +316,7 @@ export const JobBrowsePage: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <Link
                       to={`/jobs/${job.id}`}
-                      className="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold border border-slate-200 dark:border-slate-700 transition-all active:scale-95"
+                      className="px-3.5 py-1.5 bg-[#f0eded] hover:bg-[#e4dede] text-[#050303] dark:bg-[#181818] dark:hover:bg-[#252222] dark:text-white rounded-[20px] text-xs font-mono font-medium border border-[#ded9d9] dark:border-[#373535] transition-all active:scale-95"
                     >
                       Details
                     </Link>
@@ -325,7 +325,7 @@ export const JobBrowsePage: React.FC = () => {
                         variant="outline"
                         size="sm"
                         disabled
-                        className="font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/30 cursor-not-allowed opacity-90 shadow-2xs"
+                        className="font-mono font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/30 cursor-not-allowed opacity-90 shadow-2xs"
                       >
                         <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-600 dark:text-emerald-400" />
                         Applied
@@ -336,7 +336,7 @@ export const JobBrowsePage: React.FC = () => {
                         size="sm"
                         onClick={() => handleApply(job)}
                         isLoading={applyingJobId === job.id}
-                        className="font-bold shadow-xs"
+                        className="font-sans font-semibold shadow-xs"
                       >
                         Apply
                       </Button>
@@ -355,22 +355,22 @@ export const JobBrowsePage: React.FC = () => {
         onClose={() => setGatingError(null)}
         title="Assessment Gating Required"
       >
-        <div className="space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20 flex items-center justify-center mx-auto">
+        <div className="space-y-4 font-mono">
+          <div className="w-12 h-12 rounded-2xl bg-[#ea2845]/10 text-[#ea2845] border border-[#ea2845]/25 flex items-center justify-center mx-auto">
             <ShieldAlert className="w-6 h-6" />
           </div>
 
           <div className="text-center space-y-1">
-            <h4 className="text-base font-bold text-slate-900 dark:text-white">Technical Credential Prerequisite</h4>
-            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-w-sm mx-auto">
+            <h4 className="text-base font-medium font-sans text-[#0c0909] dark:text-white">Technical Credential Prerequisite</h4>
+            <p className="text-xs text-[#6e6868] dark:text-[#9b9a9a] leading-relaxed max-w-sm mx-auto font-light">
               {gatingError?.message}
             </p>
           </div>
 
-          <div className="p-3.5 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 flex items-start gap-2.5">
-            <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+          <div className="p-3.5 bg-[#faf8f8] dark:bg-[#181818] rounded-2xl border border-[#ded9d9] dark:border-[#373535] text-xs text-[#6e6868] dark:text-[#9b9a9a] flex items-start gap-2.5 font-light">
+            <Award className="w-4 h-4 text-[#ea2845] shrink-0 mt-0.5" />
             <span className="leading-relaxed">
-              ZenHire ensures verified, merit-grounded evaluations. Passing this role test verifies your core competencies and unlocks 1-click application submission.
+              ZenHire ensures verified, merit-grounded evaluations. Passing this role assessment verifies your technical competencies and unlocks 1-click submission.
             </span>
           </div>
 
@@ -385,7 +385,7 @@ export const JobBrowsePage: React.FC = () => {
                 setGatingError(null);
                 navigate(targetUrl);
               }}
-              className="w-full font-bold"
+              className="w-full font-semibold"
               rightIcon={<ArrowRight className="w-4 h-4" />}
             >
               Take Prerequisite Assessment
@@ -408,22 +408,22 @@ export const JobBrowsePage: React.FC = () => {
         onClose={() => setAppliedSuccessJobTitle(null)}
         title="Application Submitted!"
       >
-        <div className="space-y-4 text-center">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center mx-auto">
+        <div className="space-y-4 text-center font-mono">
+          <div className="w-12 h-12 rounded-2xl bg-[#ea2845]/10 text-[#ea2845] border border-[#ea2845]/25 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-6 h-6" />
           </div>
 
           <div>
-            <h4 className="text-base font-bold text-slate-900 dark:text-white">Application Recorded</h4>
-            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-xs mx-auto leading-relaxed">
-              You have successfully applied for <b className="text-emerald-600 dark:text-emerald-400">{appliedSuccessJobTitle}</b>. Your profile and hybrid match score have been forwarded to the employer.
+            <h4 className="text-base font-medium font-sans text-[#0c0909] dark:text-white">Application Recorded</h4>
+            <p className="text-xs text-[#6e6868] dark:text-[#9b9a9a] mt-1 max-w-xs mx-auto leading-relaxed font-light">
+              You have successfully applied for <b className="text-[#ea2845] font-medium">{appliedSuccessJobTitle}</b>. Your profile and hybrid match score have been forwarded to the employer.
             </p>
           </div>
 
           <div className="pt-2 flex flex-col gap-2">
             <Link
               to="/candidate/applications"
-              className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs transition-all shadow-sm block text-center"
+              className="w-full py-2.5 bg-[#050303] text-white dark:bg-white dark:text-[#050303] hover:opacity-90 font-semibold rounded-[20px] text-xs transition-all shadow-sm block text-center font-sans"
             >
               Track Application in Pipeline
             </Link>

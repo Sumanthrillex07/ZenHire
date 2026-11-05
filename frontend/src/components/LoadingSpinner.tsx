@@ -10,9 +10,9 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ text = 'Loading.
   const sizeClass = size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-8 h-8' : 'w-6 h-6';
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 gap-3 text-slate-500 dark:text-slate-400">
-      <Loader2 className={`${sizeClass} animate-spin text-emerald-600 dark:text-emerald-400`} />
-      {text && <p className="text-xs sm:text-sm font-medium tracking-tight animate-pulse">{text}</p>}
+    <div className="flex flex-col items-center justify-center p-8 gap-3 text-[#6e6868] dark:text-[#9b9a9a]">
+      <Loader2 className={`${sizeClass} animate-spin text-[#ea2845]`} />
+      {text && <p className="text-xs sm:text-sm font-mono tracking-tight animate-pulse">{text}</p>}
     </div>
   );
 };

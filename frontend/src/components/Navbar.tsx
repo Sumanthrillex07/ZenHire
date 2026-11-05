@@ -34,28 +34,28 @@ export const Navbar: React.FC = () => {
 
   const getLinkClasses = (path: string) => {
     const active = isActive(path);
-    return `flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-150 ${
+    return `flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-150 ${
       active
-        ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold border border-emerald-500/20 shadow-xs'
-        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/60'
+        ? 'bg-[#ea2845]/10 text-[#ea2845] font-semibold border border-[#ea2845]/30 shadow-xs'
+        : 'text-[#6e6868] dark:text-[#9b9a9a] hover:text-[#050303] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
     }`;
   };
 
   return (
-    <nav className="sticky top-0 z-50 glass-panel border-b border-slate-200/80 dark:border-slate-800/80 shadow-subtle dark:shadow-glass-dark">
+    <nav className="sticky top-0 z-50 bg-white/90 dark:bg-[#050303]/90 backdrop-blur-md border-b border-[#e3dede] dark:border-[#373535]/70 transition-colors duration-150">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* Logo with Nest Crimson furnace mark */}
           <Link to="/" className="flex items-center gap-2.5 group select-none">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-indigo-600 flex items-center justify-center shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-200">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#ea2845] to-[#780f20] flex items-center justify-center shadow-md shadow-[#ea2845]/25 group-hover:scale-105 transition-transform duration-200">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                Zen<span className="text-emerald-600 dark:text-emerald-400">Hire</span>
+              <span className="text-lg font-medium tracking-tight font-sans text-[#0c0909] dark:text-white group-hover:text-[#ea2845] transition-colors">
+                Zen<span className="text-[#ea2845]">Hire</span>
               </span>
-              <span className="text-[9px] text-slate-500 dark:text-slate-400 tracking-wider uppercase font-bold -mt-0.5">
-                AI Talent Intelligence
+              <span className="text-[9px] font-mono text-[#6e6868] dark:text-[#9b9a9a] tracking-wider uppercase -mt-0.5">
+                &#123; TALENT INTELLIGENCE &#125;_
               </span>
             </div>
           </Link>
@@ -70,13 +70,13 @@ export const Navbar: React.FC = () => {
                 </Link>
                 <Link
                   to="/login"
-                  className="px-3.5 py-1.5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors"
+                  className="px-3.5 py-1.5 text-xs sm:text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:text-[#050303] dark:hover:text-white transition-colors font-sans"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-all shadow-sm hover:shadow-emerald-500/25 active:scale-[0.98]"
+                  className="px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-[#050303] dark:bg-white dark:text-[#050303] hover:opacity-90 rounded-[20px] transition-all shadow-sm active:scale-[0.98] font-sans"
                 >
                   Get Started
                 </Link>
@@ -116,7 +116,7 @@ export const Navbar: React.FC = () => {
                 </Link>
                 <Link
                   to="/recruiter/jobs/new"
-                  className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl transition-all shadow-sm hover:shadow-indigo-500/25 active:scale-[0.98]"
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-[#ea2845] to-[#780f20] hover:opacity-95 rounded-[20px] transition-all shadow-sm active:scale-[0.98] font-sans"
                 >
                   <PlusCircle className="w-4 h-4" />
                   Post Job
@@ -125,25 +125,25 @@ export const Navbar: React.FC = () => {
             )}
 
             {/* Theme Toggle */}
-            <div className="pl-2 border-l border-slate-200 dark:border-slate-800">
+            <div className="pl-2 border-l border-[#ded9d9] dark:border-[#373535]">
               <ThemeToggle />
             </div>
 
             {/* User Profile Pill & Logout */}
             {isAuthenticated && user && (
               <div className="flex items-center gap-2 pl-2">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100/80 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
-                  <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300 font-bold text-xs">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-[#f0eded] dark:bg-[#1e1c1c] border border-[#ded9d9] dark:border-[#373535] rounded-full">
+                  <div className="w-5 h-5 rounded-full bg-[#e4dfdf] dark:bg-[#0b0b0b] border border-[#ded9d9] dark:border-[#373535] flex items-center justify-center text-[#050303] dark:text-white font-mono text-xs">
                     {user.name.charAt(0).toUpperCase()}
                   </div>
-                  <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 max-w-[120px] truncate">
+                  <span className="text-xs font-medium text-[#050303] dark:text-white max-w-[120px] truncate font-sans">
                     {user.name}
                   </span>
                   <span
-                    className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded-md uppercase tracking-wider ${
+                    className={`text-[9px] font-mono px-1.5 py-0.5 rounded-full uppercase tracking-wider ${
                       user.role === 'ROLE_RECRUITER'
-                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-500/20 dark:text-indigo-300 dark:border-indigo-500/30'
-                        : 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/30'
+                        ? 'bg-[#ea2845]/15 text-[#ea2845] border border-[#ea2845]/30'
+                        : 'bg-[#a5d6ff]/15 text-[#0284c7] dark:text-[#a5d6ff] border border-[#a5d6ff]/30'
                     }`}
                   >
                     {user.role === 'ROLE_RECRUITER' ? 'RECRUITER' : 'CANDIDATE'}
@@ -152,7 +152,7 @@ export const Navbar: React.FC = () => {
                 <button
                   onClick={handleLogout}
                   title="Sign Out"
-                  className="p-2 text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-colors"
+                  className="p-1.5 text-[#9b9a9a] hover:text-[#ea2845] hover:bg-[#ea2845]/10 rounded-full transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -166,7 +166,7 @@ export const Navbar: React.FC = () => {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle navigation menu"
-              className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2 text-[#6e6868] dark:text-[#9b9a9a] hover:text-[#050303] dark:hover:text-white rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -176,18 +176,18 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md px-4 py-4 space-y-3 animate-fade-in">
+        <div className="md:hidden border-t border-[#e3dede] dark:border-[#373535] bg-white/98 dark:bg-[#0b0b0b]/98 backdrop-blur-md px-4 py-4 space-y-3 animate-fade-in font-sans">
           {isAuthenticated && user && (
-            <div className="pb-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <div className="pb-3 border-b border-[#e3dede] dark:border-[#1e1c1c] flex items-center justify-between">
               <div>
-                <p className="text-sm font-bold text-slate-900 dark:text-white">{user.name}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{user.email}</p>
+                <p className="text-sm font-medium text-[#050303] dark:text-white">{user.name}</p>
+                <p className="text-xs font-mono text-[#6e6868] dark:text-[#9b9a9a]">{user.email}</p>
               </div>
               <span
-                className={`text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider ${
+                className={`text-[9px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider ${
                   user.role === 'ROLE_RECRUITER'
-                    ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300'
-                    : 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300'
+                    ? 'bg-[#ea2845]/15 text-[#ea2845] border border-[#ea2845]/30'
+                    : 'bg-[#a5d6ff]/15 text-[#0284c7] dark:text-[#a5d6ff] border border-[#a5d6ff]/30'
                 }`}
               >
                 {user.role === 'ROLE_RECRUITER' ? 'Recruiter' : 'Candidate'}
@@ -200,21 +200,21 @@ export const Navbar: React.FC = () => {
               <Link
                 to="/jobs"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="block px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
               >
                 Explore Jobs
               </Link>
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="block px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-center py-2.5 bg-emerald-600 text-white font-semibold rounded-xl text-sm shadow-sm"
+                className="block text-center py-2.5 bg-[#050303] dark:bg-white dark:text-[#050303] text-white font-semibold rounded-[20px] text-sm shadow-sm"
               >
                 Get Started
               </Link>
@@ -226,41 +226,41 @@ export const Navbar: React.FC = () => {
                   <Link
                     to="/candidate/dashboard"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
                   >
-                    <Layers className="w-4 h-4 text-emerald-500" />
+                    <Layers className="w-4 h-4 text-[#ea2845]" />
                     Dashboard
                   </Link>
                   <Link
                     to="/jobs"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
                   >
-                    <Briefcase className="w-4 h-4 text-emerald-500" />
+                    <Briefcase className="w-4 h-4 text-[#ea2845]" />
                     Find Jobs
                   </Link>
                   <Link
                     to="/candidate/assessments"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
                   >
-                    <CheckSquare className="w-4 h-4 text-emerald-500" />
+                    <CheckSquare className="w-4 h-4 text-[#ea2845]" />
                     Assessments
                   </Link>
                   <Link
                     to="/candidate/resume"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
                   >
-                    <FileText className="w-4 h-4 text-emerald-500" />
+                    <FileText className="w-4 h-4 text-[#ea2845]" />
                     My Resume
                   </Link>
                   <Link
                     to="/candidate/applications"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
                   >
-                    <Briefcase className="w-4 h-4 text-emerald-500" />
+                    <Briefcase className="w-4 h-4 text-[#ea2845]" />
                     Applications
                   </Link>
                 </>
@@ -269,17 +269,17 @@ export const Navbar: React.FC = () => {
                   <Link
                     to="/recruiter/dashboard"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
                   >
-                    <Layers className="w-4 h-4 text-indigo-500" />
+                    <Layers className="w-4 h-4 text-[#ea2845]" />
                     Recruiter Dashboard
                   </Link>
                   <Link
                     to="/recruiter/jobs/new"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-[#6e6868] dark:text-[#9b9a9a] hover:bg-black/5 dark:hover:bg-white/5"
                   >
-                    <PlusCircle className="w-4 h-4 text-indigo-500" />
+                    <PlusCircle className="w-4 h-4 text-[#ea2845]" />
                     Post Job
                   </Link>
                 </>
@@ -290,7 +290,7 @@ export const Navbar: React.FC = () => {
                   setMobileMenuOpen(false);
                   handleLogout();
                 }}
-                className="w-full text-left px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl flex items-center gap-2 mt-2 pt-2 border-t border-slate-200 dark:border-slate-800"
+                className="w-full text-left px-3 py-2 text-sm font-medium text-[#ea2845] hover:bg-[#ea2845]/10 rounded-xl flex items-center gap-2 mt-2 pt-2 border-t border-[#e3dede] dark:border-[#1e1c1c]"
               >
                 <LogOut className="w-4 h-4" />
                 Sign Out

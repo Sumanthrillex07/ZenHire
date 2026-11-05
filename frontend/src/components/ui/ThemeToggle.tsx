@@ -16,25 +16,25 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '', showLa
       type="button"
       onClick={toggleTheme}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      className={`relative inline-flex items-center justify-center rounded-xl p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 bg-slate-100/90 hover:bg-slate-200/80 dark:bg-slate-900/80 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 ${className}`}
+      className={`relative inline-flex items-center justify-center rounded-full p-2 text-[#6e6868] hover:text-[#050303] dark:text-[#9b9a9a] dark:hover:text-white bg-[#f0eded] hover:bg-[#e5dfdf] dark:bg-[#1e1c1c] dark:hover:bg-[#282626] border border-[#ded9d9] dark:border-[#373535] transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#ea2845]/30 ${className}`}
     >
       <div className="relative w-4 h-4 flex items-center justify-center overflow-hidden">
         <Sun
           style={{ transitionDelay: '250ms' }}
-          className={`w-4 h-4 text-amber-400 absolute transition-all duration-300 ease-in-out ${
+          className={`w-4 h-4 text-amber-500 dark:text-amber-400 absolute transition-all duration-300 ease-in-out ${
             isDark ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0 pointer-events-none'
           }`}
         />
         <Moon
           style={{ transitionDelay: '250ms' }}
-          className={`w-4 h-4 text-indigo-600 dark:text-indigo-400 absolute transition-all duration-300 ease-in-out ${
+          className={`w-4 h-4 text-[#ea2845] absolute transition-all duration-300 ease-in-out ${
             isDark ? '-rotate-90 scale-0 opacity-0 pointer-events-none' : 'rotate-0 scale-100 opacity-100'
           }`}
         />
       </div>
       {showLabel && (
-        <span className="ml-2 text-xs font-medium">
-          {isDark ? 'Light Mode' : 'Dark Mode'}
+        <span className="ml-2 text-xs font-mono">
+          {isDark ? 'Light' : 'Dark'}
         </span>
       )}
     </button>

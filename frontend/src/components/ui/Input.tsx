@@ -17,36 +17,36 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-semibold text-slate-700 dark:text-slate-300"
+            className="block text-xs font-medium font-sans text-[#0c0909] dark:text-white"
           >
             {label}
           </label>
         )}
         <div className="relative flex items-center">
           {leftIcon && (
-            <div className="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+            <div className="absolute left-3.5 flex items-center pointer-events-none text-[#9b9a9a]">
               {leftIcon}
             </div>
           )}
           <input
             id={inputId}
             ref={ref}
-            className={`w-full rounded-xl text-xs sm:text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 border transition-all duration-150 focus:outline-none focus:ring-2 disabled:opacity-50 disabled:bg-slate-50 dark:disabled:bg-slate-950 ${
+            className={`w-full rounded-[24px] text-xs sm:text-sm font-mono bg-white dark:bg-[#0b0b0b] text-[#0c0909] dark:text-white placeholder:text-[#9b9a9a] dark:placeholder:text-[#9b9a9a]/70 border transition-all duration-150 focus:outline-none focus:ring-2 disabled:opacity-50 disabled:bg-[#f5f2f2] dark:disabled:bg-[#181818] ${
               error
-                ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-                : 'border-slate-300 dark:border-slate-800 focus:border-emerald-500 focus:ring-emerald-500/20'
-            } ${leftIcon ? 'pl-10' : 'pl-3.5'} ${rightIcon ? 'pr-10' : 'pr-3.5'} py-2.5 min-h-[40px] ${className}`}
+                ? 'border-[#ea2845] focus:border-[#ea2845] focus:ring-[#ea2845]/20'
+                : 'border-[#ded9d9] dark:border-[#373535] focus:border-[#ea2845]/60 focus:ring-[#ea2845]/20'
+            } ${leftIcon ? 'pl-10' : 'pl-4'} ${rightIcon ? 'pr-10' : 'pr-4'} py-2.5 min-h-[42px] ${className}`}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3.5 flex items-center text-slate-400">
+            <div className="absolute right-3.5 flex items-center text-[#9b9a9a]">
               {rightIcon}
             </div>
           )}
         </div>
-        {error && <p className="text-[11px] text-red-500 font-medium">{error}</p>}
+        {error && <p className="text-[11px] font-mono text-[#ea2845] font-medium">{error}</p>}
         {helperText && !error && (
-          <p className="text-[11px] text-slate-500 dark:text-slate-400">{helperText}</p>
+          <p className="text-[11px] font-mono text-[#6e6868] dark:text-[#9b9a9a]">{helperText}</p>
         )}
       </div>
     );

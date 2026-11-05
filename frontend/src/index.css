@@ -4,77 +4,77 @@
 
 @layer base {
   :root {
-    /* --- Light Mode Tokens (Linear / Stripe / Vercel style) --- */
-    --background: 210 40% 98%;          /* #f8fafc */
-    --foreground: 222.2 47.4% 11.2%;     /* #0f172a - rich slate */
+    /* --- Light Mode Tokens (NestJS Complementary Warm Linen/Bone) --- */
+    --background: 0 14% 97.5%;          /* #faf8f8 - Linen warm canvas */
+    --foreground: 0 10% 4%;             /* #0c0909 - deep carbon ink */
     
     --card: 0 0% 100%;                  /* #ffffff */
-    --card-foreground: 222.2 47.4% 11.2%;/* #0f172a */
+    --card-foreground: 0 10% 4%;        /* #0c0909 */
     
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 0 10% 4%;
     
-    --primary: 158 64% 42%;             /* #059669 - emerald primary */
+    --primary: 0 25% 1.6%;              /* #050303 - bold carbon button */
     --primary-foreground: 0 0% 100%;    /* #ffffff */
     
-    --secondary: 210 40% 96.1%;         /* #f1f5f9 */
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 6% 94%;              /* #f2eded - light ash */
+    --secondary-foreground: 0 10% 4%;
     
-    --muted: 210 40% 96.1%;             /* #f1f5f9 */
-    --muted-foreground: 215.4 16.3% 46.9%; /* #64748b */
+    --muted: 0 6% 94.5%;                /* #f3efef */
+    --muted-foreground: 0 2.5% 42%;     /* #6e6868 - light pewter */
     
-    --accent: 210 40% 96.1%;            /* #f1f5f9 */
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 0 6% 94%;                 /* #f2eded */
+    --accent-foreground: 0 10% 4%;
     
-    --destructive: 0 84.2% 60.2%;       /* #ef4444 */
+    --destructive: 351 81.3% 53.7%;     /* #ea2845 - Nest Crimson */
     --destructive-foreground: 0 0% 100%;
     
-    --border: 214.3 31.8% 91.4%;        /* #e2e8f0 */
-    --input: 214.3 31.8% 91.4%;         /* #e2e8f0 */
-    --ring: 158 64% 42%;               /* emerald focus ring */
+    --border: 0 5% 88%;                 /* #e3dede - subtle ash border */
+    --input: 0 5% 88%;                  /* #e3dede */
+    --ring: 351 81.3% 53.7%;            /* #ea2845 - Nest Crimson focus */
     
-    --radius: 0.75rem;
+    --radius: 1.5rem;                   /* 24px - standard DESIGN.md card radius */
 
     /* Glass tokens - light */
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    --glass-border: rgba(226, 232, 240, 0.9);
-    --glass-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+    --glass-bg: rgba(255, 255, 255, 0.90);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-shadow: 0 4px 20px -2px rgba(5, 3, 3, 0.06);
   }
 
   .dark {
-    /* --- Dark Mode Tokens (Deep space slate) --- */
-    --background: 224 71% 4%;           /* #050811 - deep dark */
-    --foreground: 210 40% 98%;          /* #f8fafc */
+    /* --- Dark Mode Tokens (NestJS Soot & Crimson Furnace Specification) --- */
+    --background: 0 25% 1.6%;           /* #050303 - Soot Canvas page field */
+    --foreground: 0 0% 100%;            /* #ffffff - Bone White */
     
-    --card: 222 47% 7%;                 /* #0b1120 - charcoal surface */
-    --card-foreground: 210 40% 98%;     /* #f8fafc */
+    --card: 0 0% 4.3%;                  /* #0b0b0b - Carbon Panel */
+    --card-foreground: 0 0% 100%;       /* #ffffff */
     
-    --popover: 222 47% 7%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 4.3%;               /* #0b0b0b - Carbon Panel */
+    --popover-foreground: 0 0% 100%;
     
-    --primary: 158 64% 52%;             /* #10b981 - bright emerald */
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 0 0% 100%;               /* #ffffff - Bone White button */
+    --primary-foreground: 0 25% 1.6%;   /* #050303 - Soot text on primary */
     
-    --secondary: 217.2 32.6% 14%;       /* #172033 */
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 4.8% 11.6%;          /* #1e1c1c - Ash Seam */
+    --secondary-foreground: 0 0% 100%;  /* #ffffff */
     
-    --muted: 217.2 32.6% 12%;           /* #131c2e */
-    --muted-foreground: 215 20.2% 65.1%; /* #94a3b8 */
+    --muted: 0 0% 9.4%;                 /* #181818 - Graphite Slab */
+    --muted-foreground: 0 0.6% 60.6%;   /* #9b9a9a - Pewter Text */
     
-    --accent: 217.2 32.6% 14%;          /* #172033 */
-    --accent-foreground: 210 40% 98%;
+    --accent: 0 4.8% 11.6%;             /* #1e1c1c - Ash Seam */
+    --accent-foreground: 0 0% 100%;
     
-    --destructive: 0 62.8% 30.6%;       /* #7f1d1d */
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 351 81.3% 53.7%;     /* #ea2845 - Nest Crimson */
+    --destructive-foreground: 0 0% 100%;
     
-    --border: 217.2 32.6% 17.5%;        /* #1e293b */
-    --input: 217.2 32.6% 17.5%;         /* #1e293b */
-    --ring: 158 64% 52%;
+    --border: 0 1.8% 21.2%;             /* #373535 - Smoke Outline 1px hairline */
+    --input: 0 1.8% 21.2%;              /* #373535 */
+    --ring: 351 81.3% 53.7%;            /* #ea2845 - Nest Crimson */
     
     /* Glass tokens - dark */
-    --glass-bg: rgba(11, 17, 32, 0.78);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --glass-bg: rgba(11, 11, 11, 0.88);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.55);
   }
 }
 
@@ -85,25 +85,25 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1, "cv02" 1, "cv03" 1, "cv04" 1;
-    letter-spacing: -0.011em;
+    letter-spacing: 0px;
   }
 }
 
-/* Glassmorphism Styles */
+/* Glassmorphism & Furnace Frames (DESIGN.md) */
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
+  border-radius: 24px;
   padding: 1.5rem;
   box-shadow: var(--glass-shadow);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  border-color: rgba(16, 185, 129, 0.25);
-  box-shadow: 0 8px 30px -4px rgba(16, 185, 129, 0.08);
+  border-color: rgba(234, 40, 69, 0.30);
+  box-shadow: 0 8px 30px -4px rgba(234, 40, 69, 0.08);
 }
 
 .glass-panel {
@@ -113,14 +113,52 @@
   border: 1px solid var(--glass-border);
 }
 
+/* NestJS Hero Frame with 32px Radius and Crimson Furnace Glow */
+.furnace-hero-frame {
+  border-radius: 32px;
+  border: 1px solid var(--glass-border);
+  background: radial-gradient(ellipse 90% 70% at 50% -15%, rgba(234, 40, 69, 0.22), rgba(120, 15, 32, 0.12) 45%, rgba(5, 3, 3, 0.98) 85%);
+  box-shadow: 0 0 60px -20px rgba(234, 40, 69, 0.25);
+}
+
+html:not(.dark) .furnace-hero-frame {
+  background: radial-gradient(ellipse 90% 70% at 50% -15%, rgba(234, 40, 69, 0.08), rgba(120, 15, 32, 0.04) 45%, rgba(250, 248, 248, 0.98) 85%);
+  box-shadow: 0 4px 30px -4px rgba(234, 40, 69, 0.06);
+}
+
+/* NestJS Garnet Sweep */
+.garnet-sweep {
+  background: linear-gradient(to right in oklab, rgb(234, 40, 69) 0%, rgb(120, 15, 32) 50%, rgb(5, 3, 3) 100%);
+}
+
+/* Bracketed Mono Eyebrow: { SECTION }_ */
+.bracketed-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+  color: #9b9a9a;
+}
+
+html:not(.dark) .bracketed-eyebrow {
+  color: #6e6868;
+}
+
 .text-gradient-primary {
-  background: linear-gradient(135deg, #10b981 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #ffffff 40%, #ea2845 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html:not(.dark) .text-gradient-primary {
+  background: linear-gradient(135deg, #050303 40%, #ea2845 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-subtle {
-  background: linear-gradient(180deg, currentColor 0%, rgba(100, 116, 139, 0.7) 100%);
+  background: linear-gradient(180deg, currentColor 0%, rgba(155, 154, 154, 0.7) 100%);
   -webkit-background-clip: text;
 }
 

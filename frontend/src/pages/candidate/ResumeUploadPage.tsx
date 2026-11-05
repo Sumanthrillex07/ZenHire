@@ -111,29 +111,29 @@ export const ResumeUploadPage: React.FC = () => {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 sm:space-y-8 animate-fadeIn">
       {/* Header */}
       <div>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold mb-2">
-          <Sparkles className="w-3.5 h-3.5" /> Hybrid Resume Intelligence
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-crimson/10 text-crimson border border-crimson/25 font-mono text-xs tracking-wider uppercase mb-3">
+          <Sparkles className="w-3.5 h-3.5" /> &#123; RESUME PARSER & TAXONOMY SYNC &#125;_
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
-          AI Resume Parser & Skill Profile Sync
+        <h1 className="text-2xl sm:text-4xl font-display font-medium text-foreground tracking-tight">
+          AI Resume Parser & Skill Profile
         </h1>
-        <p className="text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
-          Upload your latest PDF resume. Our pipeline extracts your tech stack across 5 sections (Skills, Experience, Projects, Education, Certifications) using Apache PDFBox, multi-word NLP phrase matching, and Gemini 1.5 Flash evidence validation.
+        <p className="font-mono text-xs sm:text-sm text-pewter dark:text-pewter light:text-slate-600 mt-2 max-w-2xl leading-relaxed">
+          Upload your latest PDF resume. Our pipeline extracts your tech stack across 5 core sections (Skills, Experience, Projects, Education, Certifications) using Apache PDFBox, multi-word NLP phrase matching, and Gemini 1.5 Flash evidence validation.
         </p>
       </div>
 
       {/* Notifications */}
       {error && (
-        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs flex items-center gap-2.5 animate-fadeIn">
+        <div className="p-4 rounded-[20px] bg-crimson/10 border border-crimson/30 text-crimson text-xs font-mono flex items-center gap-2.5 animate-fadeIn">
           <AlertCircle className="w-4 h-4 shrink-0" />
-          <span className="font-medium">{error}</span>
+          <span>{error}</span>
         </div>
       )}
 
       {successMsg && (
-        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs flex items-center gap-2.5 animate-fadeIn">
+        <div className="p-4 rounded-[20px] bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono flex items-center gap-2.5 animate-fadeIn">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
-          <span className="font-medium">{successMsg}</span>
+          <span>{successMsg}</span>
         </div>
       )}
 
@@ -143,25 +143,25 @@ export const ResumeUploadPage: React.FC = () => {
         onDragLeave={onDrag}
         onDragOver={onDrag}
         onDrop={onDrop}
-        className={`glass-card p-8 sm:p-12 text-center border-2 border-dashed transition-all ${
+        className={`glass-card p-8 sm:p-12 text-center rounded-[24px] border-2 border-dashed transition-all ${
           dragActive
-            ? 'border-primary bg-primary/5 ring-4 ring-primary/10'
-            : 'border-border/80 hover:border-border hover:bg-muted/20'
+            ? 'border-crimson bg-crimson/5 ring-4 ring-crimson/10'
+            : 'border-smoke/70 hover:border-crimson/50 hover:bg-carbon/40'
         }`}
       >
         <div className="max-w-md mx-auto flex flex-col items-center">
-          <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
+          <div className="w-16 h-16 rounded-[20px] bg-ash border border-smoke/70 flex items-center justify-center mb-4 transition-transform group-hover:scale-105 shadow-sm">
             {uploading ? (
-              <Loader2 className="w-8 h-8 text-primary animate-spin" />
+              <Loader2 className="w-8 h-8 text-crimson animate-spin" />
             ) : (
-              <UploadCloud className="w-8 h-8 text-primary" />
+              <UploadCloud className="w-8 h-8 text-crimson" />
             )}
           </div>
 
-          <h3 className="text-base sm:text-lg font-bold text-foreground mb-1">
+          <h3 className="text-base sm:text-lg font-display font-medium text-foreground mb-1">
             {uploading ? 'Parsing Sections & Validating Skills...' : 'Upload your resume PDF'}
           </h3>
-          <p className="text-xs text-muted-foreground mb-6 max-w-sm">
+          <p className="font-mono text-xs text-pewter mb-6 max-w-sm">
             Drag and drop your file here, or click to browse. Max file size: 10MB.
           </p>
 
@@ -178,7 +178,7 @@ export const ResumeUploadPage: React.FC = () => {
               className="sr-only"
             />
             <span
-              className={`px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-xl text-xs sm:text-sm shadow-md transition-all inline-flex items-center gap-2 ${
+              className={`px-6 py-2.5 bg-bone text-soot hover:bg-bone/90 font-display font-medium rounded-[20px] text-xs sm:text-sm shadow-md transition-all inline-flex items-center gap-2 ${
                 uploading ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -190,18 +190,18 @@ export const ResumeUploadPage: React.FC = () => {
 
       {/* Parsed Resume Display */}
       {resume && (
-        <div className="glass-card p-6 sm:p-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-border/70 gap-4">
+        <div className="glass-card p-6 sm:p-8 space-y-8 rounded-[24px] border border-smoke/70">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-smoke/70 gap-4">
             <div>
-              <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                <FileText className="w-5 h-5 text-primary" /> Verified Candidate Profile
+              <h2 className="text-lg font-display font-medium text-foreground flex items-center gap-2">
+                <FileText className="w-5 h-5 text-crimson" /> Verified Candidate Profile
               </h2>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="font-mono text-xs text-pewter mt-0.5">
                 Last synchronized on: {new Date(resume.uploadedAt).toLocaleString()}
               </p>
             </div>
             <Link to="/jobs">
-              <Button variant="outline" size="sm" className="font-semibold gap-1.5">
+              <Button variant="outline" size="sm" className="font-mono gap-1.5">
                 See Compatible Jobs <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
@@ -211,11 +211,11 @@ export const ResumeUploadPage: React.FC = () => {
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <h3 className="text-sm font-display font-medium text-foreground flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-crimson" />
                   Validated Skill Profile & Evidence ({skillProfile.length || resume.skills.length})
                 </h3>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="font-mono text-xs text-pewter mt-0.5">
                   Normalized taxonomy with source section validation and confidence scoring
                 </p>
               </div>
@@ -223,13 +223,13 @@ export const ResumeUploadPage: React.FC = () => {
               {/* Search within skills */}
               {skillProfile.length > 5 && (
                 <div className="relative w-full sm:w-56">
-                  <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-2.5" />
+                  <Search className="w-3.5 h-3.5 text-pewter absolute left-3 top-2.5" />
                   <input
                     type="text"
                     value={skillSearch}
                     onChange={(e) => setSkillSearch(e.target.value)}
                     placeholder="Search skills..."
-                    className="w-full pl-8 pr-3 py-1.5 bg-muted/40 border border-border/70 rounded-lg text-xs text-foreground placeholder-muted-foreground focus:outline-none focus:border-primary"
+                    className="w-full pl-8 pr-3 py-1.5 bg-carbon border border-smoke/70 rounded-[16px] font-mono text-xs text-foreground placeholder-pewter focus:outline-none focus:border-crimson"
                   />
                 </div>
               )}
@@ -242,10 +242,10 @@ export const ResumeUploadPage: React.FC = () => {
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-3 py-1 rounded-full font-mono text-xs font-medium transition-all ${
                       selectedCategory === cat
-                        ? 'bg-primary text-primary-foreground shadow-sm'
-                        : 'bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground'
+                        ? 'bg-crimson text-bone shadow-sm'
+                        : 'bg-ash hover:bg-smoke/40 text-pewter hover:text-foreground border border-smoke/50'
                     }`}
                   >
                     {cat.replace('_', ' ')}
@@ -260,24 +260,24 @@ export const ResumeUploadPage: React.FC = () => {
                 {filteredSkills.map((item, idx) => (
                   <div
                     key={idx}
-                    className="p-3.5 rounded-xl border border-border/70 bg-card hover:border-primary/40 transition-all space-y-2 group"
+                    className="p-4 rounded-[20px] border border-smoke/70 bg-carbon hover:border-crimson/40 transition-all space-y-2 group shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <div className="font-bold text-sm text-foreground group-hover:text-primary transition-colors">
+                        <div className="font-display font-medium text-sm text-foreground group-hover:text-crimson transition-colors">
                           {item.name}
                         </div>
-                        <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                        <span className="font-mono text-[10px] text-pewter uppercase tracking-wider">
                           {item.category.replace('_', ' ')}
                         </span>
                       </div>
 
                       <div className="flex flex-col items-end gap-1">
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300">
+                        <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
                           {Math.round(item.confidence * 100)}% Match
                         </span>
                         {item.recency && (
-                          <span className="text-[9px] font-medium text-muted-foreground/80">
+                          <span className="font-mono text-[9px] text-pewter">
                             {item.recency}
                           </span>
                         )}
@@ -286,11 +286,11 @@ export const ResumeUploadPage: React.FC = () => {
 
                     {/* Source Section Tags */}
                     <div className="flex flex-wrap items-center gap-1">
-                      <span className="text-[10px] text-muted-foreground">Found in:</span>
+                      <span className="font-mono text-[10px] text-pewter">Found in:</span>
                       {item.sourceSections.map((sec, sIdx) => (
                         <span
                           key={sIdx}
-                          className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-muted text-foreground/80 border border-border/60"
+                          className="px-2 py-0.5 rounded-full font-mono text-[10px] bg-ash text-foreground/80 border border-smoke/60"
                         >
                           {sec}
                         </span>
@@ -299,8 +299,8 @@ export const ResumeUploadPage: React.FC = () => {
 
                     {/* Evidence Snippet */}
                     {item.evidenceSnippet && (
-                      <div className="text-[11px] text-muted-foreground/90 italic bg-muted/30 p-2 rounded-lg border border-border/50 flex items-start gap-1.5">
-                        <Quote className="w-3 h-3 text-primary shrink-0 mt-0.5" />
+                      <div className="font-mono text-[11px] text-pewter bg-ash/50 p-2.5 rounded-[14px] border border-smoke/50 flex items-start gap-2">
+                        <Quote className="w-3 h-3 text-crimson shrink-0 mt-0.5" />
                         <span className="line-clamp-2 leading-relaxed">{item.evidenceSnippet}</span>
                       </div>
                     )}
@@ -313,7 +313,7 @@ export const ResumeUploadPage: React.FC = () => {
                 {resume.skills.map((skill, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/25 text-emerald-800 dark:text-emerald-300 rounded-lg text-xs font-medium"
+                    className="px-3 py-1 bg-ash border border-smoke/70 text-foreground font-mono rounded-full text-xs"
                   >
                     {skill}
                   </span>
@@ -323,19 +323,19 @@ export const ResumeUploadPage: React.FC = () => {
           </div>
 
           {/* 5 Distinct Resume Sections */}
-          <div className="space-y-6 pt-4 border-t border-border/70">
-            <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+          <div className="space-y-6 pt-4 border-t border-smoke/70">
+            <h3 className="font-mono text-xs text-pewter uppercase tracking-wider">
               Segmented Resume Sections
             </h3>
 
             {/* Experience Section */}
             {resume.experience && (
-              <div className="p-5 bg-card/60 rounded-xl border border-border/70 space-y-2">
-                <h4 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-                  <Briefcase className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <div className="p-5 bg-carbon rounded-[20px] border border-smoke/70 space-y-2">
+                <h4 className="font-display font-medium text-xs text-foreground uppercase tracking-wider flex items-center gap-2">
+                  <Briefcase className="w-4 h-4 text-crimson" />
                   Professional Experience
                 </h4>
-                <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap bg-muted/40 p-4 rounded-lg border border-border/60 font-normal">
+                <p className="font-mono text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap bg-ash/40 p-4 rounded-[16px] border border-smoke/50">
                   {resume.experience}
                 </p>
               </div>
@@ -343,12 +343,12 @@ export const ResumeUploadPage: React.FC = () => {
 
             {/* Projects Section */}
             {resume.projects && (
-              <div className="p-5 bg-card/60 rounded-xl border border-border/70 space-y-2">
-                <h4 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-                  <FolderGit2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <div className="p-5 bg-carbon rounded-[20px] border border-smoke/70 space-y-2">
+                <h4 className="font-display font-medium text-xs text-foreground uppercase tracking-wider flex items-center gap-2">
+                  <FolderGit2 className="w-4 h-4 text-crimson" />
                   Key Projects & Technical Implementations
                 </h4>
-                <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap bg-muted/40 p-4 rounded-lg border border-border/60 font-normal">
+                <p className="font-mono text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap bg-ash/40 p-4 rounded-[16px] border border-smoke/50">
                   {resume.projects}
                 </p>
               </div>
@@ -356,12 +356,12 @@ export const ResumeUploadPage: React.FC = () => {
 
             {/* Education Section */}
             {resume.education && (
-              <div className="p-5 bg-card/60 rounded-xl border border-border/70 space-y-2">
-                <h4 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-                  <GraduationCap className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+              <div className="p-5 bg-carbon rounded-[20px] border border-smoke/70 space-y-2">
+                <h4 className="font-display font-medium text-xs text-foreground uppercase tracking-wider flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4 text-crimson" />
                   Education & Academic Background
                 </h4>
-                <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap bg-muted/40 p-4 rounded-lg border border-border/60 font-normal">
+                <p className="font-mono text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap bg-ash/40 p-4 rounded-[16px] border border-smoke/50">
                   {resume.education}
                 </p>
               </div>
@@ -369,12 +369,12 @@ export const ResumeUploadPage: React.FC = () => {
 
             {/* Certifications Section */}
             {resume.certifications && (
-              <div className="p-5 bg-card/60 rounded-xl border border-border/70 space-y-2">
-                <h4 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
-                  <Award className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <div className="p-5 bg-carbon rounded-[20px] border border-smoke/70 space-y-2">
+                <h4 className="font-display font-medium text-xs text-foreground uppercase tracking-wider flex items-center gap-2">
+                  <Award className="w-4 h-4 text-crimson" />
                   Certifications & Verified Credentials
                 </h4>
-                <p className="text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap bg-muted/40 p-4 rounded-lg border border-border/60 font-normal">
+                <p className="font-mono text-xs text-foreground/90 leading-relaxed whitespace-pre-wrap bg-ash/40 p-4 rounded-[16px] border border-smoke/50">
                   {resume.certifications}
                 </p>
               </div>

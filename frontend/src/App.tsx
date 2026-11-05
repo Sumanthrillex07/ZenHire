@@ -31,7 +31,7 @@ export const App: React.FC = () => {
     <ThemeProvider>
       <BrowserRouter>
         <AuthProvider>
-          <div className="min-h-screen flex flex-col bg-background text-foreground antialiased font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-150">
+          <div className="min-h-screen flex flex-col bg-background text-foreground antialiased font-sans selection:bg-crimson selection:text-bone transition-colors duration-250">
             <Navbar />
             <main className="flex-1">
               <Routes>
