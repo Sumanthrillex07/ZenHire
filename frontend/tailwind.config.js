@@ -13,30 +13,30 @@ export default {
         mono: ['Geist Mono', 'JetBrains Mono', 'Menlo', 'Consolas', 'monospace'],
       },
       colors: {
-        // NestJS Signature Design Tokens
+        // NestJS Signature Design Tokens mapped to dynamic theme CSS custom properties
         soot: {
-          DEFAULT: "#050303",
-          canvas: "#050303",
+          DEFAULT: "hsl(var(--background))",
+          canvas: "hsl(var(--background))",
         },
         carbon: {
-          DEFAULT: "#0b0b0b",
-          panel: "#0b0b0b",
+          DEFAULT: "hsl(var(--card))",
+          panel: "hsl(var(--card))",
         },
         graphite: {
-          DEFAULT: "#181818",
-          slab: "#181818",
+          DEFAULT: "hsl(var(--muted))",
+          slab: "hsl(var(--muted))",
         },
         ash: {
-          DEFAULT: "#1e1c1c",
-          seam: "#1e1c1c",
+          DEFAULT: "hsl(var(--secondary))",
+          seam: "hsl(var(--secondary))",
         },
         smoke: {
-          DEFAULT: "#373535",
-          outline: "#373535",
+          DEFAULT: "hsl(var(--border))",
+          outline: "hsl(var(--border))",
         },
         pewter: {
-          DEFAULT: "#9b9a9a",
-          text: "#9b9a9a",
+          DEFAULT: "hsl(var(--muted-foreground))",
+          text: "hsl(var(--muted-foreground))",
         },
         crimson: {
           DEFAULT: "#ea2845",
@@ -47,7 +47,7 @@ export default {
           sweep: "#780f20",
         },
         bone: {
-          DEFAULT: "#ffffff",
+          DEFAULT: "hsl(var(--foreground))",
           white: "#ffffff",
         },
         iron: {
