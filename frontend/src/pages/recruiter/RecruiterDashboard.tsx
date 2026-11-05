@@ -165,11 +165,11 @@ export const RecruiterDashboard: React.FC = () => {
             No job requisitions created yet. Click above to post your first job opening.
           </div>
         ) : (
-          <div className="divide-y divide-smoke/60">
+          <div className="space-y-3">
             {dashboard?.jobs.map((job) => (
               <div
                 key={job.id}
-                className="py-4 first:pt-2 last:pb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="glass-card p-4 sm:p-5 rounded-[20px] flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:-translate-y-0.5"
               >
                 <div>
                   <div className="flex items-center gap-2 mb-2">

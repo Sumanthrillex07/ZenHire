@@ -91,6 +91,7 @@
 
 /* Glassmorphism & Furnace Frames (DESIGN.md) */
 .glass-card {
+  position: relative;
   background: var(--glass-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -98,12 +99,80 @@
   border-radius: 24px;
   padding: 1.5rem;
   box-shadow: var(--glass-shadow);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Mouse-following Spotlight & Top-Lit Furnace Gradient on Hover (DESIGN.md) */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+  /* Top-lit fallback (50% 0%) dynamically follows mouse cursor (--mouse-x, --mouse-y) */
+  background: radial-gradient(
+    550px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+    rgba(234, 40, 69, 0.18) 0%,
+    rgba(120, 15, 32, 0.08) 35%,
+    rgba(5, 3, 3, 0) 70%
+  );
+}
+
+html:not(.dark) .glass-card::before {
+  background: radial-gradient(
+    550px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+    rgba(234, 40, 69, 0.09) 0%,
+    rgba(120, 15, 32, 0.03) 35%,
+    transparent 70%
+  );
+}
+
+/* Mouse-following hairline border glow (Raycast / Linear / NestJS 1px outline) */
+.glass-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    380px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+    rgba(234, 40, 69, 0.65) 0%,
+    rgba(120, 15, 32, 0.30) 40%,
+    transparent 75%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+}
+
+.glass-card:hover::after {
+  opacity: 1;
 }
 
 .glass-card:hover {
-  border-color: rgba(234, 40, 69, 0.30);
-  box-shadow: 0 8px 30px -4px rgba(234, 40, 69, 0.08);
+  border-color: rgba(234, 40, 69, 0.35);
+  box-shadow: 0 0 35px -8px rgba(234, 40, 69, 0.22), 0 12px 30px -4px rgba(0, 0, 0, 0.45);
+}
+
+/* Ensure card content sits above the gradient overlay */
+.glass-card > * {
+  position: relative;
+  z-index: 2;
 }
 
 .glass-panel {
@@ -115,15 +184,69 @@
 
 /* NestJS Hero Frame with 32px Radius and Crimson Furnace Glow */
 .furnace-hero-frame {
+  position: relative;
   border-radius: 32px;
   border: 1px solid var(--glass-border);
-  background: radial-gradient(ellipse 90% 70% at 50% -15%, rgba(234, 40, 69, 0.22), rgba(120, 15, 32, 0.12) 45%, rgba(5, 3, 3, 0.98) 85%);
+  background: radial-gradient(
+    ellipse 90% 70% at var(--mouse-x, 50%) var(--mouse-y, -15%),
+    rgba(234, 40, 69, 0.22),
+    rgba(120, 15, 32, 0.12) 45%,
+    rgba(5, 3, 3, 0.98) 85%
+  );
   box-shadow: 0 0 60px -20px rgba(234, 40, 69, 0.25);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.furnace-hero-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+  background: radial-gradient(
+    700px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+    rgba(234, 40, 69, 0.18) 0%,
+    rgba(120, 15, 32, 0.08) 40%,
+    transparent 75%
+  );
+}
+
+.furnace-hero-frame:hover::before {
+  opacity: 1;
+}
+
+.furnace-hero-frame:hover {
+  border-color: rgba(234, 40, 69, 0.45);
+  box-shadow: 0 0 70px -15px rgba(234, 40, 69, 0.35);
+}
+
+.furnace-hero-frame > * {
+  position: relative;
+  z-index: 2;
 }
 
 html:not(.dark) .furnace-hero-frame {
-  background: radial-gradient(ellipse 90% 70% at 50% -15%, rgba(234, 40, 69, 0.08), rgba(120, 15, 32, 0.04) 45%, rgba(250, 248, 248, 0.98) 85%);
+  background: radial-gradient(
+    ellipse 90% 70% at var(--mouse-x, 50%) var(--mouse-y, -15%),
+    rgba(234, 40, 69, 0.08),
+    rgba(120, 15, 32, 0.04) 45%,
+    rgba(250, 248, 248, 0.98) 85%
+  );
   box-shadow: 0 4px 30px -4px rgba(234, 40, 69, 0.06);
+}
+
+html:not(.dark) .furnace-hero-frame::before {
+  background: radial-gradient(
+    700px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+    rgba(234, 40, 69, 0.10) 0%,
+    rgba(120, 15, 32, 0.04) 40%,
+    transparent 75%
+  );
 }
 
 /* NestJS Garnet Sweep */

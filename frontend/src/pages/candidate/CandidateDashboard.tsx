@@ -228,7 +228,7 @@ export const CandidateDashboard: React.FC = () => {
             {applications.slice(0, 3).map((app) => (
               <div
                 key={app.id}
-                className="bg-white/95 dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-2xl p-4 flex flex-col justify-between space-y-3 hover:border-[#ea2845]/40 transition-all hover:-translate-y-0.5 shadow-subtle dark:shadow-sm"
+                className="glass-card rounded-[20px] p-4 flex flex-col justify-between space-y-3 transition-all hover:-translate-y-0.5"
               >
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-2">
@@ -301,7 +301,7 @@ export const CandidateDashboard: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Strengths */}
-            <div className="bg-[#faf8f8] dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-2xl p-4">
+            <div className="glass-card rounded-[20px] p-4">
               <div className="flex items-center gap-2 text-xs font-mono font-medium text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3">
                 <CheckCircle2 className="w-4 h-4" />
                 Verified Strengths (&ge; 70%)
@@ -325,7 +325,7 @@ export const CandidateDashboard: React.FC = () => {
             </div>
 
             {/* Growth Areas */}
-            <div className="bg-[#faf8f8] dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-2xl p-4">
+            <div className="glass-card rounded-[20px] p-4">
               <div className="flex items-center gap-2 text-xs font-mono font-medium text-[#ffa657] uppercase tracking-wider mb-3">
                 <AlertTriangle className="w-4 h-4" />
                 Recommended Focus Areas (&lt; 70%)
@@ -381,7 +381,7 @@ export const CandidateDashboard: React.FC = () => {
             {dashboard?.tests.map((test) => (
               <div
                 key={test.id}
-                className="p-3 bg-[#faf8f8] dark:bg-[#181818] border border-[#ded9d9] dark:border-[#373535] rounded-xl flex items-center justify-between"
+                className="glass-card p-3 rounded-[16px] flex items-center justify-between transition-all"
               >
                 <div>
                   <h4 className="text-xs font-medium font-sans text-[#0c0909] dark:text-white">{test.title}</h4>
@@ -453,10 +453,10 @@ export const CandidateDashboard: React.FC = () => {
               return (
                 <div
                   key={job.id}
-                  className={`bg-white/95 dark:bg-[#181818] border ${
+                  className={`glass-card ${
                     isApplied
                       ? 'border-[#ea2845]/30 opacity-90'
-                      : 'border-[#ded9d9] dark:border-[#373535] hover:border-[#ea2845]/40'
+                      : 'hover:border-[#ea2845]/40'
                   } rounded-[24px] p-5 flex flex-col justify-between transition-all hover:-translate-y-0.5 shadow-subtle dark:shadow-sm`}
                 >
                   <div className="space-y-2.5">
