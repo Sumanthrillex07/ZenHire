@@ -52,7 +52,118 @@ ZenHire is built as a clean modular monolith adhering to layered architecture, s
 
 ---
 
-## 3. Technology Stack
+## 3. End-to-End Recruitment Process & Platform Walkthrough
+
+ZenHire connects candidates and recruiters through a transparent, high-precision workflow. Below is the complete stage-by-stage process illustrated with live application screenshots.
+
+---
+
+### Stage 1: Public Discovery & NestJS Design System
+The platform welcome page built on the NestJS sovereign design system (`DESIGN.md`). It features an atmospheric furnace glow, Manrope headline typography, live throughput metrics, and zero-flicker theme switching.
+
+![ZenHire Landing Page](docs/screenshots/01-landing-page.png)
+
+---
+
+### Stage 2: Role-Based Authentication & Access Control
+Stateless authentication gateway with demo credential quick-fill shortcuts, instant validation, and JWT session handling.
+
+![ZenHire Authentication](docs/screenshots/02-auth-login.png)
+
+> **Verified Demo Accounts:**  
+> - **Candidate:** `sumanthrillex07@gmail.com` | `1234567`  
+> - **Recruiter:** `abc@gmail.com` | `1234567`
+
+---
+
+### Stage 3: Candidate Intelligence Workspace & Dual-Theme Parity
+The candidate command center displays real-time `{ RESUME INTELLIGENCE }_` metrics, 5-section synchronization pills, verified skill taxonomy preview, active pipeline progress, and domain accuracy diagnostics. Fully supported in both sovereign Dark and Linen Light modes.
+
+#### Dark Mode (NestJS Crimson Furnace)
+![Candidate Dashboard - Dark Mode](docs/screenshots/03-candidate-dashboard.png)
+
+#### Light Mode (Warm Linen & Alabaster)
+![Candidate Dashboard - Light Mode](docs/screenshots/03-candidate-dashboard-light.png)
+
+---
+
+### Stage 4: 5-Section AI Resume Intelligence & Skill Profile
+Candidates upload PDF resumes which are parsed via Apache PDFBox 3.0 and segmented across 5 canonical sections: **Skills**, **Experience**, **Projects**, **Education**, and **Certifications**. The taxonomy normalizes known aliases while preserving cutting-edge frameworks (e.g. `LangChain`, `LangGraph`, `MCP`) with evidence quotes and confidence scores.
+
+#### Upload & Verification Status
+![AI Resume Parser](docs/screenshots/04-resume-intelligence.png)
+
+#### Validated Skill Profile with Contextual Evidence Excerpts
+![Validated Candidate Skill Profile & Evidence](docs/screenshots/04b-verified-candidate-skills.png)
+
+---
+
+### Stage 5: Domain Assessment Gating & Test Runner
+ZenHire eliminates keyword-stuffing gaming through domain technical assessments. Requisitions require passing a prerequisite test (`Backend`, `Frontend`, `AI / ML`) before applications unlock.
+
+#### Assessments Catalog
+![Technical Assessments Catalog](docs/screenshots/05-technical-assessments.png)
+
+#### Interactive Assessment Runner
+The assessment runner features server-side question shuffling and strict answer key masking:
+![Assessment Runner](docs/screenshots/06-assessment-runner.png)
+
+---
+
+### Stage 6: Requisition Discovery & Smart Application States
+Candidates browse verified engineering opportunities with track filters and real-time search. Jobs the candidate has already applied for display a disabled "Applied" state and sink below open opportunities to streamline browsing.
+
+![Job Discovery Catalog](docs/screenshots/07-job-discovery.png)
+
+---
+
+### Stage 7: 60/40 Hybrid AI Fit Evaluation
+Detailed job requisition view featuring ZenHire's proprietary 60/40 matching engine: 60% deterministic skill overlap combined with 40% Gemini 1.5 Flash qualitative narrative fit, itemizing matched vs missing skills.
+
+![60/40 Hybrid AI Match Evaluation](docs/screenshots/08-hybrid-ai-matching.png)
+
+---
+
+### Stage 8: Candidate Pipeline & Interview Schedule Tracking
+Real-time pipeline tracker monitoring application lifecycle transitions (`APPLIED` ➔ `SHORTLISTED` ➔ `INTERVIEW_SCHEDULED` ➔ `HIRED` / `REJECTED`) with interview schedule cards and meeting mode indicators.
+
+![Candidate Applications Pipeline](docs/screenshots/09-application-pipeline.png)
+
+---
+
+### Stage 9: Context-Grounded AI Career Advisor
+Floating interactive assistant grounded exclusively in the candidate's verified skills, test results, and application status, offering interview preparation and skills advice without hallucinating external data.
+
+![Context-Grounded AI Career Advisor](docs/screenshots/10-ai-career-advisor.png)
+
+---
+
+### Stage 10: Recruiter Command Center & Talent Cockpit
+Recruiters monitor requisition health, total candidate volumes, and an AI-ranked leaderboard of top candidates scored by the 60/40 hybrid engine.
+
+![Recruiter Command Center](docs/screenshots/11-recruiter-command-center.png)
+
+---
+
+### Stage 11: Job Requisition Authoring Studio
+Recruiters create engineering requisitions with role track assignment, interactive required-skill tag builder, and automated domain assessment gate attachment.
+
+![Recruiter Post Job Studio](docs/screenshots/12-recruiter-post-job.png)
+
+---
+
+### Stage 12: Ranked Applicant Pipeline & Interview Scheduling
+Recruiters inspect applicant dossiers, review 60/40 match scores, advance candidate workflow states, and schedule virtual (Google Meet) or on-site interviews.
+
+#### Ranked Candidate Leaderboard
+![Ranked Applicant Pipeline](docs/screenshots/13-recruiter-ranked-pipeline.png)
+
+#### Candidate Interview Scheduling Dialog
+![Schedule Candidate Interview Modal](docs/screenshots/13b-schedule-interview-modal.png)
+
+---
+
+## 4. Technology Stack
 
 | Layer | Technology | Details |
 | :--- | :--- | :--- |
@@ -68,7 +179,7 @@ ZenHire is built as a clean modular monolith adhering to layered architecture, s
 
 ---
 
-## 4. Architecture Overview
+## 5. Architecture Overview
 
 ZenHire follows a clean **Layered Architecture** with feature-based package organization:
 
@@ -133,7 +244,7 @@ flowchart TD
 
 ---
 
-## 5. Quick Start Guide
+## 6. Quick Start Guide
 
 ### Prerequisites
 - **Docker & Docker Compose** (v24+) — *Recommended*
@@ -194,16 +305,18 @@ npm run dev
 
 ### Seed Demo Credentials
 
-The database is pre-seeded with sample users for testing:
+The database is pre-configured with active accounts for testing all workflows:
 
-| Role | Email | Password | Access |
+| Role | Email | Password | Profile Status & Permissions |
 | :--- | :--- | :--- | :--- |
-| **Candidate** | `candidate@zenhire.com` | `password123` | Dashboard, Job Browse, Assessments, Resume Sync, Applications |
-| **Recruiter** | `recruiter@zenhire.com` | `password123` | Command Center, Job Requisition Post, Ranked Applicant Pipelines |
+| **Candidate** | `sumanthrillex07@gmail.com` | `1234567` | Verified profile: 5-section resume sync, 28 taxonomy skills, 3 active applications, passed assessments |
+| **Recruiter** | `abc@gmail.com` | `1234567` | Active requisition author: Requisition `SDE - 1`, ranked applicant pipeline, interview scheduler |
+| **Alt. Candidate** | `candidate@zenhire.com` | `password123` | Clean candidate sandbox profile |
+| **Alt. Recruiter** | `recruiter@zenhire.com` | `password123` | Alternative recruiter command center |
 
 ---
 
-## 6. Repository Layout
+## 7. Repository Layout
 
 ```
 ZenHire/
@@ -247,12 +360,13 @@ ZenHire/
 │       │   └── LandingPage.tsx   # Product landing page
 │       └── types/                # TypeScript interfaces & API contracts
 ├── docs/                         # Architecture, Design & Audit Documentation
+│   └── screenshots/              # High-resolution platform walkthrough captures
 └── learning/                     # Technical Architecture & Engineering Guides
 ```
 
 ---
 
-## 7. Documentation Directory
+## 8. Documentation Directory
 
 Detailed engineering specifications and architecture documents:
 
@@ -276,7 +390,7 @@ Detailed engineering specifications and architecture documents:
 
 ---
 
-## 8. Engineering Guides & Learning Notes
+## 9. Engineering Guides & Learning Notes
 
 In-depth technical guides covering the core concepts implemented in ZenHire:
 
@@ -295,6 +409,6 @@ In-depth technical guides covering the core concepts implemented in ZenHire:
 
 ---
 
-## 9. License
+## 10. License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
