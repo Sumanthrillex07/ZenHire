@@ -26,6 +26,7 @@
 | **Phase 12** | **Quality Assurance & 13 Edge Cases Testing** | **COMPLETED** | **100%** | 61 JUnit 5/MockMvc tests passing, 9 Vitest frontend tests passing. All 13 mission-critical edge cases verified |
 | **Phase 13** | **Final Dockerization & Production Release** | **COMPLETED** | **100%** | Multi-stage Docker Compose verification, PostgreSQL persistent volume, health checks, environment templates |
 | **Phase 14** | **5-Section Resume Sync, Skill Taxonomy & UI/UX** | **COMPLETED** | **100%** | Flyway V4, 5-section segmentation (`SKILLS`, `EXPERIENCE`, `PROJECTS`, `EDUCATION`, `CERTIFICATIONS`), `SkillTaxonomyService` with modern AI frameworks (LangChain, LangGraph, etc.), non-destructive novel skill retention, 250ms smooth theme transition engine (`a44fce5`) |
+| **Phase 15** | **NestJS Design System Migration & Dashboard Intelligence** | **COMPLETED** | **100%** | Sovereign NestJS visual design (`DESIGN.md`), Manrope + Geist Mono typography, Soot/Linen token matrix, RAF mouse-tracking spotlight radial gradient, furnace hero glow, and Candidate Dashboard 5-section resume intelligence & verified taxonomy preview |
 
 ---
 
@@ -42,7 +43,26 @@
 
 ---
 
-## 3. Phase 10 Detailed Deliverables Checklist (Frontend)
+## 3. Phase 15 Deliverables Checklist (NestJS Design System & Dashboard Intelligence)
+- [x] Sovereign NestJS visual styling architecture based on `DESIGN.md`:
+  - Soot Canvas (`#050303`), Carbon Panels (`#0b0b0b`), Ash Seams (`#1e1c1c`), Smoke Outlines (`#373535`), Pewter Text (`#9b9a9a`), and Bone White (`#ffffff`) in Dark Mode
+  - Warm Linen Canvas (`#faf8f8`), Warm White surfaces (`#ffffff`), and deep Carbon ink typography in Light Mode
+- [x] Typography standard: Manrope (500/700 weight, 0px tracking) for display titles and interface actions; Geist Mono (300/400 weight) for running copy, metadata, and `{ BRACKETED }_` uppercase eyebrows
+- [x] Top-lit furnace glow hero headers with crimson-to-garnet background washes (`#ea2845` ➔ `#780f20` ➔ `#050303`)
+- [x] Hardware-accelerated mouse-tracking spotlight radial gradient on `.glass-card` elements driven by a non-blocking `requestAnimationFrame` pointer listener in `App.tsx` mutating CSS custom properties `--mouse-x` and `--mouse-y`
+- [x] Candidate Dashboard Resume Intelligence widget:
+  - 5-Section synchronization indicators (`Skills`, `Experience`, `Projects`, `Education`, `Certifications`)
+  - Verified skill taxonomy chips with confidence percentage badges and category indicators
+  - Full preservation notes for modern agentic frameworks (`LangChain`, `LangGraph`)
+  - Dynamic KPI card 1 showing `{ RESUME INTELLIGENCE }_` and live count of verified skills
+- [x] Synchronized pipeline application metrics:
+  - Active pipeline KPI accurately reflects non-terminal applications (`APPLIED`, `SHORTLISTED`, `INTERVIEW_SCHEDULED`)
+  - Job discovery catalog (`/jobs`) marks applied jobs with disabled button state and sinks applied jobs below active requisitions
+- [x] Full test verification: 61 backend unit/slice tests and 9 frontend Vitest tests passing cleanly
+
+---
+
+## 4. Phase 10 Detailed Deliverables Checklist (Frontend)
 - [x] Centralized TypeScript type models (`frontend/src/types/index.ts`) for all domains
 - [x] Axios API layer with JWT interceptor and 401 redirect handling (`frontend/src/api/client.ts`)
 - [x] Specialized API modules (`authApi`, `candidateApi`, `recruiterApi`, `jobApi`, `resumeApi`, `matchingApi`, `assessmentApi`, `applicationApi`, `chatApi`)

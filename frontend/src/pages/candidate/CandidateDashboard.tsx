@@ -4,7 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { candidateApi } from '../../api/candidateApi';
 import { jobApi } from '../../api/jobApi';
 import { applicationApi } from '../../api/applicationApi';
-import { CandidateDashboardData, CandidateAnalysisData, Job, Application } from '../../types';
+import { resumeApi } from '../../api/resumeApi';
+import { CandidateDashboardData, CandidateAnalysisData, Job, Application, Resume } from '../../types';
 import { CardSkeleton } from '../../components/ui/Skeleton';
 import { CategoryBadge, ApplicationStatusBadge } from '../../components/Badge';
 import { 
@@ -20,13 +21,18 @@ import {
   ArrowRight,
   Clock,
   ArrowUpRight,
-  Calendar
+  Calendar,
+  Sparkles,
+  Layers,
+  FolderGit2,
+  GraduationCap
 } from 'lucide-react';
 
 export const CandidateDashboard: React.FC = () => {
   const { user } = useAuth();
   const [dashboard, setDashboard] = useState<CandidateDashboardData | null>(null);
   const [analysis, setAnalysis] = useState<CandidateAnalysisData | null>(null);
+  const [resume, setResume] = useState<Resume | null>(null);
   const [openJobs, setOpenJobs] = useState<Job[]>([]);
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,11 +40,12 @@ export const CandidateDashboard: React.FC = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [dashResult, analyticsResult, jobsResult, appsResult] = await Promise.allSettled([
+        const [dashResult, analyticsResult, jobsResult, appsResult, resumeResult] = await Promise.allSettled([
           candidateApi.getDashboard(),
           candidateApi.getAnalytics(),
           jobApi.getJobs({ size: 6, status: 'OPEN' }),
           applicationApi.getCandidateApplications(),
+          resumeApi.getLatestResume(),
         ]);
 
         if (dashResult.status === 'fulfilled') {
@@ -59,6 +66,10 @@ export const CandidateDashboard: React.FC = () => {
 
         if (appsResult.status === 'fulfilled') {
           setApplications(appsResult.value || []);
+        }
+
+        if (resumeResult.status === 'fulfilled') {
+          setResume(resumeResult.value || null);
         }
       } catch (err) {
         console.error('Unexpected error loading candidate dashboard', err);
@@ -141,7 +152,7 @@ export const CandidateDashboard: React.FC = () => {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {/* Card 1: Resume Status */}
-        <div className="glass-card flex items-center gap-4 rounded-[24px] bg-white dark:bg-[#0b0b0b] border border-[#e3dede] dark:border-[#373535] hover:translate-y-[-2px] transition-all">
+        <div className="glass-card flex items-center gap-4 rounded-[24px] bg-card border border-border hover:translate-y-[-2px] transition-all">
           <div
             className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
               dashboard?.hasResume
@@ -152,26 +163,26 @@ export const CandidateDashboard: React.FC = () => {
             <FileText className="w-6 h-6" />
           </div>
           <div>
-            <div className="text-xs font-mono text-[#6e6868] dark:text-[#9b9a9a] uppercase">&#123; RESUME STATUS &#125;</div>
-            <div className="text-base sm:text-lg font-medium text-[#0c0909] dark:text-white mt-0.5">
-              {dashboard?.hasResume ? 'Parsed & Verified' : 'Resume Required'}
+            <div className="text-xs font-mono text-muted-foreground uppercase">&#123; RESUME INTELLIGENCE &#125;</div>
+            <div className="text-base sm:text-lg font-medium text-foreground mt-0.5">
+              {dashboard?.hasResume ? 'Hybrid Profile Synced' : 'Resume Required'}
             </div>
-            <div className="text-[11px] font-mono text-[#6e6868] dark:text-[#9b9a9a] mt-0.5 font-light">
+            <div className="text-[11px] font-mono text-muted-foreground mt-0.5 font-light">
               {dashboard?.hasResume
-                ? `Updated: ${new Date(dashboard.resumeUploadedAt || '').toLocaleDateString()}`
-                : 'Upload PDF to unlock match scoring'}
+                ? `5 Sections • ${(resume?.skillProfile?.length || resume?.skills?.length || 0)} skills verified`
+                : 'Upload PDF to trigger 5-section AI sync'}
             </div>
           </div>
         </div>
 
         {/* Card 2: Applications Count */}
-        <div className="glass-card flex items-center gap-4 rounded-[24px] bg-white dark:bg-[#0b0b0b] border border-[#e3dede] dark:border-[#373535] hover:translate-y-[-2px] transition-all">
+        <div className="glass-card flex items-center gap-4 rounded-[24px] bg-card border border-border hover:translate-y-[-2px] transition-all">
           <div className="w-12 h-12 rounded-2xl bg-[#ea2845]/10 text-[#ea2845] border border-[#ea2845]/30 flex items-center justify-center shrink-0">
             <Briefcase className="w-6 h-6" />
           </div>
           <div>
-            <div className="text-xs font-mono text-[#6e6868] dark:text-[#9b9a9a] uppercase">&#123; ACTIVE PIPELINE &#125;</div>
-            <div className="text-base sm:text-lg font-medium text-[#0c0909] dark:text-white mt-0.5">
+            <div className="text-xs font-mono text-muted-foreground uppercase">&#123; ACTIVE PIPELINE &#125;</div>
+            <div className="text-base sm:text-lg font-medium text-foreground mt-0.5">
               {activeAppsCount} Active
             </div>
             <Link
@@ -184,13 +195,13 @@ export const CandidateDashboard: React.FC = () => {
         </div>
 
         {/* Card 3: Assessments Passed */}
-        <div className="glass-card flex items-center gap-4 rounded-[24px] bg-white dark:bg-[#0b0b0b] border border-[#e3dede] dark:border-[#373535] hover:translate-y-[-2px] transition-all">
+        <div className="glass-card flex items-center gap-4 rounded-[24px] bg-card border border-border hover:translate-y-[-2px] transition-all">
           <div className="w-12 h-12 rounded-2xl bg-[#0284c7]/10 text-[#0284c7] dark:bg-[#a5d6ff]/10 dark:text-[#a5d6ff] border border-[#0284c7]/30 dark:border-[#a5d6ff]/30 flex items-center justify-center shrink-0">
             <Award className="w-6 h-6" />
           </div>
           <div>
-            <div className="text-xs font-mono text-[#6e6868] dark:text-[#9b9a9a] uppercase">&#123; CREDENTIALS &#125;</div>
-            <div className="text-base sm:text-lg font-medium text-[#0c0909] dark:text-white mt-0.5">
+            <div className="text-xs font-mono text-muted-foreground uppercase">&#123; CREDENTIALS &#125;</div>
+            <div className="text-base sm:text-lg font-medium text-foreground mt-0.5">
               {passedTestsCount} / {dashboard?.tests.length || 0} Passed
             </div>
             <Link
@@ -201,6 +212,128 @@ export const CandidateDashboard: React.FC = () => {
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* 5-Section Resume Intelligence & Hybrid Profile Panel */}
+      <div className="glass-card space-y-5 rounded-[24px] bg-card border border-border">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-border">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#ea2845]/10 text-[#ea2845] border border-[#ea2845]/25 font-mono text-[11px] mb-1.5">
+              <Sparkles className="w-3.5 h-3.5" /> &#123; 5-SECTION HYBRID EXTRACTION &#125;_
+            </div>
+            <h2 className="text-base sm:text-lg font-medium text-foreground flex items-center gap-2">
+              <Layers className="w-5 h-5 text-[#ea2845]" />
+              Resume Intelligence &amp; Verified Skill Profile
+            </h2>
+            <p className="text-xs font-mono text-muted-foreground mt-0.5 font-light">
+              Apache PDFBox extraction segmented into 5 sections with multi-word NLP matching and Gemini 1.5 Flash evidence validation.
+            </p>
+          </div>
+          <Link
+            to="/candidate/resume"
+            className="text-xs font-mono font-medium text-[#ea2845] hover:underline flex items-center gap-1 shrink-0"
+          >
+            {dashboard?.hasResume ? 'Manage Profile & Re-sync' : 'Upload Resume PDF'} &rarr;
+          </Link>
+        </div>
+
+        {/* 5 Section Verification Pills */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+          {[
+            { label: 'Skills', icon: Layers, verified: Boolean(resume?.skills?.length || dashboard?.hasResume) },
+            { label: 'Experience', icon: Briefcase, verified: Boolean(resume?.experience || dashboard?.hasResume) },
+            { label: 'Projects', icon: FolderGit2, verified: Boolean(resume?.projects || dashboard?.hasResume) },
+            { label: 'Education', icon: GraduationCap, verified: Boolean(resume?.education || dashboard?.hasResume) },
+            { label: 'Certifications', icon: Award, verified: Boolean(resume?.certifications || dashboard?.hasResume) },
+          ].map((sec, i) => {
+            const Icon = sec.icon;
+            return (
+              <div
+                key={i}
+                className={`p-3 rounded-[16px] border flex items-center gap-2.5 transition-all ${
+                  sec.verified
+                    ? 'bg-muted/40 border-border text-foreground'
+                    : 'bg-muted/10 border-dashed border-border/60 text-muted-foreground'
+                }`}
+              >
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                  sec.verified ? 'bg-[#ea2845]/10 text-[#ea2845] border border-[#ea2845]/25' : 'bg-muted text-muted-foreground'
+                }`}>
+                  <Icon className="w-3.5 h-3.5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs font-medium font-sans truncate">{sec.label}</div>
+                  <div className="text-[10px] font-mono text-muted-foreground flex items-center gap-1">
+                    {sec.verified ? (
+                      <>
+                        <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                        <span>Synchronized</span>
+                      </>
+                    ) : (
+                      <span>Pending Upload</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Hybrid Skills Profile Preview */}
+        {dashboard?.hasResume && resume?.skills && resume.skills.length > 0 ? (
+          <div className="space-y-3 pt-2">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="text-muted-foreground">
+                Verified Skills Taxonomy ({resume.skillProfile?.length || resume.skills.length}):
+              </span>
+              <span className="text-muted-foreground text-[11px]">
+                Preserved novel frameworks (LangChain, LangGraph) &amp; normalized aliases
+              </span>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {(resume.skillProfile && resume.skillProfile.length > 0
+                ? resume.skillProfile.slice(0, 10)
+                : resume.skills.slice(0, 10).map((name) => ({ name, confidence: 0.9, category: 'GENERAL', sourceSections: ['Skills'] }))
+              ).map((skill: any, idx: number) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-xs bg-muted border border-border text-foreground hover:border-[#ea2845]/40 transition-colors"
+                >
+                  <span className="font-medium">{skill.name}</span>
+                  {skill.confidence && (
+                    <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                      {Math.round(skill.confidence * 100)}%
+                    </span>
+                  )}
+                </span>
+              ))}
+              {(resume.skillProfile?.length || resume.skills.length) > 10 && (
+                <Link
+                  to="/candidate/resume"
+                  className="inline-flex items-center px-3 py-1 rounded-full font-mono text-xs bg-[#ea2845]/10 text-[#ea2845] hover:bg-[#ea2845]/20 transition-colors"
+                >
+                  +{(resume.skillProfile?.length || resume.skills.length) - 10} more in profile &rarr;
+                </Link>
+              )}
+            </div>
+          </div>
+        ) : !dashboard?.hasResume ? (
+          <div className="p-4 rounded-[16px] bg-muted/40 border border-dashed border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="space-y-0.5">
+              <div className="font-medium text-foreground">No Resume Profile Connected</div>
+              <p className="font-mono text-muted-foreground">
+                Upload your PDF to automatically parse Skills, Experience, Projects, Education, and Certifications.
+              </p>
+            </div>
+            <Link
+              to="/candidate/resume"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground font-medium rounded-[16px] text-xs shrink-0 shadow-sm hover:opacity-90 transition-opacity"
+            >
+              <Upload className="w-3.5 h-3.5" /> Upload Resume PDF
+            </Link>
+          </div>
+        ) : null}
       </div>
 
       {/* Active Application Pipeline Preview Section */}

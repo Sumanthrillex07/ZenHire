@@ -32,19 +32,23 @@ ZenHire is built as a clean modular monolith adhering to layered architecture, s
 - **Recruitment Analytics:** KPI metrics for open requisitions, total applicants, and shortlisted talent.
 
 ### 👨‍💻 Candidate Experience
-- **5-Section AI Resume Intelligence:** Drag-and-drop PDF resume upload extracted via Apache PDFBox 3.0 and Gemini 1.5 Flash across 5 canonical sections: **Skills**, **Experience**, **Projects**, **Education**, and **Certifications**.
+- **5-Section AI Resume Intelligence Dashboard:** Candidate overview dashboard featuring a dedicated 5-section synchronization panel (**Skills**, **Experience**, **Projects**, **Education**, **Certifications**) and verified skill profile chips with confidence percentages.
+- **Drag-and-Drop PDF Parsing:** Seamless upload extracted via Apache PDFBox 3.0 and Gemini 1.5 Flash with section boundary recognition and context-corroborated evidence snippets.
 - **Hybrid Skill Taxonomy & Normalization:** Standardizes aliases (`k8s` ➔ `Kubernetes`, `reactjs` ➔ `React`, `lang-graph` ➔ `LangGraph`) across modern stacks including AI/Agentic frameworks (`LangChain`, `LangGraph`, `LlamaIndex`, `CrewAI`, `Vector Databases`, `Ollama`).
-- **Non-Destructive Skill Preservation:** Novel, uncataloged, or proprietary technologies are strictly preserved and never dropped, accompanied by contextual evidence snippets and multi-section confidence scores (0.00–1.00).
+- **Non-Destructive Skill Preservation:** Novel, uncataloged, or proprietary technologies are strictly preserved and never dropped, accompanied by contextual evidence snippets and multi-section confidence scores (0.50–1.00).
 - **Technical Assessment Gating:** Role-specific multiple-choice assessments with topic tags, difficulty levels, and server-side grading. Passing the domain assessment unlocks job application gates.
 - **60/40 Hybrid AI Matching:** Dual progress breakdown showing 60% deterministic skill overlap and 40% LLM qualitative narrative fit.
-- **Application Tracking Pipeline:** Live tracking cards with interview schedules, recruiter notes, and real-time status badges.
+- **Application Tracking Pipeline:** Live tracking cards with interview schedules, recruiter notes, and real-time status badges (`APPLIED`, `SHORTLISTED`, `INTERVIEW_SCHEDULED`, etc.).
+- **Smart Job Search & Application States:** Job discovery catalog automatically updates applied job buttons to disabled "Applied" state and sinks applied listings so fresh opportunities stay at the top.
 - **AI Career Assistant:** Floating conversational assistant grounded in the candidate's actual resume, assessment results, and application status.
 
-### 🎨 Modern Design System
-- **Dual-Theme Engine:** Seamless Light and Dark modes with semantic HSL CSS tokens and persistent user preferences.
-- **Smooth Theme Transitions:** 250ms transition delay across all colors, surfaces, borders, and typography for a refined visual experience.
-- **Zero FOUT:** Pre-render script eliminates light/dark screen flashes on page load.
-- **Responsive Layouts:** Mobile-first architecture supporting viewports from 320px to 1920px with dedicated drawer navigation.
+### 🎨 NestJS Sovereign Design System
+- **NestJS Sovereign Visual Language:** High-precision developer SaaS aesthetic inspired by NestJS (`DESIGN.md`)—Soot Canvas (`#050303`), Carbon Panels (`#0b0b0b`), Ash Seams (`#1e1c1c`), Smoke Outlines (`#373535`), Pewter Text (`#9b9a9a`), and Bone White (`#ffffff`).
+- **Top-Lit Furnace Glow:** Hero frames and major panels washed with a crimson-to-garnet furnace glow (`#ea2845` ➔ `#780f20` ➔ `#050303`).
+- **Interactive Mouse-Tracking Spotlight:** Cards dynamically track mouse position via a non-blocking `requestAnimationFrame` loop, projecting a soft Nest Crimson radial spotlight and 1px hairline border glow.
+- **Dual Typography Stack:** Geometric Manrope (500/700 weight, 0px tracking) for bold displays and titles; light Geist Mono (300/400 weight) for running copy, metadata, and `{ BRACKETED }_` uppercase eyebrows.
+- **Intentional Dual-Theme Parity:** Full light/dark consistency with warm Linen Canvas (`#faf8f8`), Warm White cards, and deep Carbon ink typography in light mode.
+- **Responsive Layouts:** Mobile-first architecture supporting viewports from 320px to 1920px with dedicated drawer navigation and 32px/24px/20px geometric radii.
 
 ---
 
@@ -57,8 +61,8 @@ ZenHire is built as a clean modular monolith adhering to layered architecture, s
 | **Database** | PostgreSQL 16, Flyway 10 | Versioned SQL migrations (`V1`, `V2`, `V3`, `V4`), GIN indexing on JSONB skill profiles |
 | **Document Processing** | Apache PDFBox 3.0 | Deterministic text stream extraction from uploaded PDF resumes |
 | **AI Integration** | Google Gemini 1.5 Flash | 5-section resume extraction, candidate-job narrative scoring, career advisory |
-| **Frontend** | React 18, TypeScript, Vite 5 | SPA with React Router v6, Axios interceptors, Lucide React icons |
-| **Styling** | Tailwind CSS 3 | Custom semantic tokens, subtle glassmorphism, responsive utilities |
+| **Frontend** | React 18, TypeScript, Vite 5 | SPA with React Router v6, Axios interceptors, Lucide React icons, Manrope & Geist Mono typography |
+| **Styling** | Tailwind CSS 3 & NestJS Design System | Soot/Linen dual tokens, furnace glow, RAF mouse-tracking spotlight, 32px/24px/20px geometric radii |
 | **DevOps & Containers** | Docker, Docker Compose, Nginx | Multi-stage builds for backend JAR and frontend Nginx static distribution |
 | **Testing** | JUnit 5, Mockito, Vitest | 61 Backend tests, 9 Frontend tests (70 total tests passing) |
 
@@ -264,7 +268,7 @@ Detailed engineering specifications and architecture documents:
 | [**AI Architecture**](docs/AI_ARCHITECTURE.md) | Gemini integration, 60/40 matching engine, prompt engineering. |
 | [**Docker & Deployment**](docs/DOCKER_AND_DEPLOYMENT.md) | Multi-stage Dockerfiles, networking, health checks. |
 | [**Testing Strategy**](docs/TESTING_STRATEGY.md) | Unit, slice, security, and component testing strategy. |
-| [**Design System**](docs/DESIGN_SYSTEM.md) | Semantic color tokens, typography scale, components, transitions. |
+| [**Design System**](docs/DESIGN_SYSTEM.md) | NestJS design specification, Soot/Linen tokens, Manrope/Geist Mono typography, mouse spotlight, and furnace glow. |
 | [**UI/UX Audit**](docs/UI_UX_AUDIT.md) | Comprehensive frontend audit and root-cause analysis. |
 | [**UI/UX Implementation Report**](docs/UI_UX_IMPLEMENTATION_REPORT.md) | Verification report of redesigned pages, responsive breakpoints, theme mechanics. |
 | [**Architecture Decision Records**](docs/ARCHITECTURE_DECISION_RECORDS.md) | Technical decisions (ADR-001 to ADR-010) and trade-offs. |

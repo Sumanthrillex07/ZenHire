@@ -1,119 +1,133 @@
 # ZenHire — Design System Specification
 
+> **Design System:** NestJS Sovereign Architecture (`DESIGN.md`)  
+> **Aesthetic Philosophy:** Soot-black canvas lit by a crimson furnace; warm linen daylight counterpart. Giant geometric Manrope headlines, crisp Geist Mono terminal-style supporting copy and labels, layered carbon panels, hairline 1px seams, and dynamic mouse-tracking spotlight gradients.
+
+---
+
 ## 1. Design Philosophy & Architectural Principles
 
-The **ZenHire Design System** is crafted to provide a modern, high-precision SaaS experience for candidates and recruiters. Inspired by best-in-class developer tools and platforms (Linear, Stripe Dashboard, Vercel, Raycast), the system emphasizes:
+The **ZenHire Design System** is engineered around the NestJS design language specified in `DESIGN.md`:
 
-1. **Content-First Simplicity**: Clean visual hierarchy, eliminating arbitrary decorative distractions and excessive saturation.
-2. **First-Class Dual-Theming**: Complete parity between Light and Dark modes using CSS custom properties (variables) defined via HSL channels for dynamic alpha-transparency.
-3. **Structured Glassmorphism**: Subtle, controlled backdrop blur with hairline borders (`border-border/60`) and subtle elevation rather than overwhelming translucent frosted glass.
-4. **Predictable Typography**: Inter for crisp, accessible UI labels and body copy; JetBrains Mono for requisition IDs, tokens, test identifiers, and code snippets.
-5. **Zero-Layout-Shift Transitions**: Shimmering skeleton loaders that mirror component geometry to prevent jarring Cumulative Layout Shift (CLS) when asynchronous data arrives.
+1. **Furnace Behind Smoked Glass**: The UI treats the screen like a dark stage lit by one crimson furnace. Panels sit inside 32px-radius hero frames washed with Nest Crimson (`#ea2845`) fading through Garnet (`#780f20`) into Soot Canvas (`#050303`), while interior cards maintain hairline 1px seams (`#373535`).
+2. **Restrained Crimson Accents**: Crimson is treated as light and energy—subtle top-lit radial glows, active focus rings, and glowing hot corners—almost never a flat solid fill.
+3. **Intentional Dual-Theming Parity**:
+   - **Dark Mode**: Soot Canvas (`#050303`), Carbon Panels (`#0b0b0b`), Ash Seams (`#1e1c1c`), Smoke Outlines (`#373535`), Pewter metadata (`#9b9a9a`), and Bone White text (`#ffffff`).
+   - **Light Mode**: Warm Linen canvas (`#faf8f8`), crisp white surfaces (`#ffffff`), warm ash seams (`#f2eded`), and deep carbon ink typography (`#0c0909`).
+4. **Dual Typography Identity**:
+   - **Manrope (Weight 500 & 700)**: Clean, geometric display and interface font with 0px tracking.
+   - **Geist Mono (Weight 300 & 400)**: Body copy, uppercase bracketed eyebrows (`{ SECTION }_`), status badges, and technical metadata, giving marketing and workflow copy the precision of terminal output.
+5. **Interactive Mouse-Following Spotlight**:
+   - Cards dynamically project a radial spotlight gradient (`rgba(234, 40, 69, 0.12)`) and hairline border glow (`rgba(234, 40, 69, 0.40)`) centered on the user's cursor (`--mouse-x`, `--mouse-y`) managed via a global, non-blocking `requestAnimationFrame` loop.
 
 ---
 
 ## 2. Color System & Semantic Tokens
 
-All semantic colors are mapped to CSS custom variables in `src/index.css` and ingested by Tailwind in `tailwind.config.js`.
+All semantic colors are mapped to CSS custom variables in `frontend/src/index.css` and ingested by Tailwind CSS via `frontend/tailwind.config.js`.
 
-### 2.1 Dual-Token Palette Matrix
+### 2.1 Color Palette & Token Matrix
 
-| Semantic Token | Light Mode Value (HSL / Hex) | Dark Mode Value (HSL / Hex) | Role / Usage |
+| Semantic Token | Light Mode Value (HSL / Hex) | Dark Mode Value (HSL / Hex) | Role / Usage in NestJS System |
 | :--- | :--- | :--- | :--- |
-| `--background` | `210 40% 98%` (`#f8fafc`) | `222 47% 5%` (`#050811`) | Page-level canvas background |
-| `--foreground` | `222 47% 11%` (`#0f172a`) | `210 40% 98%` (`#f8fafc`) | Primary high-contrast text |
-| `--card` | `0 0% 100%` (`#ffffff`) | `222 47% 7%` (`#0b1120`) | Card and modal surface container |
-| `--card-foreground` | `222 47% 11%` (`#0f172a`) | `210 40% 98%` (`#f8fafc`) | Text within card containers |
-| `--popover` | `0 0% 100%` (`#ffffff`) | `222 47% 8%` (`#0e1526`) | Dropdowns, tooltips, flyout sheets |
-| `--primary` | `158 64% 40%` (`#059669`) | `160 84% 39%` (`#10b981`) | Emerald primary brand, CTAs |
-| `--primary-foreground`| `0 0% 100%` (`#ffffff`) | `222 47% 5%` (`#050811`) | High-contrast text on primary buttons |
-| `--secondary` | `210 40% 96%` (`#f1f5f9`) | `217 33% 14%` (`#182234`) | Secondary actions, neutral chips |
-| `--muted` | `210 40% 96%` (`#f1f5f9`) | `217 33% 13%` (`#161f30`) | Table rows, code blocks, inactive tabs |
-| `--muted-foreground` | `215 16% 47%` (`#64748b`) | `215 20% 65%` (`#94a3b8`) | Secondary descriptions, timestamps |
-| `--accent` | `210 40% 96%` (`#f1f5f9`) | `217 33% 15%` (`#1b2538`) | Hover states, interactive highlights |
-| `--destructive` | `0 84% 60%` (`#ef4444`) | `0 63% 31%` (`#7f1d1d`) | Danger states, destructive buttons |
-| `--border` | `214 32% 91%` (`#e2e8f0`) | `217 33% 17%` (`#1e293b`) | Hairline card & input dividers |
-| `--input` | `214 32% 91%` (`#e2e8f0`) | `217 33% 17%` (`#1e293b`) | Input borders |
-| `--ring` | `158 64% 40%` (`#059669`) | `160 84% 39%` (`#10b981`) | Focus indicators & active rings |
+| `--background` | `0 14% 97.5%` (`#faf8f8`) | `0 25% 1.6%` (`#050303`) | **Soot Canvas** (Dark) / **Linen Canvas** (Light) |
+| `--foreground` | `0 10% 4%` (`#0c0909`) | `0 0% 100%` (`#ffffff`) | **Bone White** (Dark) / **Carbon Ink** (Light) |
+| `--card` | `0 0% 100%` (`#ffffff`) | `0 0% 4.3%` (`#0b0b0b`) | **Carbon Panel** (Dark) / **Warm White** (Light) |
+| `--card-foreground` | `0 10% 4%` (`#0c0909`) | `0 0% 100%` (`#ffffff`) | Content within card containers |
+| `--popover` | `0 0% 100%` (`#ffffff`) | `0 0% 4.3%` (`#0b0b0b`) | Dropdowns, dialogs, flyout sheets |
+| `--popover-foreground`| `0 10% 4%` (`#0c0909`) | `0 0% 100%` (`#ffffff`) | Dropdown and flyout text |
+| `--primary` | `0 25% 1.6%` (`#050303`) | `0 0% 100%` (`#ffffff`) | **Bone White Button** fill (Dark) / **Carbon Button** (Light) |
+| `--primary-foreground`| `0 0% 100%` (`#ffffff`) | `0 25% 1.6%` (`#050303`) | High-contrast label on primary action |
+| `--secondary` | `0 6% 94%` (`#f2eded`) | `0 4.8% 11.6%` (`#1e1c1c`) | **Ash Seam** fill for auxiliary buttons & tracks |
+| `--muted` | `0 6% 94.5%` (`#f3efef`) | `0 0% 9.4%` (`#181818`) | **Graphite Slab** code fields & inactive panels |
+| `--muted-foreground` | `0 2.5% 42%` (`#6e6868`) | `0 0.6% 60.6%` (`#9b9a9a`)| **Pewter Text** for Geist Mono metadata & captions |
+| `--accent` | `0 6% 94%` (`#f2eded`) | `0 4.8% 11.6%` (`#1e1c1c`) | Interactive hover state highlighting |
+| `--destructive` | `351 81.3% 53.7%` (`#ea2845`)| `351 81.3% 53.7%` (`#ea2845`)| **Nest Crimson** error states & danger actions |
+| `--border` | `0 5% 88%` (`#e3dede`) | `0 1.8% 21.2%` (`#373535`) | **Smoke Outline** 1px hairline card borders |
+| `--input` | `0 5% 88%` (`#e3dede`) | `0 1.8% 21.2%` (`#373535`) | Input field borders |
+| `--ring` | `351 81.3% 53.7%` (`#ea2845`)| `351 81.3% 53.7%` (`#ea2845`)| **Nest Crimson** active focus ring |
+
+### 2.2 Specialized Brand Accents
+
+- **Nest Crimson (`#ea2845`)**: Hot furnace glow, active indicators, live status pills, logo accent.
+- **Garnet (`#780f20`)**: Deep transitional hue in linear and radial background sweeps.
+- **Syntax Tokens (Dark)**:
+  - Coral Keyword: `#ff7b72`
+  - Amber String: `#ffa657`
+  - Frost Identifier: `#a5d6ff`
 
 ---
 
 ## 3. Typography & Hierarchy
 
 ### 3.1 Font Stack
-- **Primary UI Font**: `Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
-- **Monospace Font**: `"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`
+- **Display & Interface Font**: `Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
+  - Weights: `500` (Medium) for headings and displays; `700` (Bold) for primary button labels.
+  - Tracking: `0px` (zero tracking across all sizes).
+- **Supporting, Body & Monospace Font**: `"Geist Mono", "JetBrains Mono", ui-monospace, monospace`
+  - Weights: `300` (Light) for body copy, paragraphs, descriptions; `400` (Regular) for eyebrows, code, and badges.
 
-### 3.2 Scale & Leading
-- **Display 1** (`text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.1]`): Landing page hero headline.
-- **Heading 1** (`text-2xl sm:text-3xl font-extrabold tracking-tight`): Main dashboard and workflow page titles.
-- **Heading 2** (`text-lg sm:text-xl font-bold tracking-tight`): Section headings, modal titles.
-- **Heading 3** (`text-base font-bold`): Card titles, job titles.
-- **Body / Standard** (`text-sm leading-relaxed text-foreground/90`): Body descriptions, input text, dialog messages.
-- **Caption / Meta** (`text-xs text-muted-foreground`): Timestamps, applicant counts, metadata tags.
-- **Micro / Badge** (`text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider`): Category chips, status indicators.
+### 3.2 Type Scale
 
----
-
-## 4. UI Component Primitives
-
-The design system incorporates standardized, accessible primitives in `src/components/ui/` and `src/components/`:
-
-### 4.1 Button (`src/components/ui/Button.tsx`)
-- **Variants**:
-  - `primary`: Emerald brand action, high contrast, active scale depression (`active:scale-[0.98]`).
-  - `secondary`: Neutral surface for auxiliary actions.
-  - `outline`: Bordered transparent button for secondary browsing.
-  - `ghost`: Transparent button with subtle hover highlight for utility controls.
-  - `destructive`: Red background for irreversible operations.
-  - `indigo`: Dedicated recruiter pipeline accent variant.
-- **Sizes**: `sm` (`px-3 py-1.5 text-xs`), `md` (`px-4 py-2 text-xs sm:text-sm`), `lg` (`px-6 py-2.5 text-sm sm:text-base`), `icon` (`p-2`).
-- **Features**: Built-in `isLoading` state replacing icon with an SVG spinner and preventing double-clicks.
-
-### 4.2 Input (`src/components/ui/Input.tsx`)
-- High-contrast background and border with `focus:border-primary focus:ring-2 focus:ring-primary/20`.
-- Integrated `icon` prefix support (e.g., search icon).
-- Standardized error message (`text-xs text-red-500 font-medium`) and helper text slots.
-
-### 4.3 Card System (`src/components/ui/Card.tsx`)
-- Standardized composition: `<Card>`, `<CardHeader>`, `<CardTitle>`, `<CardDescription>`, `<CardContent>`, `<CardFooter>`.
-- Includes `.glass-card` styling with `backdrop-blur-md`, subtle hairline borders, and elevation shadow.
-
-### 4.4 Skeleton Loaders (`src/components/ui/Skeleton.tsx`)
-- Shimmer animation (`animate-shimmer`) with a gradient sweep across muted backgrounds.
-- High-level composite skeletons:
-  - `<CardSkeleton />`: Simulates job cards, catalog items, and metric blocks.
-  - `<TableSkeleton />`: Simulates applicant leaderboard rows and requisitions tables.
-
-### 4.5 Badge System (`src/components/Badge.tsx`)
-- **`CategoryBadge`**: Categorizes roles (`BACKEND`, `FRONTEND`, `AI_ML`, `DEVOPS`, `FULLSTACK`) with distinct hue tints.
-- **`JobStatusBadge`**: Differentiates `OPEN`, `CLOSED`, `DRAFT`.
-- **`ApplicationStatusBadge`**: Tracks pipeline lifecycle (`APPLIED`, `SHORTLISTED`, `INTERVIEW_SCHEDULED`, `HIRED`, `REJECTED`).
-- **`MatchScoreBadge`**: High-precision dual-colored badge (>80% emerald, 60-79% amber, <60% slate/red).
-
-### 4.6 Theme Toggle & Transition System (`src/components/ui/ThemeToggle.tsx` & `src/context/ThemeContext.tsx`)
-- **Dual Transition Mechanics**:
-  - **View Transitions API**: Leverages `document.startViewTransition` on modern browsers (Chrome 111+, Edge, Safari 18+) for crossfade animation.
-  - **Temporary CSS Transition Layer**: Dynamically adds `.theme-transitioning` to `<html>` for 350ms during theme toggling, smoothing `background-color`, `border-color`, `color`, and `box-shadow` changes with `cubic-bezier(0.16, 1, 0.3, 1)`, and cleanly removes it after completion to prevent runtime overhead during scrolling.
-- **Zero-FOUT Initial Load**: Transition is skipped on initial page mount (`isFirstMount`), preventing delayed hydration flashes.
-- **Icon Micro-Interaction**: Sun and Moon icons transition with synchronous 90-degree rotation and scale crossfading.
-- **Reduced Motion Support**: Completely disables transitions when `prefers-reduced-motion: reduce` is active.
+| Role | Family | Weight | Size | Line Height | Letter Spacing | Example Usage |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Hero Display** | Manrope | 500 | 48px–96px | 0.95–1.05 | 0px | Landing page hero statements |
+| **Section Heading** | Manrope | 500 | 28px–36px | 1.15 | 0px | Major dashboard titles |
+| **Card Title** | Manrope | 500 | 18px–22px | 1.40 | 0px | Job titles, assessment cards |
+| **Primary Button** | Manrope | 700 | 14px–16px | 1.50 | 0px | Filled CTA buttons |
+| **Eyebrow Label** | Geist Mono | 300/400 | 11px–12px | 1.33 | -0.3px | `{ RESUME INTELLIGENCE }_` section tags |
+| **Body Paragraph** | Geist Mono | 300 | 13px–14px | 1.70 | 0px | Job descriptions, card sublines |
+| **Metadata / Badge** | Geist Mono | 400 | 10px–11px | 1.40 | 0px | Skill chips, confidence scores, dates |
 
 ---
 
-## 5. Responsive Design Standards
+## 4. Spacing, Geometry & Radii
 
-- **Mobile First**: All layouts scale smoothly from 320px up to 1920px.
-- **Touch Target Integrity**: Minimum 44x44px clickable areas for buttons and navigational links on touchscreen viewports.
-- **Responsive Drawer Sheet**: Fullscreen mobile navigation overlay with blurred backdrop, accessible close button, and active route indicators.
-- **Table Adaptability**: Tables wrapped in `overflow-x-auto` with sticky headers or card-stacked fallbacks for sub-640px devices.
-- **Chatbot Responsive Offset**: Floating widget auto-sizes to `calc(100vw - 32px)` on mobile screens to prevent overflow and modal blockage.
+ZenHire adopts generous geometric curves that soften high-contrast developer interfaces:
+
+| Container | Border Radius | Description |
+| :--- | :--- | :--- |
+| **Hero & Main Frames** | `32px` (`rounded-[32px]`) | Full-bleed hero frame, main container wrapper |
+| **Cards & Modals** | `24px` (`rounded-[24px]`) | Metric cards, job cards, dialog containers |
+| **Buttons & Secondary Cards**| `20px` (`rounded-[20px]`) | Primary CTAs, ghost buttons, inner widgets |
+| **Inputs & Textareas** | `20px–24px` | Form fields and search inputs |
+| **Badges & Pills** | `9999px` (`rounded-full`) | Category chips, status indicators, match scores |
+| **Progress Bars** | `4px` | Match bars, score progress indicators |
 
 ---
 
-## 6. Accessibility & Performance Benchmarks
+## 5. Micro-Interactions & Interactive Spotlight
 
-1. **Reduced Motion**: All animations (`animate-fadeIn`, `animate-slideUp`, `animate-shimmer`) observe `@media (prefers-reduced-motion: reduce)`.
-2. **Zero FOUT**: Theme is read and applied by an inline `<script>` in `index.html` before DOM render.
-3. **WCAG AA Compliance**: All text-to-background combinations in both light and dark modes exceed a 4.5:1 contrast ratio.
+### 5.1 Mouse-Tracking Spotlight Radial Gradient
+Cards decorated with `.glass-card` receive an interactive spotlight that dynamically tracks the cursor:
+- **Global Listener (`App.tsx`)**: Attaches a non-blocking `pointermove` handler utilizing `window.requestAnimationFrame`.
+- **CSS Custom Properties**: Computes mouse position relative to the hovered card's bounding rectangle and updates `--mouse-x` and `--mouse-y` in pixels.
+- **Pseudo-Elements (`index.css`)**:
+  - `::before`: Renders a smooth radial wash of Nest Crimson (`rgba(234, 40, 69, 0.12)`) centered at `calc(var(--mouse-x) * 1px) calc(var(--mouse-y) * 1px)`.
+  - `::after`: Renders a 1px hairline border glow (`rgba(234, 40, 69, 0.40)`) using `mask` / `-webkit-mask` clipping.
 
+### 5.2 Top-Lit Furnace Glow
+Hero frames and major section banners feature an atmospheric furnace glow:
+```css
+background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(234, 40, 69, 0.15), transparent 70%);
+```
+This mimics an internal stage furnace lighting up the dark smoked glass from behind.
+
+---
+
+## 6. UI Component Primitives
+
+### 6.1 Buttons
+- **Bone White (Primary)**: `#ffffff` fill with `#050303` Manrope 700 text, 20px radius, active depression (`active:scale-[0.98]`). In light mode, automatically switches to Carbon `#050303` with white text.
+- **Ash Seam (Secondary)**: `#1e1c1c` fill with `#ffffff` text (dark) / `#f0eded` with dark text (light), 20px radius.
+- **Ghost Action**: Transparent background, subtle border hover, Manrope 500 text.
+- **Destructive**: Nest Crimson background with high-contrast text.
+
+### 6.2 Status & Category Badges (`Badge.tsx`)
+- Standardized with `Geist Mono` font, uppercase tracking, and subtle translucent fills (`border border-current/25`).
+- **Application Status**: `APPLIED` (cyan), `SHORTLISTED` (emerald), `INTERVIEW_SCHEDULED` (indigo/sky), `HIRED` (green), `REJECTED` (red).
+- **Match Score Badge**: Dual-gradient badge highlighting 60/40 hybrid compatibility.
+
+### 6.3 5-Section Resume Intelligence Panel (`CandidateDashboard.tsx`)
+- Displays real-time synchronization badges across the 5 canonical sections (`Skills`, `Experience`, `Projects`, `Education`, `Certifications`).
+- Displays verified skill taxonomy chips with exact confidence scores (e.g., `LangChain 95%`, `LangGraph 92%`, `Spring Boot 95%`) and unmapped skill preservation tags.

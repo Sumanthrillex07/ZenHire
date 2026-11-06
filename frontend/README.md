@@ -1,6 +1,6 @@
 # ZenHire — Frontend Application
 
-The frontend of **ZenHire** is a responsive Single Page Application (SPA) built with **React 18**, **TypeScript**, and **Vite**, styled with a custom **Tailwind CSS** design system.
+The frontend of **ZenHire** is a responsive Single Page Application (SPA) built with **React 18**, **TypeScript**, and **Vite**, styled with a custom **Tailwind CSS** implementation of the **NestJS Design System** (`DESIGN.md`).
 
 ---
 
@@ -9,19 +9,28 @@ The frontend of **ZenHire** is a responsive Single Page Application (SPA) built 
 - **Framework:** React 18 with TypeScript
 - **Build Tool:** Vite 5
 - **Routing:** React Router v6
-- **Styling:** Tailwind CSS 3 with semantic CSS custom properties
+- **Typography:** Manrope (Display & Interface, 500/700 weight) + Geist Mono (Paragraphs, Metadata, Eyebrows, 300/400 weight)
+- **Styling:** Tailwind CSS 3 with NestJS semantic CSS custom properties
 - **HTTP Client:** Axios with JWT interceptors
 - **Icons:** Lucide React
-- **Testing:** Vitest & React Testing Library
+- **Testing:** Vitest & React Testing Library (9 passing test suites)
 
 ---
 
 ## 2. Key Features & Design System
 
-- **First-Class Dual Theming:** Full parity between Light Mode (`#f8fafc` canvas, emerald `#059669` primary) and Dark Mode (`#050811` canvas, emerald `#10b981` primary) with zero-FOUT inline pre-rendering.
-- **Smooth 250ms Delayed Transition:** A temporary transition layer interpolates all surface colors, border colors, and word typography colors with a 250ms transition delay on theme toggle.
-- **Headless UI Primitives (`src/components/ui/`):** Standardized `<Button>`, `<Input>`, `<Card>`, `<Skeleton>`, `<Modal>`, and `<Badge>` components.
-- **Mobile-First Responsiveness:** Complete support from small viewports (320px–375px) up to ultrawide desktop monitors (1920px), featuring a dedicated mobile navigation drawer.
+- **NestJS Dual-Theming Parity:**
+  - **Dark Mode:** Soot Canvas (`#050303`), Carbon Panels (`#0b0b0b`), Ash Seams (`#1e1c1c`), Smoke Outlines (`#373535`), Pewter Text (`#9b9a9a`), and Bone White text (`#ffffff`).
+  - **Light Mode:** Warm Linen Canvas (`#faf8f8`), Warm White surfaces (`#ffffff`), Warm Alabaster (`#f2eeee`), and deep carbon ink typography (`#0c0909`).
+- **Interactive Mouse-Tracking Spotlight:**
+  - Cards decorated with `.glass-card` receive an interactive spotlight that dynamically tracks the cursor via a global `requestAnimationFrame` pointer listener in `App.tsx`, projecting a soft Nest Crimson (`#ea2845`) radial wash and 1px hairline border glow.
+- **Top-Lit Furnace Glow:** Hero frames feature subtle crimson-to-garnet sweeps (`#ea2845` ➔ `#780f20` ➔ `#050303`), giving surfaces an illuminated depth.
+- **5-Section Resume Intelligence Panel:**
+  - Real-time synchronization badges across the 5 canonical sections: **Skills**, **Experience**, **Projects**, **Education**, and **Certifications**.
+  - Verified skill taxonomy chips with confidence scores (e.g. `LangChain 95%`, `LangGraph 92%`, `Spring Boot 95%`) and preserved unmapped frameworks.
+- **Real-Time Pipeline Synchronization:**
+  - Candidate dashboard displays live active pipeline metrics linking directly to `/candidate/applications`.
+  - In job discovery (`/jobs`), jobs the candidate has already applied for display a disabled "Applied" badge and are automatically sorted to the bottom so fresh opportunities take precedence.
 - **Zero Mock Data:** 100% of candidate, job, resume, assessment, and recruiter workflows connect directly to the Spring Boot REST API.
 
 ---
@@ -44,21 +53,21 @@ src/
 │   ├── ui/               # Core primitives: Button, Input, Card, Skeleton, ThemeToggle
 │   ├── Badge.tsx         # CategoryBadge, MatchScoreBadge, ApplicationStatusBadge
 │   ├── ChatWidget.tsx    # Contextual floating AI assistant widget
-│   ├── Footer.tsx        # Responsive platform footer
+│   ├── Footer.tsx        # Responsive platform footer with NestJS styling
 │   ├── LoadingSpinner.tsx# Theme-aware loading spinner
 │   ├── Modal.tsx         # Slide-up accessible dialog modal
-│   └── Navbar.tsx        # Glassmorphic header with mobile drawer
+│   └── Navbar.tsx        # Floating glassmorphic header with mobile drawer
 ├── context/              # Global React Contexts
 │   ├── AuthContext.tsx   # User authentication, roles, session persistence
-│   └── ThemeContext.tsx  # Light/Dark/System theme engine & transition coordinator
+│   └── ThemeContext.tsx  # Light/Dark theme engine & transition coordinator
 ├── pages/                # Route views
-│   ├── LandingPage.tsx   # Product landing page with metrics and comparison
+│   ├── LandingPage.tsx   # Product landing page with furnace hero and metrics
 │   ├── auth/             # LoginPage, RegisterPage
 │   ├── candidate/        # Dashboard, JobBrowse, JobDetail, ResumeUpload, Assessments, Applications
 │   └── recruiter/        # Dashboard, PostJob, ApplicantList
 ├── types/                # TypeScript interfaces and API contract models
-├── App.tsx               # Route definitions and Providers
-├── index.css             # Semantic HSL variables, glassmorphism, scrollbars
+├── App.tsx               # Route definitions, Providers, and RAF mouse spotlight listener
+├── index.css             # NestJS CSS custom properties, glassmorphism, mouse spotlight
 └── main.tsx              # Application entry point
 ```
 
@@ -88,17 +97,16 @@ npm run preview
 
 | Path | Access | Description |
 | :--- | :--- | :--- |
-| `/` | Public | Platform landing page |
+| `/` | Public | Platform landing page with NestJS furnace hero |
 | `/login` | Public | Authentication with demo credential shortcuts |
 | `/register` | Public | Role-based registration (Candidate / Recruiter) |
-| `/jobs` | Public / Authenticated | Job discovery and search catalog |
+| `/jobs` | Public / Authenticated | Job discovery and search catalog (applied jobs sink, button disabled) |
 | `/jobs/:id` | Public / Authenticated | Job specification & 60/40 AI compatibility evaluation |
-| `/candidate/dashboard` | Candidate | Overview KPIs, domain readiness diagnostics, open requisitions |
-| `/candidate/resume` | Candidate | Drag-and-drop PDF resume upload & profile sync |
+| `/candidate/dashboard` | Candidate | 5-Section Resume Intelligence, Active Pipeline KPI, Skill Diagnostics |
+| `/candidate/resume` | Candidate | Drag-and-drop PDF upload, section synchronization & verified skill taxonomy |
 | `/candidate/assessments` | Candidate | Technical verification catalog |
 | `/candidate/assessments/:testId` | Candidate | Multiple-choice assessment runner |
 | `/candidate/applications` | Candidate | Application status pipeline & interview schedule tracker |
 | `/recruiter/dashboard` | Recruiter | Recruitment command center, KPIs, top candidates |
 | `/recruiter/jobs/new` | Recruiter | Job requisition authoring with skill chips |
 | `/recruiter/jobs/:jobId/applicants` | Recruiter | Ranked candidate pipeline with interview scheduler |
-
